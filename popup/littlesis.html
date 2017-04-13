@@ -1,24 +1,49 @@
-<div class="container">
+<!DOCTYPE html>
 
-		<form action="/my-handling-form-page" method="post">
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+
+<body>
+	<div class="container">
+
+		<form>
 		    <span>
-		        <input type="text" name="entity1" placeholder="Entity 1">
+		        <input id="entity-1" type="text" name="entity1" placeholder="Entity 1">
 		    </span>
 		    <span>
-				<select name="relationship">
-				  	<option value="1">is friends with</option>
-				  	<option value="2">is an employee of</option>
-				  	<option value="3f">gave money to</option>
-				  	<option value="3r">received money from</option>
+				<select id="relationship" name="relationship">
+				  	<option value="1">is/was an employee of</option>
+				  	<option value="2">attends/attended</option>
+				  	<option value="3">is/was a member of</option>
+				  	<option value="4">is related to</option>
+				  	<option value="5">gave money to</option>
+				  	<option value="6">provided a service to</option>
+				  	<option value="7">lobbies/lobbied</option>
+				  	<option value="8">is/was friends with</option>
+				  	<option value="9">has a professional relationship with</option>
+				  	<option value="10">owns</option>
+				  	<option value="11">is/was a suborganization of</option>
+				  	<option value="12">has/had some other relationship with</option>
 				</select>
 		    </span>
 		    <span>
-		        <input type="text" name="entity2" placeholder="Entity 2">
+		        <input id="entity-2" type="text" name="entity2" placeholder="Entity 2">
 		    </span>
 
 		    <div class="button">
-			  	<button type="submit">Add to LittleSis!</button>
+			  	<button id="swap-entities-btn">Swap entities</button>
+			</div>
+
+		    <div class="button">
+			  	<button id="new-relationship-btn" type="submit">Add to LittleSis!</button>
 			</div>
 		</form>
 
-</div>
+	</div>
+  	
+  	<script src="main.js"></script>
+</body>
+
+</html>
