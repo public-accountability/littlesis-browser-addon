@@ -1,7 +1,24 @@
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
-<div>HELLO WORLD</div>
+<div class="container">
+
+		<form action="/my-handling-form-page" method="post">
+		    <span>
+		        <input type="text" name="entity1" placeholder="Entity 1">
+		    </span>
+		    <span>
+				<select name="relationship">
+				  	<option value="1">is friends with</option>
+				  	<option value="2">is an employee of</option>
+				  	<option value="3f">gave money to</option>
+				  	<option value="3r">received money from</option>
+				</select>
+		    </span>
+		    <span>
+		        <input type="text" name="entity2" placeholder="Entity 2">
+		    </span>
+
+		    <div class="button">
+			  	<button type="submit">Add to LittleSis!</button>
+			</div>
+		</form>
+
+</div>
