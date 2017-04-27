@@ -4,29 +4,35 @@
   "name": "LittleSis Add-On",
   "version": "0.1",
 
-  "description": "Browser tool for quickly adding information to the LittleSis database.",
+  "description": "Browser tool for quickly adding relationship information to the LittleSis database.",
 
   "icons": {
     "48": "icons/icon@48.png",
     "96": "icons/icon@96.png"
   },
 
-  "content_scripts": [
-    {
-      "matches": ["*://*/"],
-      "js": ["main.js"]
-    }
-  ],
-
   "browser_action": {
     "default_icon": "icons/icon@48.png",
     "default_title": "LittleSis",
-    "default_popup": "popup/littlesis.html"
+    "default_popup": "littlesis.html",
+    "browser_style": true
   },
 
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+
+  "content_scripts": [{
+    "matches": ["http://littlesis.org/*", "https://littlesis.org/*", "http://localhost:8080/*", "https://localhost:8080/*"],
+    "js": ["content.js"]
+  }],
+
   "permissions": [
-    "*://littlesis.org/*",
-    "webRequest"
+    "http://littlesis.org/*",
+    "https://littlesis.org/*",
+    "http://localhost/*",
+    "https://localhost/*"
   ]
 
 }
