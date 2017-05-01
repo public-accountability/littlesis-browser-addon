@@ -49,24 +49,25 @@ var getParams = function() {
 	return params;
 };
 
-var searchEntities = function(userInput) {
+var searchEntities = function(target) {
 	return $.ajax({
 		type: 'GET',
 		url: 'http://localhost:8080/entities/search_by_name',
-		data: { q: userInput },
+		data: { q: target.value },
 	  	xhrFields: {
       		withCredentials: true
    	  	},
    	  	success: function(data) {
-			displayDropdown(data); 	  		
+   	  		var dropdownSelector = '#' + $(target).attr('id') + '-dropdown';
+			displayDropdown(data, dropdownSelector); 	  		
    	  	}
 	});
 };
 
-var displayDropdown = function(data) {
+var displayDropdown = function(data, selector) {
 	$.each(data, function(k, v) {
 		console.log(v.value);
-		$('#entity-1-dropdown').append(v.value);
+		$(selector).append(v.value);
 	});
 };
 
@@ -103,6 +104,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("new-relationship-btn").onclick = submitData;
     document.getElementById("swap-entities-btn").onclick = swapEntities;
     $('#entity-1').keydown(function() {
-    	var res = searchEntities(this.value);
+    	var res = searchEntities(this);
+    });
+    $('#entity-2').keydown(function() {
+    	var res = searchEntities(this);
     });
 });
