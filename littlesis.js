@@ -49,6 +49,27 @@ var getParams = function() {
 	return params;
 };
 
+var searchEntities = function(userInput) {
+	return $.ajax({
+		type: 'GET',
+		url: 'http://localhost:8080/entities/search_by_name',
+		data: { q: userInput },
+	  	xhrFields: {
+      		withCredentials: true
+   	  	},
+   	  	success: function(data) {
+			displayDropdown(data); 	  		
+   	  	}
+	});
+};
+
+var displayDropdown = function(data) {
+	$.each(data, function(k, v) {
+		console.log(v.value);
+		$('#entity-1-dropdown').append(v.value);
+	});
+};
+
 var submitData = function() {
 	if (csrfToken != null) {
 		$.ajax({
@@ -81,4 +102,7 @@ var swapEntities = function() {
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("new-relationship-btn").onclick = submitData;
     document.getElementById("swap-entities-btn").onclick = swapEntities;
+    $('#entity-1').keydown(function() {
+    	var res = searchEntities(this.value);
+    });
 });
