@@ -65,6 +65,7 @@ var submitData = function() {
 		});
 
 		$('input').val('');
+		$('input').attr('data-selected-entity-id', null);
 		$('select').val(1);
 	} else {
 		console.log("token not ready, try again");
@@ -102,7 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	},
 	{
 		display: 'name',
-		// limit: 10,
+		limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results. 
+					// See https://github.com/twitter/typeahead.js/issues/1201
 	  	source: entities,
 	  	templates: {
 	  		suggestion: Handlebars.templates.suggestion
