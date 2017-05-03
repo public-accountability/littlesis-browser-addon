@@ -63,6 +63,9 @@ var submitData = function() {
 	      		withCredentials: true
 	   	  	}
 		});
+
+		$('input').val('');
+		$('select').val(1);
 	} else {
 		console.log("token not ready, try again");
 	}
