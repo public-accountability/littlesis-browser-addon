@@ -73,13 +73,20 @@ var submitData = function() {
 };
 
 var swapEntities = function() {
-    var entity1Box = document.getElementById("entity-1");
-    var entity1 = entity1Box.value;
-    var entity2Box = document.getElementById("entity-2");
-    var entity2 = entity2Box.value;
+	var entity1 = $('#entity-1').typeahead('val');
+	var entity1Id = $('#entity-1').attr('data-selected-entity-id');
 
-    entity1Box.value = entity2;
-    entity2Box.value = entity1;
+	var entity2 = $('#entity-2').typeahead('val');
+	var entity2Id = $('#entity-2').attr('data-selected-entity-id');
+
+	[entity1, entity2] = [entity2, entity1];
+	[entity1Id, entity2Id] = [entity2Id, entity1Id];
+
+	$('#entity-1').typeahead('val', entity1);
+	$('#entity-1').attr('data-selected-entity-id', entity1Id);
+
+	$('#entity-2').typeahead('val', entity2);
+	$('#entity-2').attr('data-selected-entity-id', entity2Id);
 };
 
 var entities = new Bloodhound({
