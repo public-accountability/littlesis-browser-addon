@@ -24,11 +24,11 @@ var getParams = function() {
     var entity2Id = $('#entity-2').attr('data-selected-entity-id');
     var categoryId = $('#relationship option:checked').attr('value');
 
-	var name = "A really great URL";
-	var source = "http://www.google.com";
-	var sourceDetail = "this really awesome search engine";
-	var publicationDate = "2017-01-01";
-	var refType = 1;
+	var sourceName = $('#source-name').val();
+	var sourceUrl = $('#source-url').val();
+	// var sourceDetail = "this really awesome search engine";
+	// var publicationDate = "2017-01-01";
+	// var refType = 1;
 
 	var params = {
 		relationship: {
@@ -38,11 +38,11 @@ var getParams = function() {
 		},
 
 		reference: {
-			name: name,
-			source: source,
-			source_detail: sourceDetail,
-			publication_date: publicationDate,
-			ref_type: refType
+			name: sourceName,
+			source: sourceUrl,
+			// source_detail: sourceDetail,
+			// publication_date: publicationDate,
+			// ref_type: refType
 		}
 	}
 
@@ -89,6 +89,13 @@ var swapEntities = function() {
 	$('#entity-2').attr('data-selected-entity-id', entity2Id);
 };
 
+var useCurrentTab = function() {
+	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+		$('#source-url').val(tabs[0].url);
+		$('#source-name').val(tabs[0].title);
+	});
+};
+
 var entities = new Bloodhound({
 	datumTokenizer: function(datum) {
 		return Bloodhound.tokenizers.whitespace(datum.value);
@@ -104,6 +111,11 @@ var entities = new Bloodhound({
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("new-relationship-btn").onclick = submitData;
     document.getElementById("swap-entities-btn").onclick = swapEntities;
+
+    $('#use-current-tab-btn').click(function() {
+    	console.log('use current tab');
+    	useCurrentTab();
+    })
 
 	$('.typeahead').typeahead({
 		highlight: true

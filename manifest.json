@@ -32,7 +32,8 @@
     "http://littlesis.org/*",
     "https://littlesis.org/*",
     "http://localhost/*",
-    "https://localhost/*"
+    "https://localhost/*",
+    "tabs"
   ]
 
 }

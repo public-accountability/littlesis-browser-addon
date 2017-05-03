@@ -9,6 +9,7 @@
 <body>
 	<div class="container">
 		<div>
+			<h3>Relationship</h3>
 		    <span>
 		        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Entity 1">
 		    </span>
@@ -36,10 +37,20 @@
 	    <div class="button">
 		  	<button id="swap-entities-btn">Swap entities</button>
 		</div>
+	</div>
+
+	<div>
+		<h3>Source</h3>
+		<span><input id="source-url" type="url" name="sourceUrl" placeholder="Source URL"></span>
+		<span><input id="source-name" type="text" name="sourceName" placeholder="Source name"></span>
 
 	    <div class="button">
-		  	<button id="new-relationship-btn">Add to LittleSis!</button>
-		</div>
+		  	<button id="use-current-tab-btn">Use current tab</button>
+		</div>		
+	</div>
+
+    <div class="button">
+	  	<button id="new-relationship-btn">Add to LittleSis!</button>
 	</div>
   	
 	<script src="jquery-3.2.1.min.js"></script>
