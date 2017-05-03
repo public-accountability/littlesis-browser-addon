@@ -20,9 +20,9 @@ getToken().done(parseResponse);
 
 
 var getParams = function() {
-    var entity1Id = document.getElementById("entity-1").value;
-    var entity2Id = document.getElementById("entity-2").value;
-    var categoryId = document.getElementById("relationship").value;
+    var entity1Id = $('#entity-1').attr('data-selected-entity-id');
+    var entity2Id = $('#entity-2').attr('data-selected-entity-id');
+    var categoryId = $('#relationship option:checked').attr('value');
 
 	var name = "A really great URL";
 	var source = "http://www.google.com";
@@ -47,12 +47,6 @@ var getParams = function() {
 	}
 
 	return params;
-};
-
-var displayDropdown = function(data, selector) {
-	$.each(data, function(k, v) {
-		$(selector).append(v.value);
-	});
 };
 
 var submitData = function() {
@@ -111,4 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	  		suggestion: Handlebars.templates.suggestion
 	  	}
 	});
+
+	$('.typeahead').on('typeahead:select', function(e, obj) {
+		$(e.target).closest('input').attr('data-selected-entity-id', obj.id);
+	})
 });
