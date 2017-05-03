@@ -49,24 +49,8 @@ var getParams = function() {
 	return params;
 };
 
-var searchEntities = function(target) {
-	return $.ajax({
-		type: 'GET',
-		url: 'http://localhost:8080/entities/search_by_name',
-		data: { q: target.value },
-	  	xhrFields: {
-      		withCredentials: true
-   	  	},
-   	  	success: function(data) {
-   	  		var dropdownSelector = '#' + $(target).attr('id') + '-dropdown';
-			displayDropdown(data, dropdownSelector); 	  		
-   	  	}
-	});
-};
-
 var displayDropdown = function(data, selector) {
 	$.each(data, function(k, v) {
-		console.log(v.value);
 		$(selector).append(v.value);
 	});
 };
@@ -100,13 +84,31 @@ var swapEntities = function() {
     entity2Box.value = entity1;
 };
 
+var entities = new Bloodhound({
+	datumTokenizer: function(datum) {
+		return Bloodhound.tokenizers.whitespace(datum.value);
+  	},
+  	queryTokenizer: Bloodhound.tokenizers.whitespace,
+  	remote: {
+  		wildcard: '%QUERY',
+  		url: 'http://localhost:8080/entities/search_by_name?q=%QUERY'
+  	}
+
+})
+
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("new-relationship-btn").onclick = submitData;
     document.getElementById("swap-entities-btn").onclick = swapEntities;
-    $('#entity-1').keydown(function() {
-    	var res = searchEntities(this);
-    });
-    $('#entity-2').keydown(function() {
-    	var res = searchEntities(this);
-    });
+
+	$('.typeahead').typeahead({
+		highlight: true
+	},
+	{
+		display: 'name',
+		// limit: 10,
+	  	source: entities,
+	  	templates: {
+	  		suggestion: Handlebars.templates.suggestion
+	  	}
+	});
 });

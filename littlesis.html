@@ -3,13 +3,13 @@
 <html>
   <head>
     <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="styles.css">
   </head>
 
 <body>
 	<div class="container">
 		    <span>
-		        <input id="entity-1" type="text" name="entity1" placeholder="Entity 1">
-		        <div id="entity-1-dropdown"></div>
+		        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Entity 1">
 		    </span>
 		    <span>
 				<select id="relationship" name="relationship">
@@ -28,8 +28,7 @@
 				</select>
 		    </span>
 		    <span>
-		        <input id="entity-2" type="text" name="entity2" placeholder="Entity 2">
-		        <div id="entity-2-dropdown"></div>
+		        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Entity 2">
 		    </span>
 
 		    <div class="button">
@@ -42,6 +41,8 @@
 	</div>
   	
 	<script src="jquery-3.2.1.min.js"></script>
+	<script src="handlebars.runtime-v4.0.5.js"></script>
+	<script src="templates.js"></script>
 	<script src="typeahead.js"></script>
   	<script src="littlesis.js"></script>
 </body>
