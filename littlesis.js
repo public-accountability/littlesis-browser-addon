@@ -1,7 +1,9 @@
+var BASEURL = 'http://localhost:8080';
+
 var getToken = function() {
 	return $.ajax({
 		type: 'GET',
-		url: 'http://localhost:8080/home/token',
+		url: BASEURL + '/home/token',
 	  	xhrFields: {
       		withCredentials: true
    	  	}
@@ -47,7 +49,7 @@ var submitData = function() {
 	if (csrfToken != null) {
 		$.ajax({
 		  	type: "POST",
-		  	url: "http://localhost:8080/relationships",
+		  	url: BASEURL + "/relationships",
 		  	data: getParams(),
 		  	dataType: "application/json",
 			beforeSend: function (xhr) {
@@ -97,7 +99,7 @@ var entities = new Bloodhound({
   	queryTokenizer: Bloodhound.tokenizers.whitespace,
   	remote: {
   		wildcard: '%QUERY',
-  		url: 'http://localhost:8080/entities/search_by_name?q=%QUERY'
+  		url: BASEURL + '/entities/search_by_name?q=%QUERY'
   	}
 });
 
@@ -128,11 +130,11 @@ document.addEventListener("DOMContentLoaded", function () {
 var openNewEntityTab = function() {
 	chrome.tabs.query( { currentWindow: true }, function(tabs) {
 		var addNewTabs = $.grep(tabs, function(tab) {
-			return tab.url == 'http://localhost:8080/entities/new';
+			return tab.url == BASEURL + '/entities/new';
 		});
 
 		if (addNewTabs.length == 0) {
-			chrome.tabs.create({ url: 'http://localhost:8080/entities/new' }, function(){} );
+			chrome.tabs.create({ url: BASEURL + '/entities/new' }, function(){} );
 		} else {
 			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
 		}
