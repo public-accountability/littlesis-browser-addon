@@ -32,3 +32,8 @@
 .entity-blurb {
 	color: #666;
 }
+
+#show-new-person-dialogue {
+	font-weight: bold;
+	cursor: pointer;
+}

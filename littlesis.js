@@ -26,9 +26,6 @@ var getParams = function() {
 
 	var sourceName = $('#source-name').val();
 	var sourceUrl = $('#source-url').val();
-	// var sourceDetail = "this really awesome search engine";
-	// var publicationDate = "2017-01-01";
-	// var refType = 1;
 
 	var params = {
 		relationship: {
@@ -39,10 +36,7 @@ var getParams = function() {
 
 		reference: {
 			name: sourceName,
-			source: sourceUrl,
-			// source_detail: sourceDetail,
-			// publication_date: publicationDate,
-			// ref_type: refType
+			source: sourceUrl
 		}
 	}
 
@@ -105,32 +99,48 @@ var entities = new Bloodhound({
   		wildcard: '%QUERY',
   		url: 'http://localhost:8080/entities/search_by_name?q=%QUERY'
   	}
-
-})
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("new-relationship-btn").onclick = submitData;
-    document.getElementById("swap-entities-btn").onclick = swapEntities;
-
-    $('#use-current-tab-btn').click(function() {
-    	console.log('use current tab');
-    	useCurrentTab();
-    })
+	$('#new-relationship-btn').click(function() { submitData(); });
+    $('#swap-entities-btn').click(function() { swapEntities(); });
+    $('#use-current-tab-btn').click(function() { useCurrentTab(); });
 
 	$('.typeahead').typeahead({
 		highlight: true
 	},
 	{
 		display: 'name',
-		limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results. 
+		limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
 					// See https://github.com/twitter/typeahead.js/issues/1201
 	  	source: entities,
 	  	templates: {
+	  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a id="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
 	  		suggestion: Handlebars.templates.suggestion
 	  	}
 	});
 
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		$(e.target).closest('input').attr('data-selected-entity-id', obj.id);
-	})
+	});
+});
+
+var openNewEntityTab = function() {
+	chrome.tabs.query( { currentWindow: true }, function(tabs) {
+		var addNewTabs = $.grep(tabs, function(tab) {
+			return tab.url == 'http://localhost:8080/entities/new';
+		});
+
+		if (addNewTabs.length == 0) {
+			chrome.tabs.create({ url: 'http://localhost:8080/entities/new' }, function(){} );
+		} else {
+			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
+		}
+	});
+};
+
+$('.typeahead').on('typeahead:render', function() {
+	$('#show-new-person-dialogue').click(function() {
+		openNewEntityTab();
+	});
 });
