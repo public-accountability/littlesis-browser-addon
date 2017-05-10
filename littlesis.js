@@ -10,6 +10,32 @@ var getToken = function() {
 	});
 };
 
+var getExtensionJs = function(path) {
+	return $.ajax({
+		type: 'GET',
+		url: path,
+	  	xhrFields: {
+      		withCredentials: true
+   	  	},
+   	  	success: function(data) {
+   	  		console.log(data);
+   	  	}
+	});	
+}
+
+var getExtensionJsPath = function() {
+	return $.ajax({
+		type: 'GET',
+		url: BASEURL + '/home/extension_path',
+	  	xhrFields: {
+      		withCredentials: true
+   	  	},
+   	  	success: function(data) {
+   	  		getExtensionJs(data);
+   	  	}
+	});
+};
+
 var parseResponse = function(data) {
 	var tags = $.parseHTML(data).filter(function(tag) {
     	return ($(tag).attr('name') == 'csrf-token');
@@ -19,7 +45,6 @@ var parseResponse = function(data) {
 }
 
 getToken().done(parseResponse);
-
 
 var getParams = function() {
     var entity1Id = $('#entity-1').attr('data-selected-entity-id');
@@ -46,6 +71,8 @@ var getParams = function() {
 };
 
 var submitData = function() {
+	inputsAreValid();
+
 	if (csrfToken != null) {
 		$.ajax({
 		  	type: "POST",
@@ -103,6 +130,28 @@ var entities = new Bloodhound({
   	}
 });
 
+// var inputsAreValid = function() {
+// 	if ($('#entity-1').hasClass('valid') && $('#entity-2').hasClass('valid')) {
+// 		console.log('true');
+// 	} else {
+// 		console.log('false');
+// 	}
+// }
+
+// var addValidationMessagingToInput = function(target) {
+// 	var icon = $(target).parent().parent().find('.message-icon');
+
+// 	if $(target).hasClass('valid') {
+// 		icon.removeClass('fa-exclamation');		
+// 		icon.addClass('fa-check');	
+// 		icon.css('color', 'green');
+// 	} else {
+// 		icon.removeClass('fa-check');		
+// 		icon.addClass('fa-exclamation');	
+// 		icon.css('color', 'red');
+// 	}
+// }
+
 document.addEventListener("DOMContentLoaded", function () {
 	$('#new-relationship-btn').click(function() { submitData(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
@@ -123,7 +172,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	$('.typeahead').on('typeahead:select', function(e, obj) {
-		$(e.target).closest('input').attr('data-selected-entity-id', obj.id);
+		var entityInput = $(e.target).closest('input');
+		var icon = $(entityInput).parent().parent().find('.message-icon');
+
+		entityInput.attr('data-selected-entity-id', obj.id);
+		icon.removeClass('invalid');
+		icon.addClass('valid');
+	});
+
+	$('.typeahead').on('input', function(e, obj) {
+		var entityInput = $(e.target).closest('input');
+		var icon = entityInput.parent().parent().find('.message-icon');
+
+		entityInput.removeAttr('data-selected-entity-id');
+		icon.removeClass('valid');
+		icon.addClass('invalid');
 	});
 });
 
