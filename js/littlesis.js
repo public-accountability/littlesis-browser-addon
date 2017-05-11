@@ -71,9 +71,11 @@ var submitData = function() {
 			        	time: 2000
 				    });
 
+					$('.typeahead').typeahead('val', '');
 				    $('input').val('');
 					$('input').attr('data-selected-entity-id', null);
 					$('select').val(1);
+					$('.message-icon').removeClass('valid');
 		    	}, 
 		    	400: function() {
 				   	$('.status-message').flashMessage({
