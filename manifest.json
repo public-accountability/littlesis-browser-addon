@@ -19,13 +19,13 @@
   },
 
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["js/background.js"],
     "persistent": true
   },
 
   "content_scripts": [{
     "matches": ["http://littlesis.org/*", "https://littlesis.org/*", "http://localhost:8080/*", "https://localhost:8080/*"],
-    "js": ["content.js"]
+    "js": ["js/content.js"]
   }],
 
   "permissions": [
