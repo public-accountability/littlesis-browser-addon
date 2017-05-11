@@ -1,14 +1,8 @@
 var BASEURL = 'http://localhost:8080';
 
-var getToken = function() {
-	return $.ajax({
-		type: 'GET',
-		url: BASEURL + '/home/token',
-	  	xhrFields: {
-      		withCredentials: true
-   	  	}
-	});
-};
+getToken(BASEURL).done(parseResponse).done(function(){
+	console.log('token is here');
+});
 
 var getExtensionJs = function(path) {
 	return $.ajax({
@@ -36,16 +30,6 @@ var getExtensionJsPath = function() {
 	});
 };
 
-var parseResponse = function(data) {
-	var tags = $.parseHTML(data).filter(function(tag) {
-    	return ($(tag).attr('name') == 'csrf-token');
-    });
-    
-    csrfToken = $(tags[0]).attr('content');
-}
-
-getToken().done(parseResponse);
-
 var getParams = function() {
     var entity1Id = $('#entity-1').attr('data-selected-entity-id');
     var entity2Id = $('#entity-2').attr('data-selected-entity-id');
@@ -71,7 +55,7 @@ var getParams = function() {
 };
 
 var submitData = function() {
-	inputsAreValid();
+	// inputsAreValid();
 
 	if (csrfToken != null) {
 		$.ajax({
@@ -119,6 +103,20 @@ var useCurrentTab = function() {
 	});
 };
 
+var openNewEntityTab = function() {
+	chrome.tabs.query( { currentWindow: true }, function(tabs) {
+		var addNewTabs = $.grep(tabs, function(tab) {
+			return tab.url == BASEURL + '/entities/new';
+		});
+
+		if (addNewTabs.length == 0) {
+			chrome.tabs.create({ url: BASEURL + '/entities/new' }, function(){} );
+		} else {
+			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
+		}
+	});
+};
+
 var entities = new Bloodhound({
 	datumTokenizer: function(datum) {
 		return Bloodhound.tokenizers.whitespace(datum.value);
@@ -129,28 +127,6 @@ var entities = new Bloodhound({
   		url: BASEURL + '/entities/search_by_name?q=%QUERY'
   	}
 });
-
-// var inputsAreValid = function() {
-// 	if ($('#entity-1').hasClass('valid') && $('#entity-2').hasClass('valid')) {
-// 		console.log('true');
-// 	} else {
-// 		console.log('false');
-// 	}
-// }
-
-// var addValidationMessagingToInput = function(target) {
-// 	var icon = $(target).parent().parent().find('.message-icon');
-
-// 	if $(target).hasClass('valid') {
-// 		icon.removeClass('fa-exclamation');		
-// 		icon.addClass('fa-check');	
-// 		icon.css('color', 'green');
-// 	} else {
-// 		icon.removeClass('fa-check');		
-// 		icon.addClass('fa-exclamation');	
-// 		icon.css('color', 'red');
-// 	}
-// }
 
 document.addEventListener("DOMContentLoaded", function () {
 	$('#new-relationship-btn').click(function() { submitData(); });
@@ -171,41 +147,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	  	}
 	});
 
-	$('.typeahead').on('typeahead:select', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		var icon = $(entityInput).parent().parent().find('.message-icon');
-
-		entityInput.attr('data-selected-entity-id', obj.id);
-		icon.removeClass('invalid');
-		icon.addClass('valid');
-	});
-
-	$('.typeahead').on('input', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		var icon = entityInput.parent().parent().find('.message-icon');
-
-		entityInput.removeAttr('data-selected-entity-id');
-		icon.removeClass('valid');
-		icon.addClass('invalid');
-	});
-});
-
-var openNewEntityTab = function() {
-	chrome.tabs.query( { currentWindow: true }, function(tabs) {
-		var addNewTabs = $.grep(tabs, function(tab) {
-			return tab.url == BASEURL + '/entities/new';
+	// $('.message-icon').on('hover', function() {
+	// 	displayIconMessage();
+	// })
+	
+	$('.typeahead').on('typeahead:render', function() {
+		$('#show-new-person-dialogue').click(function() {
+			openNewEntityTab();
 		});
-
-		if (addNewTabs.length == 0) {
-			chrome.tabs.create({ url: BASEURL + '/entities/new' }, function(){} );
-		} else {
-			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
-		}
-	});
-};
-
-$('.typeahead').on('typeahead:render', function() {
-	$('#show-new-person-dialogue').click(function() {
-		openNewEntityTab();
 	});
 });
+

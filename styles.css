@@ -66,16 +66,20 @@ input:focus, select:focus {
 }
 
 .message-icon {
-
 }
 
-.message-icon.invalid::after {
-	content: "\f06a";
+.message-icon.invalid::before {
+	content: "\f06a ";
 	color: red;
 }
 
-.message-icon.valid::after {
-	content: "\f058";
+.message-icon.invalid::after {
+/*	content: "Please make a selection from the dropdown menu";
+	font-size: .5em*/
+}
+
+.message-icon.valid::before {
+	content: "\f058 ";
 	color: limegreen;
 }
 
