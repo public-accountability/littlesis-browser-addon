@@ -1,9 +1,3 @@
-var BASEURL = 'http://localhost:8080';
-
-getToken(BASEURL).done(parseResponse).done(function(){
-	console.log('token is here');
-});
-
 var getExtensionJs = function(path) {
 	return $.ajax({
 		type: 'GET',
@@ -68,12 +62,29 @@ var submitData = function() {
 			},
 		  	xhrFields: {
 	      		withCredentials: true
-	   	  	}
+	   	  	}, 
+		  	statusCode: {
+		    	201: function() {
+				   	$('.status-message').flashMessage({
+			        	text: 'Relationship added!',
+			        	how: 'append', 
+			        	time: 2000
+				    });
+
+				    $('input').val('');
+					$('input').attr('data-selected-entity-id', null);
+					$('select').val(1);
+		    	}, 
+		    	400: function() {
+				   	$('.status-message').flashMessage({
+			        	text: 'One or more of your inputs are incorrect. Try again.',
+			        	how: 'append', 
+			        	time: 2000
+				    });
+		    	}
+		  	}
 		});
 
-		$('input').val('');
-		$('input').attr('data-selected-entity-id', null);
-		$('select').val(1);
 	} else {
 		console.log("token not ready, try again");
 	}
@@ -128,7 +139,7 @@ var entities = new Bloodhound({
   	}
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 	$('#new-relationship-btn').click(function() { submitData(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
     $('#use-current-tab-btn').click(function() { useCurrentTab(); });

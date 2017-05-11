@@ -14,13 +14,13 @@
   "browser_action": {
     "default_icon": "icons/icon@48.png",
     "default_title": "LittleSis",
-    "default_popup": "littlesis.html",
+    "default_popup": "index.html",
     "browser_style": true
   },
 
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": true
+    // "scripts": ["js/background.js"],
+    // "persistent": true
   },
 
   "content_scripts": [{
@@ -33,7 +33,8 @@
     "https://littlesis.org/*",
     "http://localhost/*",
     "https://localhost/*",
-    "tabs"
+    "tabs", 
+    "cookies"
   ]
 
 }

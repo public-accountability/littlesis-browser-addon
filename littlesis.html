@@ -1,66 +1,45 @@
-<!DOCTYPE html>
+<div>
+	<h3>Relationship</h3>
+    <div>
+        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Entity 1"><span class="message-icon fa fa-fw fa-2x"></span>
+    </div>
+    <div>
+		<select id="relationship" name="relationship">
+		  	<option value="1">is/was an employee of</option>
+		  	<option value="2">attends/attended</option>
+		  	<option value="3">is/was a member of</option>
+		  	<option value="4">is related to</option>
+		  	<option value="5">gave money to</option>
+		  	<option value="6">provided a service to</option>
+		  	<option value="7">lobbies/lobbied</option>
+		  	<option value="8">is/was friends with</option>
+		  	<option value="9">has a professional relationship with</option>
+		  	<option value="10">owns</option>
+		  	<option value="11">is/was a suborganization of</option>
+		  	<option value="12">has/had some other relationship with</option>
+		</select>
+    </div>
+    <div>
+        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Entity 2"><span class="message-icon fa fa-fw fa-2x"></span>
+    </div>
 
-<html>
-  <head>
-    <meta charset="utf-8">
-	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-  </head>
-
-<body>
-	<div class="container">
-		<div>
-			<h3>Relationship</h3>
-		    <div>
-		        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Entity 1"><span class="message-icon fa fa-fw fa-2x"></span>
-		    </div>
-		    <div>
-				<select id="relationship" name="relationship">
-				  	<option value="1">is/was an employee of</option>
-				  	<option value="2">attends/attended</option>
-				  	<option value="3">is/was a member of</option>
-				  	<option value="4">is related to</option>
-				  	<option value="5">gave money to</option>
-				  	<option value="6">provided a service to</option>
-				  	<option value="7">lobbies/lobbied</option>
-				  	<option value="8">is/was friends with</option>
-				  	<option value="9">has a professional relationship with</option>
-				  	<option value="10">owns</option>
-				  	<option value="11">is/was a suborganization of</option>
-				  	<option value="12">has/had some other relationship with</option>
-				</select>
-		    </div>
-		    <div>
-		        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Entity 2"><span class="message-icon fa fa-fw fa-2x"></span>
-		    </div>
-	
-		    <div class="button">
-			  	<button id="swap-entities-btn">SWAP ENTITIES</button>
-			</div>
-		</div>
-
-		<div>
-			<h3>Source</h3>
-			<span><input id="source-url" type="url" name="sourceUrl" placeholder="Source URL"></span>
-			<span><input id="source-name" type="text" name="sourceName" placeholder="Source name"></span>
-
-		    <div class="button">
-			  	<button id="use-current-tab-btn">USE CURRENT TAB</button>
-			</div>		
-		</div>
-
-	    <div class="button">
-		  	<button id="new-relationship-btn">ADD TO LITTLESIS!</button>
-		</div>
+    <div class="button">
+	  	<button id="swap-entities-btn">SWAP ENTITIES</button>
 	</div>
+</div>
 
-	<script src="js/libraries/jquery-3.2.1.min.js"></script>
-	<script src="js/libraries/handlebars.runtime-v4.0.5.js"></script>
-	<script src="js/templates.js"></script>
-	<script src="js/libraries/typeahead.js"></script>
-	<script src="js/littlesis-token-handler.js"></script>
-	<script src="js/littlesis-validator.js"></script>
-  	<script src="js/littlesis.js"></script>
-</body>
+<div>
+	<h3>Source</h3>
+	<span><input id="source-url" type="url" name="sourceUrl" placeholder="Source URL"></span>
+	<span><input id="source-name" type="text" name="sourceName" placeholder="Source name"></span>
 
-</html>
+    <div class="button">
+	  	<button id="use-current-tab-btn">USE CURRENT TAB</button>
+	</div>		
+</div>
+
+<div class="button">
+  	<button id="new-relationship-btn">ADD TO LITTLESIS!</button>
+</div>
+
+<div class="status-message"></div>

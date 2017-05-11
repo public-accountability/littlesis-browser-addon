@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		var icon = $(entityInput).parent().parent().find('.message-icon');
@@ -46,4 +46,4 @@ document.addEventListener("DOMContentLoaded", function () {
 // 		icon.css('color', 'red');
 // 	}
 // }
-})
+});

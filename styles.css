@@ -87,3 +87,13 @@ button {
 	background-color: #eee;
 	border: 1px solid #aaa;
 }
+
+.flash-message {
+	padding: 5px;
+	background-color: yellow;
+	border: 1px solid lightblue;
+}
+
+.status-message {
+	margin-top: 20px;
+}
