@@ -116,20 +116,6 @@ var useCurrentTab = function() {
 	});
 };
 
-var openNewEntityTab = function() {
-	chrome.tabs.query( { currentWindow: true }, function(tabs) {
-		var addNewTabs = $.grep(tabs, function(tab) {
-			return tab.url == BASEURL + '/entities/new';
-		});
-
-		if (addNewTabs.length == 0) {
-			chrome.tabs.create({ url: BASEURL + '/entities/new' }, function(){} );
-		} else {
-			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
-		}
-	});
-};
-
 var entities = new Bloodhound({
 	datumTokenizer: function(datum) {
 		return Bloodhound.tokenizers.whitespace(datum.value);
@@ -166,7 +152,7 @@ $(document).ready(function () {
 	
 	$('.typeahead').on('typeahead:render', function() {
 		$('#show-new-person-dialogue').click(function() {
-			openNewEntityTab();
+			openNewTab('/entities/new');
 		});
 	});
 });

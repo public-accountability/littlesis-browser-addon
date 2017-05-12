@@ -10,13 +10,15 @@ var getToken = function(baseUrl) {
    	  	},
    	  	statusCode: {
    	  		200: displayMain,
-   	  		401: displayLoginMessage
+   	  		401: openLoginTab
    	  	}
 	});
 };
 
 var displayMain = function(data) {
 	parseResponse(data);
+
+	$('.container').removeClass('loading');
 	$('.container').load('littlesis.html', function() {
 		$.holdReady(false);
 	});
@@ -30,9 +32,9 @@ var parseResponse = function(data) {
     csrfToken = $(tags[0]).attr('content');
 };
 
-var displayLoginMessage = function() {
-	$('.container').load('login.html');
+var openLoginTab = function() {
+	window.close();
+	openNewTab('/login');
 };
 
-var BASEURL = 'http://localhost:8080';
 getToken(BASEURL);

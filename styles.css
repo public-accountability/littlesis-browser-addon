@@ -3,6 +3,11 @@
 	padding: 0 10px 10px 10px;
 }
 
+.container.loading {
+	width: auto;
+	padding: 0;
+}
+
 .tt-menu {
 	background-color: white;
 	padding: 0 10px;
@@ -86,6 +91,10 @@ input:focus, select:focus {
 button {
 	background-color: #eee;
 	border: 1px solid #aaa;
+}
+
+button:hover {
+	background-color: #ddd;
 }
 
 .flash-message {
