@@ -68,19 +68,21 @@ var submitData = function() {
 				   	$('.status-message').flashMessage({
 			        	text: 'Relationship added!',
 			        	how: 'append', 
+			        	className: 'success',
 			        	time: 2000
 				    });
 
 					$('.typeahead').typeahead('val', '');
 				    $('input').val('');
 					$('input').attr('data-selected-entity-id', null);
-					$('select').val(1);
+					$('select').val(0);
 					$('.message-icon').removeClass('valid');
 		    	}, 
 		    	400: function() {
 				   	$('.status-message').flashMessage({
 			        	text: 'One or more of your inputs are incorrect. Try again.',
 			        	how: 'append', 
+			        	className: 'warn',
 			        	time: 2000
 				    });
 		    	}
@@ -116,6 +118,24 @@ var useCurrentTab = function() {
 	});
 };
 
+var submitNewEntity = function() {
+
+};
+
+var closeNewEntityDrawer = function(target) {
+	$(target).closest('.add-entity').empty();
+};
+
+var showNewEntityDialogue = function(target) {
+	console.log('in showNewEntityDialogue');
+	var drawer = $(target).closest('.entity').find('.add-entity');
+	console.log(drawer);
+	drawer.load('add-entity.html', function() {
+		$('.add-new-entity-btn').click(function() { submitNewEntity(); });
+		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
+	});
+}
+
 var entities = new Bloodhound({
 	datumTokenizer: function(datum) {
 		return Bloodhound.tokenizers.whitespace(datum.value);
@@ -141,7 +161,7 @@ $(document).ready(function () {
 					// See https://github.com/twitter/typeahead.js/issues/1201
 	  	source: entities,
 	  	templates: {
-	  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a id="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
+	  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
 	  		suggestion: Handlebars.templates.suggestion
 	  	}
 	});
@@ -151,8 +171,9 @@ $(document).ready(function () {
 	// })
 	
 	$('.typeahead').on('typeahead:render', function() {
-		$('#show-new-person-dialogue').click(function() {
-			openNewTab('/entities/new');
+		$('.show-new-person-dialogue').click(function() {
+			// openNewTab('/entities/new');
+			showNewEntityDialogue(this);
 		});
 	});
 });

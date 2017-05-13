@@ -1,10 +1,14 @@
 <div>
-	<h3>Relationship</h3>
-    <div>
-        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Entity 1"><span class="message-icon fa fa-fw fa-2x"></span>
+	<h2>Add a relationship to LittleSis:</h2>
+    <div class="entity">
+		<label for="entity-1">Entity 1</label> 
+        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw fa-2x"></span>
+        <div class="add-entity entity1"></div>
     </div>
     <div>
+    	<label for="relationship">Relationship</label> 
 		<select id="relationship" name="relationship">
+    		<option value="0" disabled selected>Relationship type</option>
 		  	<option value="1">is/was an employee of</option>
 		  	<option value="2">attends/attended</option>
 		  	<option value="3">is/was a member of</option>
@@ -19,8 +23,10 @@
 		  	<option value="12">has/had some other relationship with</option>
 		</select>
     </div>
-    <div>
-        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Entity 2"><span class="message-icon fa fa-fw fa-2x"></span>
+    <div class="entity">
+		<label for="entity-2">Entity 2</label> 
+        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw fa-2x"></span>
+        <div class="add-entity entity2"></div>
     </div>
 
     <div class="button">
@@ -29,9 +35,11 @@
 </div>
 
 <div>
-	<h3>Source</h3>
-	<span><input id="source-url" type="url" name="sourceUrl" placeholder="Source URL"></span>
-	<span><input id="source-name" type="text" name="sourceName" placeholder="Source name"></span>
+	<label for="source-url">Source URL</label> 
+	<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com"></span>
+
+	<label for="source-name">Source Name</label> 
+	<span><input id="source-name" type="text" name="sourceName" placeholder="example: The New York Times"></span>
 
     <div class="button">
 	  	<button id="use-current-tab-btn">USE CURRENT TAB</button>

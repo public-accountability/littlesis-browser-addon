@@ -8,6 +8,67 @@
 	padding: 0;
 }
 
+
+/* FORM ELEMENTS */
+
+label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 2px;
+}
+
+input[type=text], input[type=url], select {
+	color: #999;
+	font-size: 1.6em;
+	border: 1px solid #eee;
+	margin: 0 5px 10px 0;
+	border-radius: 5px;
+	background-color: transparent;
+	width: 80%;
+}
+
+input.twitter-typeahead {
+	width: 100%;
+}
+
+input:focus, select:focus {
+	outline: none;
+	border: 1px solid #999;
+}
+
+button {
+	background-color: #eee;
+	border: 1px solid #aaa;
+	margin: 10px 0 30px 0;
+}
+
+button:hover {
+	background-color: #ddd;
+}
+
+#new-relationship-btn {
+	margin-bottom: 5px;
+}
+
+
+/* ENTITY */
+
+.entity {
+	width: 80%;
+}
+
+
+/* TYPEAHEAD ELEMENTS */
+
+.typeahead {
+	color: #999;
+	display: block;
+}
+
+.typeahead.valid {
+	color: black;
+}
+
 .tt-menu {
 	background-color: white;
 	padding: 0 10px;
@@ -38,37 +99,13 @@
 	color: #666;
 }
 
-#show-new-person-dialogue {
+.show-new-person-dialogue {
 	font-weight: bold;
 	cursor: pointer;
 }
 
-#new-relationship-btn {
-	margin-top: 30px;
-}
 
-.typeahead {
-	color: #999;
-	display: block;
-}
-
-.typeahead.valid {
-	color: black;
-}
-
-input[type=text], input[type=url], select {
-	color: #999;
-	font-size: 1.6em;
-	border: 1px solid #eee;
-	margin: 0 2px 10px 0;
-	border-radius: 5px;
-	background-color: transparent;
-}
-
-input:focus, select:focus {
-	outline: none;
-	border: 1px solid #999;
-}
+/* VALIDATION ICONS */
 
 .message-icon {
 }
@@ -88,21 +125,21 @@ input:focus, select:focus {
 	color: limegreen;
 }
 
-button {
-	background-color: #eee;
-	border: 1px solid #aaa;
-}
 
-button:hover {
-	background-color: #ddd;
-}
+/* FLASH MESSAGES */
 
 .flash-message {
-	padding: 5px;
-	background-color: yellow;
-	border: 1px solid lightblue;
+	padding: 10px;
 }
 
-.status-message {
-	margin-top: 20px;
+.flash-message.warn {
+	background-color: pink;
+}
+
+.flash-message.success {
+	background-color: lightgreen;
+}
+
+.status-message.visible {
+	margin: 20px 0 10px 0;
 }

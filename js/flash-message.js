@@ -28,10 +28,13 @@
           text: options.text
         }).hide().fadeIn('fast');
         
+        $(this).addClass('visible');
         $(this)[options.how](message);
+        var that = this;
         
         message.delay(options.time).fadeOut('normal', function() {
           $(this).remove();
+          $(that).removeClass('visible');
         });
         
       });
