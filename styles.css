@@ -39,7 +39,36 @@ input:focus, select:focus {
 button {
 	background-color: #eee;
 	border: 1px solid #aaa;
+	border-radius: 15px;
 	margin: 10px 0 30px 0;
+	padding: 5px 10px;
+	letter-spacing: 0.05em;
+}
+
+button:focus {
+	outline: none;
+}
+
+button.success {
+	color: white;
+	background-color: limegreen;
+	border-color: green;
+}
+
+button.success:hover {
+	background-color: green;
+	border-color: darkgreen;
+}
+
+button.cancel {
+	color: white;
+	background-color: red;
+	border-color: crimson;
+}
+
+button.cancel:hover {
+	background-color: crimson;
+	border-color: firebrick;
 }
 
 button:hover {
@@ -48,6 +77,10 @@ button:hover {
 
 #new-relationship-btn {
 	margin-bottom: 5px;
+	height: 40px;
+	width: 200px;
+	font-size: 1em;
+	border-radius: 20px;
 }
 
 
