@@ -14,8 +14,8 @@
       
       options = $.extend({
         text: 'Done',
-        time: 1000,
-        how: 'before',
+        time: 2000,
+        how: 'append',
         className: ''
       }, options);
       

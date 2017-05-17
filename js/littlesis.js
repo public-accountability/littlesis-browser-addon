@@ -79,16 +79,9 @@ var clearEntityForm = function() {
 
 };
 
-var flashStatus = function(message, className) {
-   	$('.status-message').flashMessage({
-    	text: message,
-    	how: 'append', 
-    	className: className,
-    	time: 2000
-    });	
-};
+var submitData = function(target, route, data, successMessage, successCallback) {
+	var msgTarget = $(target).closest('.button').find('.status-message');
 
-var submitData = function(route, data, successMessage, successCallback) {
 	$.ajax({
 	  	type: "POST",
 	  	url: BASEURL + route,
@@ -104,19 +97,18 @@ var submitData = function(route, data, successMessage, successCallback) {
 	  		200: function(data) {
 	  			var res = JSON.parse(data.responseText);
 	  			if(res.status == 'ERROR') {
-	  				flashStatus(res.errors.name, 'warn');
+	  				$(msgTarget).flashMessage({text: res.errors.name, className: 'warn' });
 	  			} else {
-	  				flashStatus(successMessage, 'success');
+	  				$(msgTarget).flashMessage({text: successMessage, className: 'success' });
 					successCallback();
 	  			}
-
 	  		},
 	    	201: function() {
-	    		flashStatus(successMessage, 'success');
+	    		$(msgTarget).flashMessage({text: successMessage, className: 'success' });
 				successCallback();
 	    	}, 
 	    	400: function() {
-			   	flashStatus('One or more of your inputs are incorrect. Try again.', 'warn');
+	    		$(msgTarget).flashMessage({text: 'One or more of your inputs is incorrect. Try again.', className: 'warn' });
 	    	}
 	  	}
 	});
@@ -148,7 +140,7 @@ var showNewEntityDialogue = function(target) {
 	var drawer = $(target).closest('.entity').find('.add-entity');
 	console.log(drawer);
 	drawer.load('add-entity.html', function() {
-		$('.add-new-entity-btn').click(function() { submitData('/entities', getEntityParams(), 'Entity added!', clearEntityForm); });
+		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getEntityParams(), 'Entity added!', clearEntityForm); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
 	});
 }
@@ -165,7 +157,7 @@ var entities = new Bloodhound({
 });
 
 $(document).ready(function () {
-	$('#new-relationship-btn').click(function() { submitData('/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
+	$('#new-relationship-btn').click(function() { submitData(this, '/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
 
 	$('.typeahead').typeahead({
