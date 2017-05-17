@@ -21,6 +21,14 @@ var displayMain = function(data) {
 	$('.container').removeClass('loading');
 	$('.container').load('littlesis.html', function() {
 		$.holdReady(false);
+		setCurrentTab();
+	});
+};
+
+var setCurrentTab = function() {
+	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+		$('#source-url').val(tabs[0].url);
+		$('#source-name').val(tabs[0].title);
 	});
 };
 
@@ -36,5 +44,6 @@ var openLoginTab = function() {
 	window.close();
 	openNewTab('/login');
 };
+
 
 getToken(BASEURL);

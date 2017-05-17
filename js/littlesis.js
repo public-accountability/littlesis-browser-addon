@@ -24,7 +24,7 @@ var getExtensionJsPath = function() {
 	});
 };
 
-var getParams = function() {
+var getRelationshipParams = function() {
     var entity1Id = $('#entity-1').attr('data-selected-entity-id');
     var entity2Id = $('#entity-2').attr('data-selected-entity-id');
     var categoryId = $('#relationship option:checked').attr('value');
@@ -43,55 +43,83 @@ var getParams = function() {
 			name: sourceName,
 			source: sourceUrl
 		}
-	}
+	};
 
 	return params;
 };
 
-var submitData = function() {
-	// inputsAreValid();
+var getEntityParams = function() {
+    var entityName = $('#entity-name').val();
+    var entityBlurb = $('#entity-blurb').val();
+    var primaryExt = $('input[name=entityType]:checked').val();
+    var addRelationshipPage = $('#add-relationship-page').val();
 
-	if (csrfToken != null) {
-		$.ajax({
-		  	type: "POST",
-		  	url: BASEURL + "/relationships",
-		  	data: getParams(),
-		  	dataType: "application/json",
-			beforeSend: function (xhr) {
-			    xhr.setRequestHeader("X-CSRF-Token", csrfToken);
-			},
-		  	xhrFields: {
-	      		withCredentials: true
-	   	  	}, 
-		  	statusCode: {
-		    	201: function() {
-				   	$('.status-message').flashMessage({
-			        	text: 'Relationship added!',
-			        	how: 'append', 
-			        	className: 'success',
-			        	time: 2000
-				    });
+	var params = {
+		entity: {
+			name: entityName,
+			blurb: entityBlurb,
+			primary_ext: primaryExt,
+		},
 
-					$('.typeahead').typeahead('val', '');
-				    $('input').val('');
-					$('input').attr('data-selected-entity-id', null);
-					$('select').val(0);
-					$('.message-icon').removeClass('valid');
-		    	}, 
-		    	400: function() {
-				   	$('.status-message').flashMessage({
-			        	text: 'One or more of your inputs are incorrect. Try again.',
-			        	how: 'append', 
-			        	className: 'warn',
-			        	time: 2000
-				    });
-		    	}
-		  	}
-		});
+		add_relationship_page: addRelationshipPage
+	};
 
-	} else {
-		console.log("token not ready, try again");
-	}
+	return params;
+};
+
+var clearForm = function() {
+	$('.typeahead').typeahead('val', '');
+    $('input').val('');
+	$('input').attr('data-selected-entity-id', null);
+	$('select').val(0);
+	$('.message-icon').removeClass('valid');
+};
+
+var clearEntityForm = function() {
+
+};
+
+var flashStatus = function(message, className) {
+   	$('.status-message').flashMessage({
+    	text: message,
+    	how: 'append', 
+    	className: className,
+    	time: 2000
+    });	
+};
+
+var submitData = function(route, data, successMessage, successCallback) {
+	$.ajax({
+	  	type: "POST",
+	  	url: BASEURL + route,
+	  	data: data,
+	  	dataType: "application/json",
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader("X-CSRF-Token", csrfToken);
+		},
+	  	xhrFields: {
+      		withCredentials: true
+   	  	}, 
+	  	statusCode: {
+	  		200: function(data) {
+	  			var res = JSON.parse(data.responseText);
+	  			if(res.status == 'ERROR') {
+	  				flashStatus(res.errors.name, 'warn');
+	  			} else {
+	  				flashStatus(successMessage, 'success');
+					successCallback();
+	  			}
+
+	  		},
+	    	201: function() {
+	    		flashStatus(successMessage, 'success');
+				successCallback();
+	    	}, 
+	    	400: function() {
+			   	flashStatus('One or more of your inputs are incorrect. Try again.', 'warn');
+	    	}
+	  	}
+	});
 };
 
 var swapEntities = function() {
@@ -111,17 +139,6 @@ var swapEntities = function() {
 	$('#entity-2').attr('data-selected-entity-id', entity2Id);
 };
 
-var useCurrentTab = function() {
-	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-		$('#source-url').val(tabs[0].url);
-		$('#source-name').val(tabs[0].title);
-	});
-};
-
-var submitNewEntity = function() {
-
-};
-
 var closeNewEntityDrawer = function(target) {
 	$(target).closest('.add-entity').empty();
 };
@@ -131,7 +148,7 @@ var showNewEntityDialogue = function(target) {
 	var drawer = $(target).closest('.entity').find('.add-entity');
 	console.log(drawer);
 	drawer.load('add-entity.html', function() {
-		$('.add-new-entity-btn').click(function() { submitNewEntity(); });
+		$('.add-new-entity-btn').click(function() { submitData('/entities', getEntityParams(), 'Entity added!', clearEntityForm); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
 	});
 }
@@ -148,9 +165,8 @@ var entities = new Bloodhound({
 });
 
 $(document).ready(function () {
-	$('#new-relationship-btn').click(function() { submitData(); });
+	$('#new-relationship-btn').click(function() { submitData('/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
-    $('#use-current-tab-btn').click(function() { useCurrentTab(); });
 
 	$('.typeahead').typeahead({
 		highlight: true
