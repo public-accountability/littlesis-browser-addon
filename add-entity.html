@@ -1,19 +1,25 @@
-<h3>NEW ENTITY</h3>
+<div class="drawer">
+	<h3>NEW ENTITY</h3>
 
-<input id="entity-name" type="text" name="entityName" placeholder="example: Jesse L Jackson, Jr">
-<input id="entity-blurb" type="text" name="entityBlurb" placeholder="a short sentence or phrase">
-<input id="add-relationship-page" type="hidden" name="addRelationshipPage" value="true">
+	<label for="entity-name">Name</label> 
+	<input id="entity-name" type="text" name="entityName" placeholder="example: Jesse L Jackson, Jr">
+	
+	<label for="entity-blurb">Short Description</label> 
+	<input id="entity-blurb" type="text" name="entityBlurb" placeholder="a short sentence or phrase">
+	
+	<input id="add-relationship-page" type="hidden" name="addRelationshipPage" value="true">
 
-<div>
-	<label for="person">Person</label> 
-	<input type="radio" name="entityType" id="person" value="Person" />
+	<div class="radio-inputs">
+		<label for="person">Person</label> 
+		<input type="radio" name="entityType" id="person" value="Person" />
 
-	<label for="org">Org</label> 
-	<input type="radio" name="entityType" id="org" value="Org" />
-</div>
+		<label for="org">Org</label> 
+		<input type="radio" name="entityType" id="org" value="Org" />
+	</div>
 
-<div class="button">
-	<button class="add-new-entity-btn success">ADD NEW ENTITY</button>
-	<button class="close-new-entity-btn cancel">CLOSE</button>
-	<div class="status-message"></div>
+	<div class="button">
+		<button class="add-new-entity-btn success">ADD NEW ENTITY</button>
+		<button class="close-new-entity-btn cancel">CLOSE</button>
+		<div class="status-message"></div>
+	</div>
 </div>
