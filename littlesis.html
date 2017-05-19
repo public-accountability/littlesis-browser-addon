@@ -5,23 +5,26 @@
         <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw fa-2x"></span>
         <div class="add-entity entity1"></div>
     </div>
-    <div>
-    	<label for="relationship">Relationship</label> 
-		<select id="relationship" name="relationship">
-    		<option value="0" disabled selected>Relationship type</option>
-		  	<option value="1">is/was an employee of</option>
-		  	<option value="2">attends/attended</option>
-		  	<option value="3">is/was a member of</option>
-		  	<option value="4">is related to</option>
-		  	<option value="5">gave money to</option>
-		  	<option value="6">provided a service to</option>
-		  	<option value="7">lobbies/lobbied</option>
-		  	<option value="8">is/was friends with</option>
-		  	<option value="9">has a professional relationship with</option>
-		  	<option value="10">owns</option>
-		  	<option value="11">is/was a suborganization of</option>
-		  	<option value="12">has/had some other relationship with</option>
-		</select>
+   	<label for="relationship">Relationship</label> 
+    <div class="select">
+    	<div class="select-style">
+			<select id="relationship" name="relationship">
+	    		<option value="0" disabled selected>Relationship type</option>
+			  	<option value="1">is/was an employee of</option>
+			  	<option value="2">attends/attended</option>
+			  	<option value="3">is/was a member of</option>
+			  	<option value="4">is related to</option>
+			  	<option value="5">gave money to</option>
+			  	<option value="6">provided a service to</option>
+			  	<option value="7">lobbies/lobbied</option>
+			  	<option value="8">is/was friends with</option>
+			  	<option value="9">has a professional relationship with</option>
+			  	<option value="10">owns</option>
+			  	<option value="11">is/was a suborganization of</option>
+			  	<option value="12">has/had some other relationship with</option>
+			</select>
+		</div>
+    	<span class="message-icon fa fa-fw fa-2x"></span>
     </div>
     <div class="entity">
 		<label for="entity-2">Entity 2</label> 
@@ -37,10 +40,10 @@
 <div class="section">
 	<div>
 		<label for="source-url">Source URL</label> 
-		<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com"></span>
+		<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com" required></span><span class="message-icon fa fa-fw fa-2x"></span>
 
 		<label for="source-name">Source Name</label> 
-		<span><input id="source-name" type="text" name="sourceName" placeholder="example: The New York Times"></span>	
+		<span><input id="source-name" type="text" name="sourceName" placeholder="example: The New York Times" required></span><span class="message-icon fa fa-fw fa-2x"></span>
 	</div>
 
 </div>

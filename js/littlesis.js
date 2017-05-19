@@ -184,5 +184,16 @@ $(document).ready(function () {
 			showNewEntityDialogue(this);
 		});
 	});
+
+
+	// for <select> styling hack:
+
+	$('select').on('focus', function() {
+		$('.select-style').css('border', '1px solid #999');
+	});
+
+	$('select').on('blur', function() {
+		$('.select-style').css('border', '1px solid #ddd');
+	})
 });
 

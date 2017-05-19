@@ -25,6 +25,38 @@ $(document).ready(function () {
 		icon.addClass('invalid');
 	});
 
+	$('#relationship').on('change', function() {
+		var icon = $(this).closest('.select').find('.message-icon');
+		console.log($(this).val());
+
+		if ($(this).val() == 0) {
+			$(this).trigger('invalid');
+			icon.addClass('invalid');
+		} else {
+			$(this).trigger('valid');
+			icon.addClass('valid');
+		}
+	});
+
+	$('#relationship').trigger('invalid');
+
+	$('#source-url, #source-name').on('input', function() {
+		var validity = this.checkValidity() ? 'valid' : 'invalid';
+		$(this).trigger(validity);
+	});
+
+	$('#source-url, #source-name').on('valid', function() {
+		var icon = $(this).parent().next();
+		icon.addClass('valid');
+		icon.removeClass('invalid');
+	});
+
+	$('#source-url, #source-name').on('invalid', function() {
+		var icon = $(this).parent().next();
+		icon.addClass('invalid');
+		icon.removeClass('valid');
+	});
+
 // var inputsAreValid = function() {
 // 	if ($('#entity-1').hasClass('valid') && $('#entity-2').hasClass('valid')) {
 // 		console.log('true');

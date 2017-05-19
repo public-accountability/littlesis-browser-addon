@@ -16,13 +16,6 @@
 	margin-bottom: 0;
 }
 
-.drawer {
-	padding: 10px 0;
-	margin: 20px 0;
-	border-top: 2px dashed #aaa;
-	border-bottom: 2px dashed #aaa;
-}
-
 h3 {
 	margin-top: 0;
 }
@@ -35,21 +28,52 @@ label {
 	margin: 10px 0 2px 0;
 }
 
-input[type=text], input[type=url], select {
-	color: #999;
-	font-size: 1.6em;
-	border: 1px solid #eee;
-	margin-right: 5px;
+input[type=text], input[type=url] {
+	color: #777;
+	font-size: 1.2em;
+	border: 1px solid #ddd;
 	border-radius: 5px;
 	background-color: transparent;
-	width: 80%;
+	width: 350px;
+	padding: 0 5px;
+	height: 30px;
 }
 
-input.twitter-typeahead {
-	width: 100%;
+/* <select> elements are hard to style. This is a hack. */
+
+select {
+	font-size: 1.2em;
+	border: 1px solid transparent;
+	background-color: transparent;
+	width: 364px;
+	position: relative;
+	left: -4px;
+	color: #777;
 }
 
-input:focus, select:focus {
+select:focus {
+	outline: none;
+}
+
+.select-style {
+	padding: 4px 0;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 360px;
+	display: inline-block;
+}
+
+option {
+	/*margin: 10px 0;*/
+}
+
+/* end <select> hack */
+
+.twitter-typeahead {
+     width: 362px; 		/*This element is not visible. This is crazy-making.*/
+}
+
+input:focus {
 	outline: none;
 	border: 1px solid #999;
 }
@@ -111,23 +135,10 @@ button:hover {
 	border-radius: 20px;
 }
 
-
-/* ENTITY */
-
-.entity {
-	width: 80%;
-}
-
-
 /* TYPEAHEAD ELEMENTS */
 
 .typeahead {
-	color: #999;
 	display: block;
-}
-
-.typeahead.valid {
-	color: black;
 }
 
 .tt-menu {
@@ -165,10 +176,30 @@ button:hover {
 	cursor: pointer;
 }
 
+/* ADD ENTITY */
 
-/* VALIDATION ICONS */
+.drawer {
+    padding: 20px;
+    margin: 20px 0;
+    border-top: 2px dashed #aaa;
+    border-bottom: 2px dashed #aaa;
+    position: relative;
+    left: -20px;
+    width: 400px;
+}
+
+/* VALIDATION */
 
 .message-icon {
+	top: 3px;
+    position: relative;
+    margin-left: 8px;
+    width: 20px;
+    /*font-size: 1.9em;*/
+}
+
+.select .message-icon {
+	margin-left: 3px;
 }
 
 .message-icon.invalid::before {
@@ -186,6 +217,37 @@ button:hover {
 	color: limegreen;
 }
 
+input.valid {
+	color: black;
+}
+
+input.invalid {
+	color: #999;
+}
+
+#relationship:valid {
+	color: black;
+}
+
+#relationship:invalid {
+	color: #999;
+}
+
+#source-url:valid {
+	color: black;
+}
+
+#source-url:invalid {
+	color: #999;
+}
+
+#source-name:valid {
+	color: black;
+}
+
+#source-name:invalid {
+	color: #999;
+}
 
 /* FLASH MESSAGES */
 
