@@ -8,8 +8,8 @@
    	<label for="relationship">Relationship</label> 
     <div class="select">
     	<div class="select-style">
-			<select id="relationship" name="relationship">
-	    		<option value="0" disabled selected>Relationship type</option>
+			<select id="relationship" name="relationship" required>
+	    		<option value="" disabled selected>Relationship type</option>
 			  	<option value="1">is/was an employee of</option>
 			  	<option value="2">attends/attended</option>
 			  	<option value="3">is/was a member of</option>
@@ -40,10 +40,10 @@
 <div class="section">
 	<div>
 		<label for="source-url">Source URL</label> 
-		<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com" required></span><span class="message-icon fa fa-fw fa-2x"></span>
+		<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com" required></span><span class="message-icon fa fa-fw fa-2x valid"></span>
 
 		<label for="source-name">Source Name</label> 
-		<span><input id="source-name" type="text" name="sourceName" placeholder="example: The New York Times" required></span><span class="message-icon fa fa-fw fa-2x"></span>
+		<span><input id="source-name" type="text" name="sourceName" placeholder="example: The New York Times" required></span><span class="message-icon fa fa-fw fa-2x valid"></span>
 	</div>
 
 </div>

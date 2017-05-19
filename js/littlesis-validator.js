@@ -27,7 +27,6 @@ $(document).ready(function () {
 
 	$('#relationship').on('change', function() {
 		var icon = $(this).closest('.select').find('.message-icon');
-		console.log($(this).val());
 
 		if ($(this).val() == 0) {
 			$(this).trigger('invalid');
@@ -37,8 +36,6 @@ $(document).ready(function () {
 			icon.addClass('valid');
 		}
 	});
-
-	$('#relationship').trigger('invalid');
 
 	$('#source-url, #source-name').on('input', function() {
 		var validity = this.checkValidity() ? 'valid' : 'invalid';
