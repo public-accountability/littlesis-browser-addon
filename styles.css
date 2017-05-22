@@ -207,46 +207,27 @@ button:hover {
 	color: red;
 }
 
-.message-icon.invalid::after {
-/*	content: "Please make a selection from the dropdown menu";
-	font-size: .5em*/
-}
-
 .message-icon.valid::before {
 	content: "\f058 ";
 	color: limegreen;
 }
 
-input.valid {
+input.valid, select.valid {
 	color: black;
 }
 
-input.invalid {
+input.invalid, select.invalid {
 	color: #999;
 }
 
-#relationship:valid {
-	color: black;
+button:disabled {
+	background-color: #ccc;
+	border-color: #bbb;
 }
 
-#relationship:invalid {
-	color: #777;
-}
-
-#source-url:valid {
-	color: black;
-}
-
-#source-url:invalid {
-	color: #999;
-}
-
-#source-name:valid {
-	color: black;
-}
-
-#source-name:invalid {
-	color: #999;
+button:disabled:hover {
+	background-color: #ccc;
+	border-color: #bbb;
 }
 
 /* FLASH MESSAGES */

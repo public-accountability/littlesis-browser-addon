@@ -1,28 +1,28 @@
-var getExtensionJs = function(path) {
-	return $.ajax({
-		type: 'GET',
-		url: path,
-	  	xhrFields: {
-      		withCredentials: true
-   	  	},
-   	  	success: function(data) {
-   	  		console.log(data);
-   	  	}
-	});	
-}
+// var getExtensionJs = function(path) {
+// 	return $.ajax({
+// 		type: 'GET',
+// 		url: path,
+// 	  	xhrFields: {
+//       		withCredentials: true
+//    	  	},
+//    	  	success: function(data) {
+//    	  		console.log(data);
+//    	  	}
+// 	});	
+// }
 
-var getExtensionJsPath = function() {
-	return $.ajax({
-		type: 'GET',
-		url: BASEURL + '/home/extension_path',
-	  	xhrFields: {
-      		withCredentials: true
-   	  	},
-   	  	success: function(data) {
-   	  		getExtensionJs(data);
-   	  	}
-	});
-};
+// var getExtensionJsPath = function() {
+// 	return $.ajax({
+// 		type: 'GET',
+// 		url: BASEURL + '/home/extension_path',
+// 	  	xhrFields: {
+//       		withCredentials: true
+//    	  	},
+//    	  	success: function(data) {
+//    	  		getExtensionJs(data);
+//    	  	}
+// 	});
+// };
 
 var getRelationshipParams = function() {
     var entity1Id = $('#entity-1').attr('data-selected-entity-id');
@@ -79,6 +79,41 @@ var clearEntityForm = function() {
 
 };
 
+var fillEntityInput = function(target, data) {
+	var res = JSON.parse(data.responseText);
+	var entityName = res.entity.name;
+	var entityId = res.entity.id;
+	
+	var entityInput = $(target).closest('.entity').find('.typeahead');
+	$(entityInput).val(entityName);
+	$(entityInput).attr('data-selected-entity-id', entityId);
+
+		var icon = $(entityInput).parent().parent().find('.message-icon');
+
+		entityInput.removeClass('invalid');
+		icon.removeClass('invalid');
+		
+		entityInput.addClass('valid');
+		icon.addClass('valid');
+
+		closeNewEntityDrawer(target);
+		$(entityInput).typeahead('destroy');
+
+		$(entityInput).typeahead({
+			highlight: true
+		},
+		{
+			display: 'name',
+			limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
+						// See https://github.com/twitter/typeahead.js/issues/1201
+		  	source: entities,
+		  	templates: {
+		  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
+		  		suggestion: Handlebars.templates.suggestion
+		  	}
+		});
+};
+
 var submitData = function(target, route, data, successMessage, successCallback) {
 	var msgTarget = $(target).closest('.button').find('.status-message');
 
@@ -100,15 +135,18 @@ var submitData = function(target, route, data, successMessage, successCallback) 
 	  				$(msgTarget).flashMessage({text: res.errors.name, className: 'warn' });
 	  			} else {
 	  				$(msgTarget).flashMessage({text: successMessage, className: 'success' });
-					successCallback();
+					successCallback(target, data);
 	  			}
 	  		},
-	    	201: function() {
+	    	201: function(data) {
 	    		$(msgTarget).flashMessage({text: successMessage, className: 'success' });
-				successCallback();
+				successCallback(target, data);
 	    	}, 
 	    	400: function() {
 	    		$(msgTarget).flashMessage({text: 'One or more of your inputs is incorrect. Try again.', className: 'warn' });
+	    	},
+	    	500: function() {
+	    		$(msgTarget).flashMessage({text: 'Sorry, something went wrong.', className: 'warn'});
 	    	}
 	  	}
 	});
@@ -136,11 +174,9 @@ var closeNewEntityDrawer = function(target) {
 };
 
 var showNewEntityDialogue = function(target) {
-	console.log('in showNewEntityDialogue');
 	var drawer = $(target).closest('.entity').find('.add-entity');
-	console.log(drawer);
 	drawer.load('add-entity.html', function() {
-		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getEntityParams(), 'Entity added!', clearEntityForm); });
+		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getEntityParams(), 'Entity added!', fillEntityInput); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
 	});
 }

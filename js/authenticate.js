@@ -1,7 +1,6 @@
 $.holdReady(true);
 
 var getToken = function(baseUrl) {
-	console.log('hello world');
 	return $.ajax({
 		type: 'GET',
 		url: baseUrl + '/home/token',
