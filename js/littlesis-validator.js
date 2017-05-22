@@ -41,19 +41,7 @@ var checkFormValidity = function() {
 	})
 };
 
-// var inputsAreValid = function() {
-// 	if ($('#entity-1').hasClass('valid') && $('#entity-2').hasClass('valid')) {
-// 		console.log('true');
-// 	} else {
-// 		console.log('false');
-// 	}
-// }
-
 $(document).ready(function () {
-	$('input, select').on('input', function() {
-		checkFormValidity();
-	});
-
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		var icon = $(entityInput).closest('.entity').find('.message-icon');
@@ -69,11 +57,13 @@ $(document).ready(function () {
 
 		clearEntityInput(entityInput);
 		setInvalidInput(entityInput, icon);
+		checkFormValidity();
 	});
 
 	$('#relationship').on('change', function() {
 		var icon = $(this).closest('.select').find('.message-icon');
 		setValidInput($(this), icon);
+		checkFormValidity();
 	});
 
 	$('#source-url, #source-name').on('input', function() {
@@ -83,11 +73,13 @@ $(document).ready(function () {
 	$('#source-url, #source-name').on('valid', function() {
 		var icon = $(this).closest('.source').find('.message-icon');
 		setValidInput($(this), icon);
+		checkFormValidity();
 	});
 
 	$('#source-url, #source-name').on('invalid', function() {
 		var icon = $(this).closest('.source').find('.message-icon');
 		setInvalidInput($(this), icon);
+		checkFormValidity();
 	});
 
 	validateInput(document.getElementById('source-url'));
