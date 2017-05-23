@@ -154,16 +154,12 @@ var submitData = function(target, route, data, successMessage, successCallback) 
 var swapEntities = function() {
 	var entity1 = $('#entity-1').typeahead('val');
 	var entity1Id = $('#entity-1').data('selected-entity-id') || null;
-	var entity1Validity = entity1Id ? true : false;
-
 
 	var entity2 = $('#entity-2').typeahead('val');
 	var entity2Id = $('#entity-2').data('selected-entity-id') || null;
-	var entity2Validity = entity2Id ? true : false;
 
 	[entity1, entity2] = [entity2, entity1];
 	[entity1Id, entity2Id] = [entity2Id, entity1Id];
-	[entity1Validity, entity2Validity] = [entity2Validity, entity1Validity];
 
 	$('#entity-1').typeahead('val', entity1);
 	$('#entity-1').data('selected-entity-id', entity1Id);
@@ -171,13 +167,13 @@ var swapEntities = function() {
 	$('#entity-2').typeahead('val', entity2);
 	$('#entity-2').data('selected-entity-id', entity2Id);
 
-	if (entity1Validity == true) {
+	if (entity1Id) {
 		setValidInput($('#entity-1'));
 	} else {
 		setInvalidInput($('#entity-1'));
 	}
 
-	if (entity2Validity == true) {
+	if (entity2Id) {
 		setValidInput($('#entity-2'));
 	} else {
 		setInvalidInput($('#entity-2'));
