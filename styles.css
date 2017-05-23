@@ -109,15 +109,26 @@ button.success:hover {
 	border-color: darkgreen;
 }
 
+button.primary {
+	color: white;
+	background-color: dodgerblue;
+	border-color: blue;
+}
+
+button.primary:hover {
+	background-color: mediumblue;
+	border-color: darkblue;
+}
+
 button.cancel {
 	color: white;
 	background-color: red;
-	border-color: crimson;
+	border-color: firebrick;
 }
 
 button.cancel:hover {
-	background-color: crimson;
-	border-color: firebrick;
+	background-color: firebrick;
+	border-color: darkred;
 }
 
 button:hover {
@@ -169,6 +180,10 @@ button:hover {
 
 .entity-blurb {
 	color: #666;
+}
+
+.entity-not-found {
+	padding: 5px;
 }
 
 .show-new-person-dialogue {

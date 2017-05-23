@@ -22,7 +22,13 @@ var validateSourceInputs = function() {
 	validateInput(document.getElementById('source-name'));
 };
 
-var setValidInput = function(input, icon) {
+var findMessageIcon = function(input) {
+	return $(input).closest('.input').find('.message-icon');
+};
+
+var setValidInput = function(input) {
+	var icon = findMessageIcon(input);
+
 	input.removeClass('invalid');
 	icon.removeClass('invalid');
 	
@@ -33,6 +39,8 @@ var setValidInput = function(input, icon) {
 };
 
 var setInvalidInput = function(input, icon) {
+	var icon = findMessageIcon(input);
+
 	input.removeClass('valid');
 	icon.removeClass('valid');
 	
@@ -43,33 +51,30 @@ var setInvalidInput = function(input, icon) {
 };
 
 var setEntityInput = function(input, entityId) {
-	input.attr('data-selected-entity-id', entityId);
+	input.data('selected-entity-id', entityId);
 };
 
 var clearEntityInput = function(input) {
-	input.removeAttr('data-selected-entity-id');
+	input.removeData('selected-entity-id');
 };
 
 $(document).ready(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-		var icon = $(entityInput).closest('.entity').find('.message-icon');
 
 		setEntityInput(entityInput, obj.id);
-		setValidInput(entityInput, icon);
+		setValidInput(entityInput);
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-		var icon = entityInput.closest('.entity').find('.message-icon');
 
 		clearEntityInput(entityInput);
-		setInvalidInput(entityInput, icon);
+		setInvalidInput(entityInput);
 	});
 
 	$('#relationship').on('change', function() {
-		var icon = $(this).closest('.select').find('.message-icon');
-		setValidInput($(this), icon);
+		setValidInput($(this));
 	});
 
 	$('#source-url, #source-name').on('input', function() {
@@ -77,13 +82,11 @@ $(document).ready(function () {
 	});
 
 	$('#source-url, #source-name').on('valid', function() {
-		var icon = $(this).closest('.source').find('.message-icon');
-		setValidInput($(this), icon);
+		setValidInput($(this));
 	});
 
 	$('#source-url, #source-name').on('invalid', function() {
-		var icon = $(this).closest('.source').find('.message-icon');
-		setInvalidInput($(this), icon);
+		setInvalidInput($(this));
 	});
 
 	validateSourceInputs();

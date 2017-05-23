@@ -25,8 +25,8 @@
 // };
 
 var getRelationshipParams = function() {
-    var entity1Id = $('#entity-1').attr('data-selected-entity-id');
-    var entity2Id = $('#entity-2').attr('data-selected-entity-id');
+    var entity1Id = $('#entity-1').data('selected-entity-id');
+    var entity2Id = $('#entity-2').data('selected-entity-id');
     var categoryId = $('#relationship option:checked').attr('value');
 
 	var sourceName = $('#source-name').val();
@@ -70,7 +70,7 @@ var getEntityParams = function() {
 var clearForm = function() {
 	$('.typeahead').typeahead('val', '');
     $('input').val('');
-	$('input').attr('data-selected-entity-id', null);
+	$('input').removeData('selected-entity-id');
 	$('select').val('');
 	$('.valid').removeClass('valid');
 	$('.invalid').removeClass('invalid');
@@ -87,11 +87,10 @@ var fillEntityInput = function(target, data) {
 	var entityId = res.entity.id;
 	
 	var entityInput = $(target).closest('.entity').find('.typeahead');
-	var icon = $(entityInput).closest('.entity').find('.message-icon');
 	$(entityInput).val(entityName);
-	$(entityInput).attr('data-selected-entity-id', entityId);
+	$(entityInput).data('selected-entity-id', entityId);
 
-	setValidInput(entityInput, icon);
+	setValidInput(entityInput);
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
@@ -154,19 +153,35 @@ var submitData = function(target, route, data, successMessage, successCallback) 
 
 var swapEntities = function() {
 	var entity1 = $('#entity-1').typeahead('val');
-	var entity1Id = $('#entity-1').attr('data-selected-entity-id');
+	var entity1Id = $('#entity-1').data('selected-entity-id') || null;
+	var entity1Validity = entity1Id ? true : false;
+
 
 	var entity2 = $('#entity-2').typeahead('val');
-	var entity2Id = $('#entity-2').attr('data-selected-entity-id');
+	var entity2Id = $('#entity-2').data('selected-entity-id') || null;
+	var entity2Validity = entity2Id ? true : false;
 
 	[entity1, entity2] = [entity2, entity1];
 	[entity1Id, entity2Id] = [entity2Id, entity1Id];
+	[entity1Validity, entity2Validity] = [entity2Validity, entity1Validity];
 
 	$('#entity-1').typeahead('val', entity1);
-	$('#entity-1').attr('data-selected-entity-id', entity1Id);
+	$('#entity-1').data('selected-entity-id', entity1Id);
 
 	$('#entity-2').typeahead('val', entity2);
-	$('#entity-2').attr('data-selected-entity-id', entity2Id);
+	$('#entity-2').data('selected-entity-id', entity2Id);
+
+	if (entity1Validity == true) {
+		setValidInput($('#entity-1'));
+	} else {
+		setInvalidInput($('#entity-1'));
+	}
+
+	if (entity2Validity == true) {
+		setValidInput($('#entity-2'));
+	} else {
+		setInvalidInput($('#entity-2'));
+	}
 };
 
 var closeNewEntityDrawer = function(target) {
