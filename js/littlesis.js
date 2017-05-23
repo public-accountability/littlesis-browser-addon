@@ -85,33 +85,34 @@ var fillEntityInput = function(target, data) {
 	var entityId = res.entity.id;
 	
 	var entityInput = $(target).closest('.entity').find('.typeahead');
+	var icon = $(entityInput).closest('.entity').find('.message-icon');
 	$(entityInput).val(entityName);
 	$(entityInput).attr('data-selected-entity-id', entityId);
 
-		var icon = $(entityInput).parent().parent().find('.message-icon');
 
-		entityInput.removeClass('invalid');
-		icon.removeClass('invalid');
-		
-		entityInput.addClass('valid');
-		icon.addClass('valid');
+	setValidInput(entityInput, icon);
 
-		closeNewEntityDrawer(target);
-		$(entityInput).typeahead('destroy');
+	closeNewEntityDrawer(target);
+	$(entityInput).typeahead('destroy');
 
-		$(entityInput).typeahead({
-			highlight: true
-		},
-		{
-			display: 'name',
-			limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
-						// See https://github.com/twitter/typeahead.js/issues/1201
-		  	source: entities,
-		  	templates: {
-		  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
-		  		suggestion: Handlebars.templates.suggestion
-		  	}
-		});
+	buildTypeahead(entityInput);
+	checkFormValidity();
+};
+
+var buildTypeahead = function(target) {
+	$(target).typeahead({
+		highlight: true
+	},
+	{
+		display: 'name',
+		limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
+					// See https://github.com/twitter/typeahead.js/issues/1201
+	  	source: entities,
+	  	templates: {
+	  		notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
+	  		suggestion: Handlebars.templates.suggestion
+	  	}
+	});
 };
 
 var submitData = function(target, route, data, successMessage, successCallback) {
