@@ -1,9 +1,9 @@
 $.holdReady(true);
 
-var getToken = function(baseUrl) {
+var getToken = function() {
 	return $.ajax({
 		type: 'GET',
-		url: baseUrl + '/home/token',
+		url: BASEURL + '/home/token',
 	  	xhrFields: {
       		withCredentials: true
    	  	},
@@ -38,4 +38,4 @@ var openLoginTab = function() {
 };
 
 
-getToken(BASEURL);
+getToken();

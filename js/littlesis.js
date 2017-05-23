@@ -48,6 +48,20 @@ var getRelationshipParams = function() {
 	return params;
 };
 
+var getShortRelationshipParams = function() {
+    var entity1Id = $('#entity-1').data('selected-entity-id');
+    var entity2Id = $('#entity-2').data('selected-entity-id');
+    var categoryId = $('#relationship option:checked').attr('value');
+
+	var params = {
+		entity1_id: entity1Id,
+		entity2_id: entity2Id,
+		category_id: categoryId
+	};
+
+	return params;
+};
+
 var getEntityParams = function() {
     var entityName = $('#entity-name').val();
     var entityBlurb = $('#entity-blurb').val();
@@ -203,6 +217,25 @@ var entities = new Bloodhound({
   	}
 });
 
+var checkSimilarRelationships = function(params) {
+	return $.ajax({
+		type: 'GET',
+		url: BASEURL + '/relationships/find_similar',
+	  	xhrFields: {
+      		withCredentials: true
+   	  	},
+   	  	data: getShortRelationshipParams(),
+   	  	statusCode: {
+   	  		200: function(data) {
+   	  			if (data.length > 0) {
+					var msgTarget = $('#new-relationship-btn').closest('.button').find('.status-message');
+		  			$(msgTarget).flashMessage({text: "A similar relationship already exists. Continue?", time: 10000, className: 'warn' });
+   	  			}
+   	  		}
+   	  	}
+	});
+};
+
 $(document).ready(function () {
 	$('#new-relationship-btn').click(function() { submitData(this, '/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
@@ -213,6 +246,10 @@ $(document).ready(function () {
 		$('.show-new-person-dialogue').click(function() {
 			showNewEntityDialogue(this);
 		});
+	});
+
+	$('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
+		checkSimilarRelationships();
 	});
 
 	// for <select> styling hack:

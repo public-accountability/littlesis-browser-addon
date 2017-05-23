@@ -6,13 +6,17 @@ var checkFormValidity = function() {
 			$('#new-relationship-btn').prop('disabled', true);
 		}
 	})
+
+	if($('#new-relationship-btn').prop('disabled') == false) {
+		$('#new-relationship-btn').trigger('new-relationship-btn:enabled');
+	}
 };
 
 var checkTypeaheadValidity = function(target) {
 	// might need this function at some point
 };
 
-var validateInput = function(target) {								// to check validity of inputs using HTML validation
+var validateInput = function(target) {						// to check validity of inputs using HTML validation
 	var validity = target.checkValidity() ? 'valid' : 'invalid';
 	$(target).trigger(validity);
 };
