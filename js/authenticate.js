@@ -24,13 +24,6 @@ var displayMain = function(data) {
 	});
 };
 
-var setCurrentTab = function() {
-	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-		$('#source-url').val(tabs[0].url);
-		$('#source-name').val(tabs[0].title);
-	});
-};
-
 var parseResponse = function(data) {
 	var tags = $.parseHTML(data).filter(function(tag) {
     	return ($(tag).attr('name') == 'csrf-token');

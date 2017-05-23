@@ -71,8 +71,10 @@ var clearForm = function() {
 	$('.typeahead').typeahead('val', '');
     $('input').val('');
 	$('input').attr('data-selected-entity-id', null);
-	$('select').val(0);
-	$('.message-icon').removeClass('valid');
+	$('select').val('');
+	$('.valid').removeClass('valid');
+	$('.invalid').removeClass('invalid');
+	setCurrentTab(validateSourceInputs);
 };
 
 var clearEntityForm = function() {
@@ -89,14 +91,11 @@ var fillEntityInput = function(target, data) {
 	$(entityInput).val(entityName);
 	$(entityInput).attr('data-selected-entity-id', entityId);
 
-
 	setValidInput(entityInput, icon);
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
-
 	buildTypeahead(entityInput);
-	checkFormValidity();
 };
 
 var buildTypeahead = function(target) {
@@ -197,31 +196,13 @@ $(document).ready(function () {
 	$('#new-relationship-btn').click(function() { submitData(this, '/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
 
-	$('.typeahead').typeahead({
-		highlight: true
-	},
-	{
-		display: 'name',
-		limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
-					// See https://github.com/twitter/typeahead.js/issues/1201
-	  	source: entities,
-	  	templates: {
-	  		notFound: '<div>No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
-	  		suggestion: Handlebars.templates.suggestion
-	  	}
-	});
+    buildTypeahead('.typeahead');
 
-	// $('.message-icon').on('hover', function() {
-	// 	displayIconMessage();
-	// })
-	
 	$('.typeahead').on('typeahead:render', function() {
 		$('.show-new-person-dialogue').click(function() {
-			// openNewTab('/entities/new');
 			showNewEntityDialogue(this);
 		});
 	});
-
 
 	// for <select> styling hack:
 

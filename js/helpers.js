@@ -11,3 +11,11 @@ var openNewTab = function(slug) {
 		}
 	});
 };
+
+var setCurrentTab = function(cb) {
+	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+		$('#source-url').val(tabs[0].url);
+		$('#source-name').val(tabs[0].title);
+		if (cb) { cb(); };
+	});
+};
