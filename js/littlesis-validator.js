@@ -62,31 +62,29 @@ var clearEntityInput = function(input) {
 $(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-
 		setEntityInput(entityInput, obj.id);
-		setValidInput(entityInput);
+		entityInput.trigger('valid');
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-
 		clearEntityInput(entityInput);
-		setInvalidInput(entityInput);
+		entityInput.trigger('invalid');
 	});
 
 	$('#relationship').on('change', function() {
-		setValidInput($(this));
+		$(this).trigger('valid');
 	});
 
 	$('#source-url, #source-name').on('input', function() {
 		validateInput(this);
 	});
 
-	$('#source-url, #source-name').on('valid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship').on('valid', function() {
 		setValidInput($(this));
 	});
 
-	$('#source-url, #source-name').on('invalid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship').on('invalid', function() {
 		setInvalidInput($(this));
 	});
 });

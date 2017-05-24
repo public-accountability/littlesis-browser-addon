@@ -17,6 +17,5 @@ var setCurrentTab = function() {
 		$('#source-url').val(tabs[0].url);
 		$('#source-name').val(tabs[0].title);
 		$('#source-url, #source-name').trigger('input');
-		console.log('set current tab');
 	});
 };

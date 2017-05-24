@@ -256,22 +256,24 @@ var saveProgress = function() {
 
 var populateForm = function(data) {
 	$('#entity-1').typeahead('val', data.entity1Name);
-	$('#entity-1').data('selected-entity-id', data.relationshipParams.relationship.entity1_id);
+	var entity1Id = data.relationshipParams.relationship.entity1_id;
+	if (entity1Id) { $('#entity-1').data('selected-entity-id', entity1Id).trigger('valid'); }
 
-	$('#relationship').val(data.relationshipParams.relationship.category_id);
+	var categoryId = data.relationshipParams.relationship.category_id;
+	if (categoryId) { $('#relationship').val(categoryId).trigger('valid'); }
 
 	$('#entity-2').typeahead('val', data.entity2Name);
-	$('#entity-2').data('selected-entity-id', data.relationshipParams.relationship.entity2_id);
+	var entity2Id = data.relationshipParams.relationship.entity2_id;
+	if (entity2Id) { $('#entity-2').data('selected-entity-id', entity2Id).trigger('valid'); }
 
 	var sourceUrl = data.relationshipParams.reference.source;
 	var sourceName = data.relationshipParams.reference.name;
-	if (sourceUrl) { $('#source-url').trigger('input').val(sourceUrl); }
-	if (sourceName) { $('#source-name').trigger('input').val(sourceName); }
+	if (sourceUrl) { $('#source-url').val(sourceUrl).trigger('input'); }
+	if (sourceName) { $('#source-name').val(sourceName).trigger('input'); }
 };
 
 var retrieveProgress = function() {
 	chrome.storage.sync.get('relationshipData', function(data) {
-		console.log('got stored data');
 		populateForm(data.relationshipData);
 	});
 };
@@ -280,6 +282,7 @@ $(function () {
 	$('#new-relationship-btn').click(function() { submitData(this, '/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
 	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
+    $('#clear-btn').click(function() { clearForm(); });
 
     buildTypeahead('.typeahead');
 
