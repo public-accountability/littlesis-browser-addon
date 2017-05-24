@@ -34,7 +34,8 @@
     "http://localhost/*",
     "https://localhost/*",
     "tabs", 
-    "cookies"
+    "cookies",
+    "storage"
   ]
 
 }

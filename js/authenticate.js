@@ -33,7 +33,6 @@ var parseResponse = function(data) {
 };
 
 var openLoginTab = function() {
-	window.close();
 	openNewTab('/login');
 };
 

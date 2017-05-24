@@ -25,19 +25,11 @@
 // };
 
 var getRelationshipParams = function() {
-    var entity1Id = $('#entity-1').data('selected-entity-id');
-    var entity2Id = $('#entity-2').data('selected-entity-id');
-    var categoryId = $('#relationship option:checked').attr('value');
-
 	var sourceName = $('#source-name').val();
 	var sourceUrl = $('#source-url').val();
 
 	var params = {
-		relationship: {
-			entity1_id: entity1Id,
-			entity2_id: entity2Id,
-			category_id: categoryId,
-		},
+		relationship: getShortRelationshipParams(),
 
 		reference: {
 			name: sourceName,
@@ -234,6 +226,23 @@ var checkSimilarRelationships = function(params) {
    	  		}
    	  	}
 	});
+};
+
+var saveProgress = function() {
+	var relationshipParams = getRelationshipParams();
+	var entity1Name = $('#entity-1').typeahead('val');
+	var entity2Name = $('#entity-2').typeahead('val');
+
+	// var entity1Params = getEntityParams();
+	// var entity2Params = getEntityParams();
+
+	var relationshipData = {
+
+	};
+};
+
+var retrieveProgress = function() {
+
 };
 
 $(document).ready(function () {
