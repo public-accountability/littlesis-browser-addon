@@ -20,7 +20,6 @@ var displayMain = function(data) {
 	$('.container').removeClass('loading');
 	$('.container').load('littlesis.html', function() {
 		$.holdReady(false);
-		setCurrentTab();
 	});
 };
 

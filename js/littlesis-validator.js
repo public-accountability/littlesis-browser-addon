@@ -10,6 +10,8 @@ var checkFormValidity = function() {
 	if($('#new-relationship-btn').prop('disabled') == false) {
 		$('#new-relationship-btn').trigger('new-relationship-btn:enabled');
 	}
+
+	$(window).trigger('form:input');
 };
 
 var checkTypeaheadValidity = function(target) {
@@ -19,11 +21,6 @@ var checkTypeaheadValidity = function(target) {
 var validateInput = function(target) {						// to check validity of inputs using HTML validation
 	var validity = target.checkValidity() ? 'valid' : 'invalid';
 	$(target).trigger(validity);
-};
-
-var validateSourceInputs = function() {
-	validateInput(document.getElementById('source-url'));
-	validateInput(document.getElementById('source-name'));
 };
 
 var findMessageIcon = function(input) {
@@ -62,7 +59,7 @@ var clearEntityInput = function(input) {
 	input.removeData('selected-entity-id');
 };
 
-$(document).ready(function () {
+$(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 
@@ -92,6 +89,4 @@ $(document).ready(function () {
 	$('#source-url, #source-name').on('invalid', function() {
 		setInvalidInput($(this));
 	});
-
-	validateSourceInputs();
 });

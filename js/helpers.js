@@ -12,10 +12,11 @@ var openNewTab = function(slug) {
 	});
 };
 
-var setCurrentTab = function(cb) {
+var setCurrentTab = function() {
 	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
 		$('#source-url').val(tabs[0].url);
 		$('#source-name').val(tabs[0].title);
-		if (cb) { cb(); };
+		$('#source-url, #source-name').trigger('input');
+		console.log('set current tab');
 	});
 };

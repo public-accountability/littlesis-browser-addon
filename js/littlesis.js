@@ -24,6 +24,11 @@
 // 	});
 // };
 
+var initializeForm = function() {
+	setCurrentTab();
+	retrieveProgress();
+};
+
 var getRelationshipParams = function() {
 	var sourceName = $('#source-name').val();
 	var sourceUrl = $('#source-url').val();
@@ -80,7 +85,7 @@ var clearForm = function() {
 	$('select').val('');
 	$('.valid').removeClass('valid');
 	$('.invalid').removeClass('invalid');
-	setCurrentTab(validateSourceInputs);
+	setCurrentTab();
 };
 
 var clearEntityForm = function() {
@@ -237,21 +242,43 @@ var saveProgress = function() {
 	var relationshipParams = getRelationshipParams();
 	var entity1Name = $('#entity-1').typeahead('val');
 	var entity2Name = $('#entity-2').typeahead('val');
-
-	// var entity1Params = getEntityParams();
-	// var entity2Params = getEntityParams();
+	var newEntityParams = getEntityParams();
 
 	var relationshipData = {
-
+		relationshipParams: relationshipParams,
+		entity1Name: entity1Name,
+		entity2Name: entity2Name,
+		newEntityParams: newEntityParams
 	};
+
+	chrome.storage.sync.set({'relationshipData': relationshipData});
+};
+
+var populateForm = function(data) {
+	$('#entity-1').typeahead('val', data.entity1Name);
+	$('#entity-1').data('selected-entity-id', data.relationshipParams.relationship.entity1_id);
+
+	$('#relationship').val(data.relationshipParams.relationship.category_id);
+
+	$('#entity-2').typeahead('val', data.entity2Name);
+	$('#entity-2').data('selected-entity-id', data.relationshipParams.relationship.entity2_id);
+
+	var sourceUrl = data.relationshipParams.reference.source;
+	var sourceName = data.relationshipParams.reference.name;
+	if (sourceUrl) { $('#source-url').trigger('input').val(sourceUrl); }
+	if (sourceName) { $('#source-name').trigger('input').val(sourceName); }
 };
 
 var retrieveProgress = function() {
-
+	chrome.storage.sync.get('relationshipData', function(data) {
+		console.log('got stored data');
+		populateForm(data.relationshipData);
+	});
 };
 
-$(document).ready(function () {
+$(function () {
 	$('#new-relationship-btn').click(function() { submitData(this, '/relationships', getRelationshipParams(), 'Relationship added!', clearForm); });
+	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
 
     buildTypeahead('.typeahead');
@@ -274,6 +301,14 @@ $(document).ready(function () {
 
 	$('select').on('blur', function() {
 		$('.select-style').css('border', '1px solid #ddd');
-	})
+	});
+
+	$(window).on('form:input', function() {
+		saveProgress();
+	});
+
+	$('.container').ready(function() {
+		initializeForm();
+	});
 });
 
