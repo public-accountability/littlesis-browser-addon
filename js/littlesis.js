@@ -191,6 +191,11 @@ var closeNewEntityDrawer = function(target) {
 };
 
 var showNewEntityDialogue = function(target) {
+	var openDrawer = $('#new-entity-drawer');
+	if (openDrawer) {
+		closeNewEntityDrawer(openDrawer);
+	}
+
 	var drawer = $(target).closest('.entity').find('.add-entity');
 	drawer.load('add-entity.html', function() {
 		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getEntityParams(), 'Entity added!', fillEntityInput); });
