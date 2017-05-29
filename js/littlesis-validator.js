@@ -76,15 +76,15 @@ $(function () {
 		$(this).trigger('valid');
 	});
 
-	$('#source-url, #source-name').on('input', function() {
+	$('#source-url, #source-name, #entity-name').on('input', function() {
 		validateInput(this);
 	});
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship').on('valid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #entity-name').on('valid', function() {
 		setValidInput($(this));
 	});
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship').on('invalid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #entity-name').on('invalid', function() {
 		setInvalidInput($(this));
 	});
 });

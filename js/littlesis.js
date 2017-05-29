@@ -243,6 +243,7 @@ var saveProgress = function() {
 	var entity1Name = $('#entity-1').typeahead('val');
 	var entity2Name = $('#entity-2').typeahead('val');
 	var newEntityParams = getEntityParams();
+	console.log(newEntityParams);
 
 	var relationshipData = {
 		relationshipParams: relationshipParams,
