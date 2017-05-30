@@ -88,7 +88,7 @@ var clearForm = function() {
 	$('select').val('');
 	$('.valid').removeClass('valid');
 	$('.invalid').removeClass('invalid');
-	$('#current').prop('checked', true);
+	$('#current').prop('checked', true).trigger('change');
 	setCurrentTab();
 };
 
