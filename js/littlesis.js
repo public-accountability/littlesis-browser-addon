@@ -193,8 +193,43 @@ var swapEntities = function() {
 	}
 };
 
-var setIsCurrent = function() {
+var dropdownTextPresent = {
+	1: 'is an employee of',
+	2: 'attends',
+	3: 'is a member of',
+	4: 'is related to',
+	5: 'gives money to',
+	6: 'provides a service to',
+	7: 'lobbies',
+	8: 'is friends with',
+	9: 'has a professional relationship with',
+	10: 'owns',
+	11: 'is a suborganization of',
+	12: 'has some other relationship with'
+};
+
+var dropdownTextPast = {
+	1: 'was an employee of',
+	2: 'attended',
+	3: 'was a member of',
+	4: 'was related to',
+	5: 'gave money to',
+	6: 'provided a service to',
+	7: 'lobbied',
+	8: 'was friends with',
+	9: 'had a professional relationship with',
+	10: 'owned',
+	11: 'was a suborganization of',
+	12: 'had some other relationship with'
+};
+
+var setDropdownText = function() {
 	var isCurrent = $('#current').is(':checked');
+	var textList = isCurrent ? dropdownTextPresent : dropdownTextPast;
+
+	$('#relationship').children().each(function(i, el) {
+		$(el).text(textList[i]);
+	});
 };
 
 var closeNewEntityDrawer = function(target) {
@@ -290,7 +325,7 @@ $(function () {
 	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
     $('#clear-btn').click(function() { clearForm(); });
-    $('#current').change(function() { setIsCurrent(); });
+    $('#current').change(function() { setDropdownText(); });
 
     buildTypeahead('.typeahead');
 
