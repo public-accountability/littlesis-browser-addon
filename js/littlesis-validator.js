@@ -28,7 +28,7 @@ var findMessageIcon = function(input) {
 };
 
 var setValidInput = function(input) {
-	var icon = findMessageIcon(input) || null;
+	var icon = findMessageIcon(input);
 
 	input.removeClass('invalid');
 	icon.removeClass('invalid');
@@ -40,7 +40,7 @@ var setValidInput = function(input) {
 };
 
 var setInvalidInput = function(input, icon) {
-	var icon = findMessageIcon(input) || null;
+	var icon = findMessageIcon(input);
 
 	input.removeClass('valid');
 	icon.removeClass('valid');
