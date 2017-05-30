@@ -26,6 +26,7 @@
 
 var initializeForm = function() {
 	setCurrentTab();
+	setDropdownText();
 	retrieveProgress();
 };
 
@@ -228,7 +229,8 @@ var setDropdownText = function() {
 	var textList = isCurrent ? dropdownTextPresent : dropdownTextPast;
 
 	$('#relationship').children().each(function(i, el) {
-		$(el).text(textList[i]);
+		var categoryId = $(el).val();      // in case some options are not being used
+		$(el).text(textList[categoryId]);
 	});
 };
 
