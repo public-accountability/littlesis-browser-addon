@@ -26,8 +26,8 @@
 
 var initializeForm = function() {
 	setCurrentTab();
-	setDropdownText();
 	retrieveProgress();
+	setDropdownText();
 };
 
 var getRelationshipParams = function() {
@@ -285,6 +285,7 @@ var saveProgress = function() {
 	var relationshipParams = getRelationshipParams();
 	var entity1Name = $('#entity-1').typeahead('val');
 	var entity2Name = $('#entity-2').typeahead('val');
+	var isCurrent = $('#current').is(':checked');
 	var newEntityParams = getEntityParams();
 	// console.log(newEntityParams);
 
@@ -292,6 +293,7 @@ var saveProgress = function() {
 		relationshipParams: relationshipParams,
 		entity1Name: entity1Name,
 		entity2Name: entity2Name,
+		isCurrent: isCurrent,
 		newEntityParams: newEntityParams
 	};
 
@@ -309,6 +311,8 @@ var populateForm = function(data) {
 	$('#entity-2').typeahead('val', data.entity2Name);
 	var entity2Id = data.relationshipParams.relationship.entity2_id;
 	if (entity2Id) { $('#entity-2').data('selected-entity-id', entity2Id).trigger('valid'); }
+
+	$('#current').prop('checked', data.isCurrent).trigger('change');
 
 	var sourceUrl = data.relationshipParams.reference.source;
 	var sourceName = data.relationshipParams.reference.name;

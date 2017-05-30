@@ -28,7 +28,7 @@ var findMessageIcon = function(input) {
 };
 
 var setValidInput = function(input) {
-	var icon = findMessageIcon(input);
+	var icon = findMessageIcon(input) || null;
 
 	input.removeClass('invalid');
 	icon.removeClass('invalid');
@@ -40,7 +40,7 @@ var setValidInput = function(input) {
 };
 
 var setInvalidInput = function(input, icon) {
-	var icon = findMessageIcon(input);
+	var icon = findMessageIcon(input) || null;
 
 	input.removeClass('valid');
 	icon.removeClass('valid');
@@ -72,7 +72,7 @@ $(function () {
 		entityInput.trigger('invalid');
 	});
 
-	$('#relationship').on('change', function() {
+	$('#relationship, #current').on('change', function() {
 		$(this).trigger('valid');
 	});
 
@@ -80,11 +80,11 @@ $(function () {
 		validateInput(this);
 	});
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #entity-name').on('valid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current, #entity-name').on('valid', function() {
 		setValidInput($(this));
 	});
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #entity-name').on('invalid', function() {
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current, #entity-name').on('invalid', function() {
 		setInvalidInput($(this));
 	});
 });
