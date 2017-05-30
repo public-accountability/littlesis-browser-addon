@@ -13,8 +13,8 @@
     $.fn.flashMessage = function(options) {
       
       options = $.extend({
-        text: 'Done',
-        time: 2000,
+        html: 'Done',
+        time: 200000,
         how: 'append',
         className: ''
       }, options);
@@ -25,7 +25,7 @@
         
         var message = $('<span />', {
           'class': 'flash-message ' + options.className,
-          text: options.text
+          html: options.html
         }).hide().fadeIn('fast');
         
         $(this).addClass('visible');

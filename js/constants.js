@@ -1,5 +1,35 @@
 var BASEURL = 'http://localhost:8080';
 
+var DROPDOWN_TEXT_PRESENT = {
+	1: 'is an employee of',
+	2: 'attends',
+	3: 'is a member of',
+	4: 'is related to',
+	5: 'gives money to',
+	6: 'provides a service to',
+	7: 'lobbies',
+	8: 'is friends with',
+	9: 'has a professional relationship with',
+	10: 'owns',
+	11: 'is a suborganization of',
+	12: 'has some other relationship with'
+};
+
+var DROPDOWN_TEXT_PAST = {
+	1: 'was an employee of',
+	2: 'attended',
+	3: 'was a member of',
+	4: 'was related to',
+	5: 'gave money to',
+	6: 'provided a service to',
+	7: 'lobbied',
+	8: 'was friends with',
+	9: 'had a professional relationship with',
+	10: 'owned',
+	11: 'was a suborganization of',
+	12: 'had some other relationship with'
+};
+
 var RELATIONSHIP_TYPES = {
 	1: {id: 1, name: "Position", display_name: "Position", default_description: "Position", entity1_requirements: "Person", entity2_requirements: null, has_fields: true},
 	2: {id: 2, name: "Education", display_name: "Education", default_description: "Student", entity1_requirements: "Person", entity2_requirements: "Org", has_fields: true},
