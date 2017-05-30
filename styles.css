@@ -92,6 +92,8 @@ button {
 	border-radius: 15px;
 	padding: 5px 10px;
 	letter-spacing: 0.05em;
+	margin-right: 10px;
+	vertical-align: bottom;
 }
 
 button:focus {

@@ -49,11 +49,13 @@ var getShortRelationshipParams = function() {
     var entity1Id = $('#entity-1').data('selected-entity-id');
     var entity2Id = $('#entity-2').data('selected-entity-id');
     var categoryId = $('#relationship option:checked').attr('value');
+    var isCurrent = $('#current').is(':checked');
 
 	var params = {
 		entity1_id: entity1Id,
 		entity2_id: entity2Id,
-		category_id: categoryId
+		category_id: categoryId,
+		is_current: isCurrent
 	};
 
 	return params;
@@ -191,6 +193,10 @@ var swapEntities = function() {
 	}
 };
 
+var setIsCurrent = function() {
+	var isCurrent = $('#current').is(':checked');
+};
+
 var closeNewEntityDrawer = function(target) {
 	$(target).closest('.add-entity').empty();
 };
@@ -243,7 +249,7 @@ var saveProgress = function() {
 	var entity1Name = $('#entity-1').typeahead('val');
 	var entity2Name = $('#entity-2').typeahead('val');
 	var newEntityParams = getEntityParams();
-	console.log(newEntityParams);
+	// console.log(newEntityParams);
 
 	var relationshipData = {
 		relationshipParams: relationshipParams,
@@ -284,6 +290,7 @@ $(function () {
 	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
     $('#clear-btn').click(function() { clearForm(); });
+    $('#current').change(function() { setIsCurrent(); });
 
     buildTypeahead('.typeahead');
 
