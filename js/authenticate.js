@@ -32,7 +32,7 @@ var parseResponse = function(data) {
 };
 
 var openLoginTab = function() {
-	openNewTab('/login');
+	openNewTab(BASEURL + '/login');
 };
 
 

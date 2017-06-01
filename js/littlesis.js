@@ -1,31 +1,3 @@
-// var getExtensionJs = function(path) {
-// 	return $.ajax({
-// 		type: 'GET',
-// 		url: path,
-// 	  	xhrFields: {
-//       		withCredentials: true
-//    	  	},
-//    	  	success: function(data) {
-//    	  		console.log(data);
-//    	  	}
-// 	});	
-// }
-
-// var getExtensionJsPath = function() {
-// 	return $.ajax({
-// 		type: 'GET',
-// 		url: BASEURL + '/home/extension_path',
-// 	  	xhrFields: {
-//       		withCredentials: true
-//    	  	},
-//    	  	success: function(data) {
-//    	  		getExtensionJs(data);
-//    	  	}
-// 	});
-// };
-
-
-
 // FORM CONTROL
 
 var initializeForm = function() {
@@ -241,6 +213,34 @@ var addLinkAndClearForm = function(target, data) {
 	clearForm();
 };
 
+// SHARED JS
+
+// var getExtensionJs = function(path) {
+// 	return $.ajax({
+// 		type: 'GET',
+// 		url: path,
+// 	  	xhrFields: {
+//       		withCredentials: true
+//    	  	},
+//    	  	success: function(data) {
+//    	  		console.log(data);
+//    	  	}
+// 	});	
+// }
+
+// var getExtensionJsPath = function() {
+// 	return $.ajax({
+// 		type: 'GET',
+// 		url: BASEURL + '/home/extension_path',
+// 	  	xhrFields: {
+//       		withCredentials: true
+//    	  	},
+//    	  	success: function(data) {
+//    	  		getExtensionJs(data);
+//    	  	}
+// 	});
+// };
+
 // NEW ENTITY
 
 var getEntityParams = function() {
@@ -361,7 +361,7 @@ $(function () {
 	});
 
 	$(window).on('relationship:success', function() {
-    	$('.new-tab-btn').click(function() { openNewTab($(this).data('slug')) });
+    	$('.new-tab-btn').click(function() { openNewTab(BASEURL + $(this).data('slug')) });
 	});
 
 	$('.container').ready(function() {

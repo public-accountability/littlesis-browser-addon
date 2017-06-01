@@ -1,11 +1,11 @@
-var openNewTab = function(slug) {
+var openNewTab = function(url) {
 	chrome.tabs.query( { currentWindow: true }, function(tabs) {
 		var addNewTabs = $.grep(tabs, function(tab) {
-			return tab.url == BASEURL + slug;
+			return tab.url == url;
 		});
 
 		if (addNewTabs.length == 0) {
-			chrome.tabs.create({ url: BASEURL + slug }, function(){} );
+			chrome.tabs.create({ url: url }, function(){} );
 		} else {
 			chrome.tabs.update(addNewTabs[0].id, { active: true }, function(){} );
 		}
