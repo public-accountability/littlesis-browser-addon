@@ -14,10 +14,6 @@ var checkFormValidity = function() {
 	$(window).trigger('form:input');
 };
 
-var checkTypeaheadValidity = function(target) {
-	// might need this function at some point
-};
-
 var validateInput = function(target) {						// to check validity of inputs using HTML validation
 	var validity = target.checkValidity() ? 'valid' : 'invalid';
 	$(target).trigger(validity);
@@ -51,28 +47,19 @@ var setInvalidInput = function(input) {
 	checkFormValidity();
 };
 
-var setInputValidity = function(input, isValid) {
-	var toAdd = isValid ? 'valid' : 'invalid';
-	var toRemove = isValid ? 'invalid' : 'valid';
-	var icon = findMessageIcon(input);
+// var setInputValidity = function(input, isValid) {
+// 	var toAdd = isValid ? 'valid' : 'invalid';
+// 	var toRemove = isValid ? 'invalid' : 'valid';
+// 	var icon = findMessageIcon(input);
 
-	input.removeClass(toRemove);
-	icon.removeClass(toRemove);
+// 	input.removeClass(toRemove);
+// 	icon.removeClass(toRemove);
 	
-	input.addClass(toAdd);
-	icon.addClass(toAdd);
+// 	input.addClass(toAdd);
+// 	icon.addClass(toAdd);
 
-	checkFormValidity();
-};
-
-var setEntityInput = function(input, entityId, entityExt) {
-	input.data('entityId', entityId);
-	input.data('entityExt', entityExt);
-};
-
-var clearEntityInput = function(input) {
-	input.removeData('entityId entityExt');
-};
+// 	checkFormValidity();
+// };
 
 var disableInvalidRelationships = function() {
 	var entity1Ext = $('#entity-1').data('entityExt');
@@ -94,17 +81,13 @@ var disableInvalidRelationships = function() {
 };	
 
 $(function () {
-	$('.typeahead').on('typeahead:select', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		setEntityInput(entityInput, obj.id, obj.primary_ext);
-		entityInput.trigger('valid');
+	$('.typeahead').on('typeahead:select', function() {
+		$(this).closest('input').trigger('valid');
 		disableInvalidRelationships();
 	});
 
-	$('.typeahead').on('input', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		clearEntityInput(entityInput);
-		entityInput.trigger('invalid');
+	$('.typeahead').on('input', function() {
+		$(this).closest('input').trigger('invalid');
 		disableInvalidRelationships();
 	});
 

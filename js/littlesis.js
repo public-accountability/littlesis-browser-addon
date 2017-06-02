@@ -21,6 +21,15 @@ var clearEntityForm = function() {
 
 };
 
+var setEntityInput = function(input, entityId, entityExt) {
+	input.data('entityId', entityId);
+	input.data('entityExt', entityExt);
+};
+
+var clearEntityInput = function(input) {
+	input.removeData('entityId entityExt');
+};
+
 var swapEntities = function() {
 	var entity1 = $('#entity-1').typeahead('val');
 	var entity1Data = $('#entity-1').data();
@@ -221,34 +230,6 @@ var addLinkAndClearForm = function(target, data) {
 	clearForm();
 };
 
-// SHARED JS
-
-// var getExtensionJs = function(path) {
-// 	return $.ajax({
-// 		type: 'GET',
-// 		url: path,
-// 	  	xhrFields: {
-//       		withCredentials: true
-//    	  	},
-//    	  	success: function(data) {
-//    	  		console.log(data);
-//    	  	}
-// 	});	
-// }
-
-// var getExtensionJsPath = function() {
-// 	return $.ajax({
-// 		type: 'GET',
-// 		url: BASEURL + '/home/extension_path',
-// 	  	xhrFields: {
-//       		withCredentials: true
-//    	  	},
-//    	  	success: function(data) {
-//    	  		getExtensionJs(data);
-//    	  	}
-// 	});
-// };
-
 // NEW ENTITY
 
 var getNewEntityParams = function() {
@@ -349,6 +330,16 @@ $(function () {
 		$('.show-new-person-dialogue').click(function() {
 			showNewEntityDialogue(this);
 		});
+	});
+
+	$('.typeahead').on('typeahead:select', function(e, obj) {
+		var entityInput = $(e.target).closest('input');
+		setEntityInput(entityInput, obj.id, obj.primary_ext);
+	});
+
+	$('.typeahead').on('input', function(e, obj) {
+		var entityInput = $(e.target).closest('input');
+		clearEntityInput(entityInput);
 	});
 
 	$('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
