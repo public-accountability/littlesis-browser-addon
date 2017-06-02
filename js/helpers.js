@@ -19,3 +19,9 @@ var setCurrentTab = function() {
 		$('#source-url, #source-name').trigger('input');
 	});
 };
+
+// SETS
+
+var union = function(a, b) {
+	return Array.from(new Set([...a, ...b]));
+};

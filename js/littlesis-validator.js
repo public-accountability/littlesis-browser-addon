@@ -39,7 +39,7 @@ var setValidInput = function(input) {
 	checkFormValidity();
 };
 
-var setInvalidInput = function(input, icon) {
+var setInvalidInput = function(input) {
 	var icon = findMessageIcon(input);
 
 	input.removeClass('valid');
@@ -51,25 +51,61 @@ var setInvalidInput = function(input, icon) {
 	checkFormValidity();
 };
 
-var setEntityInput = function(input, entityId) {
-	input.data('selected-entity-id', entityId);
+var setInputValidity = function(input, isValid) {
+	var toAdd = isValid ? 'valid' : 'invalid';
+	var toRemove = isValid ? 'invalid' : 'valid';
+	var icon = findMessageIcon(input);
+
+	input.removeClass(toRemove);
+	icon.removeClass(toRemove);
+	
+	input.addClass(toAdd);
+	icon.addClass(toAdd);
+
+	checkFormValidity();
+};
+
+var setEntityInput = function(input, entityId, entityExt) {
+	input.data('entityId', entityId);
+	input.data('entityExt', entityExt);
 };
 
 var clearEntityInput = function(input) {
-	input.removeData('selected-entity-id');
+	input.removeData('entityId entityExt');
 };
+
+var disableInvalidRelationships = function() {
+	var entity1Ext = $('#entity-1').data('entityExt');
+	var entity2Ext = $('#entity-2').data('entityExt');
+	var validCategories = relationshipCategories(entity1Ext, entity2Ext);
+	var all = relationshipCategories('', '');
+
+	all.forEach(function(category_id) {
+		if (validCategories.includes(category_id)) {
+			$('#relationship option[value=' + category_id + ']').attr('enabled', 'enabled');
+		} else {
+			$('#relationship option[value=' + category_id + ']').attr('disabled', 'disabled');
+		}
+	});
+
+	if (!validCategories.includes($('#relationship').val())) {
+		$('#relationship').val('');
+	};
+};	
 
 $(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-		setEntityInput(entityInput, obj.id);
+		setEntityInput(entityInput, obj.id, obj.primary_ext);
 		entityInput.trigger('valid');
+		disableInvalidRelationships();
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		clearEntityInput(entityInput);
 		entityInput.trigger('invalid');
+		disableInvalidRelationships();
 	});
 
 	$('#relationship, #current').on('change', function() {
