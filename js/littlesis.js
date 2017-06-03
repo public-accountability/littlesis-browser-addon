@@ -21,12 +21,12 @@ var clearEntityForm = function() {
 
 };
 
-var setEntityInput = function(input, entityId, entityExt) {
+var setEntityData = function(input, entityId, entityExt) {
 	input.data('entityId', entityId);
 	input.data('entityExt', entityExt);
 };
 
-var clearEntityInput = function(input) {
+var clearEntityData = function(input) {
 	input.removeData('entityId entityExt');
 };
 
@@ -48,17 +48,12 @@ var swapEntities = function() {
 	$('#entity-2').removeData();
 	$('#entity-2').data(entity2Data);
 
-	if (entity1Data.entityId) {
-		setValidInput($('#entity-1'));
-	} else {
-		setInvalidInput($('#entity-1'));
-	}
+	$('#entity-1, #entity-2').each(function() {
+		var validity = $(this).data('entityId') ? 'valid' : 'invalid';
+		setInputValidity($(this), validity);
+	});
 
-	if (entity2Data.entityId) {
-		setValidInput($('#entity-2'));
-	} else {
-		setInvalidInput($('#entity-2'));
-	}
+	$(window).trigger('form:input');
 };
 
 var setDropdownText = function() {
@@ -74,50 +69,41 @@ var setDropdownText = function() {
 // SAVE AND RETRIEVE WORK
 
 var saveProgress = function() {
-	var relationshipParams = getRelationshipParams();
-	var entity1Name = $('#entity-1').typeahead('val');
-	var entity2Name = $('#entity-2').typeahead('val');
-	var isCurrent = $('#current').is(':checked');
-	var newEntityParams = getNewEntityParams();
-	// console.log(newEntityParams);
-
-	var relationshipData = {
-		relationshipParams: relationshipParams,
-		entity1Name: entity1Name,
-		entity2Name: entity2Name,
-		isCurrent: isCurrent,
-		newEntityParams: newEntityParams
-	};
+	var relationshipData = $.extend(
+		{
+			entity1Name: $('#entity-1').val(),
+			entity2Name: $('#entity-2').val(),
+			isCurrent: $('#current').is(':checked')
+		}, 
+		getShortRelationshipParams(), 
+		getShortNewEntityParams(), 
+		getReference(), 
+		getEntityExtensions()
+	);
 
 	chrome.storage.sync.set({'relationshipData': relationshipData});
 };
 
 var populateForm = function(data) {
+	console.log(data);
+
 	$('#entity-1').typeahead('val', data.entity1Name);
-	var entity1Id = data.relationshipParams.relationship.entity1_id;
-	var entity1Ext = data.relationshipParams.relationship.extity1_ext;
-	if (entity1Id) { $('#entity-1').data( {'entityId': entity1Id, 'entity1Ext': entity1Ext} ).trigger('valid'); }
-	// var entity1Validity = !!data.relationshipParams.relationship.entity1_id ? 'valid' : 'invalid';
-	// $('#entity-1').data({
-	// 	'entityId': data.relationshipParams.relationship.entity1_id, 
-	// 	'entity1Ext': data.relationshipParams.relationship.extity1_ext
-	// }).trigger(entity1Validity);
-
-
-	var categoryId = data.relationshipParams.relationship.category_id;
-	if (categoryId) { $('#relationship').val(categoryId).trigger('valid'); }
-
 	$('#entity-2').typeahead('val', data.entity2Name);
-	var entity2Id = data.relationshipParams.relationship.entity2_id;
-	var entity2Ext = data.relationshipParams.relationship.extity2_ext;
-	if (entity2Id) { $('#entity-2').data( {'entityId': entity2Id, 'entity1Ext': entity2Ext} ).trigger('valid'); }
-
+	$('#relationship').val(data.category_id).trigger('change');
 	$('#current').prop('checked', data.isCurrent).trigger('change');
+	
+	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
+	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
+	$('#entity-1, #entity-2').each(function() {
+		var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
+		$(this).trigger(validity);
+	});
 
-	var sourceUrl = data.relationshipParams.reference.source;
-	var sourceName = data.relationshipParams.reference.name;
-	if (sourceUrl) { $('#source-url').val(sourceUrl).trigger('input'); }
-	if (sourceName) { $('#source-name').val(sourceName).trigger('input'); }
+	$('#source-url').val(data.source).trigger('input');
+	$('#source-name').val(data.name).trigger('input');
+
+	// if (data.source != '') { $('#source-url').trigger('input'); }
+	// if (data.name != '') { $('#source-name').trigger('input'); }
 };
 
 var retrieveProgress = function() {
@@ -170,15 +156,15 @@ var submitData = function(target, route, data, successMessage, successCallback) 
 
 var getRelationshipParams = function() {
 	return {
-		relationship: $.extend(getShortRelationshipParams(), getEntityExtensions()),
+		relationship: getShortRelationshipParams(),
 		reference: getReference()
 	};
 };
 
 var getReference = function() {
 	return {
-			name: $('#source-name').val(),
-			source: $('#source-url').val()
+		name: $('#source-name').val(),
+		source: $('#source-url').val()
 	};
 };
 
@@ -210,7 +196,7 @@ var checkSimilarRelationships = function(params) {
    	  		200: function(data) {
    	  			if (data.length > 0) {
 					var msgTarget = $('#new-relationship-btn').closest('.button').find('.status-message');
-		  			$(msgTarget).flashMessage({text: "A similar relationship already exists. Continue?", time: 10000, className: 'warn' });
+		  			$(msgTarget).flashMessage({html: "A similar relationship already exists. Continue?", time: 10000, className: 'warn' });
    	  			}
    	  		}
    	  	}
@@ -233,21 +219,18 @@ var addLinkAndClearForm = function(target, data) {
 // NEW ENTITY
 
 var getNewEntityParams = function() {
-    var entityName = $('#entity-name').val();
-    var entityBlurb = $('#entity-blurb').val();
-    var primaryExt = $('input[name=entityType]:checked').val();
-
-	var params = {
-		entity: {
-			name: entityName,
-			blurb: entityBlurb,
-			primary_ext: primaryExt,
-		},
-
+	return {
+		entity: getShortRelationshipParams(),
 		add_relationship_page: true
 	};
+};
 
-	return params;
+var getShortNewEntityParams = function() {
+	return {
+		name: $('#entity-name').val(),
+		blurb: $('#entity-blurb').val(),
+		primary_ext: $('input[name=entityType]:checked').val()
+	};
 };
 
 var showNewEntityDialogue = function(target) {
@@ -272,13 +255,13 @@ var fillEntityInput = function(target, data) {
 	var res = JSON.parse(data.responseText);
 	var entityName = res.entity.name;
 	var entityId = res.entity.id;
-	var entityExt = res.entity.primary_ext;
+	var entityExt = res.entity.primary_type;  // whhhhyyyyyyy does the ajax response call it this
 	
 	var entityInput = $(target).closest('.entity').find('.typeahead');
 	$(entityInput).val(entityName);
 	$(entityInput).data({'entityId': entityId, 'entityExt': entityExt});
-
-	setValidInput(entityInput);
+	$(entityInput).trigger('valid');
+	$(window).trigger('form:input');
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
@@ -334,12 +317,12 @@ $(function () {
 
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-		setEntityInput(entityInput, obj.id, obj.primary_ext);
+		setEntityData(entityInput, obj.id, obj.primary_ext);
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
-		clearEntityInput(entityInput);
+		clearEntityData(entityInput);
 	});
 
 	$('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
@@ -355,6 +338,8 @@ $(function () {
 	$('select').on('blur', function() {
 		$('.select-style').css('border', '1px solid #ddd');
 	});
+
+
 
 	$(window).on('form:input', function() {
 		saveProgress();

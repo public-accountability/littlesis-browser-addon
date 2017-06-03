@@ -10,55 +10,26 @@ var checkFormValidity = function() {
 	if($('#new-relationship-btn').prop('disabled') == false) {
 		$('#new-relationship-btn').trigger('new-relationship-btn:enabled');
 	}
-
-	$(window).trigger('form:input');
 };
 
 var validateInput = function(target) {						// to check validity of inputs using HTML validation
-	var validity = target.checkValidity() ? 'valid' : 'invalid';
+	var validity = target.checkValidity() ? 'valid' : ($(target).val() == '' ? '' : 'invalid');
 	$(target).trigger(validity);
 };
 
-var findMessageIcon = function(input) {
-	return $(input).closest('.input').find('.message-icon');
-};
+var setInputValidity = function(input, validity) {
+	var icon = $(input).closest('.input').find('.message-icon');
 
-var setValidInput = function(input) {
-	var icon = findMessageIcon(input);
-
-	input.removeClass('invalid');
-	icon.removeClass('invalid');
+	input.removeClass('valid invalid').addClass(validity);
+	icon.removeClass('valid invalid').addClass(validity);
 	
-	input.addClass('valid');
-	icon.addClass('valid');
-
 	checkFormValidity();
 };
 
-var setInvalidInput = function(input) {
-	var icon = findMessageIcon(input);
-
-	input.removeClass('valid');
-	icon.removeClass('valid');
-	
-	input.addClass('invalid');
-	icon.addClass('invalid');
-
-	checkFormValidity();
-};
-
-// var setInputValidity = function(input, isValid) {
-// 	var toAdd = isValid ? 'valid' : 'invalid';
-// 	var toRemove = isValid ? 'invalid' : 'valid';
-// 	var icon = findMessageIcon(input);
-
-// 	input.removeClass(toRemove);
-// 	icon.removeClass(toRemove);
-	
-// 	input.addClass(toAdd);
-// 	icon.addClass(toAdd);
-
-// 	checkFormValidity();
+// var clearInputValidity = function(input) {
+// 	var icon = $(input).closest('.input').find('.message-icon');
+// 	$(input).removeClass('valid invalid');
+// 	icon.removeClass('valid invalid');
 // };
 
 var disableInvalidRelationships = function() {
@@ -81,6 +52,10 @@ var disableInvalidRelationships = function() {
 };	
 
 $(function () {
+	$(window).on('input change typeahead:select', function() {
+		$(this).trigger('form:input');
+	});
+
 	$('.typeahead').on('typeahead:select', function() {
 		$(this).closest('input').trigger('valid');
 		disableInvalidRelationships();
@@ -96,14 +71,16 @@ $(function () {
 	});
 
 	$('#source-url, #source-name, #entity-name').on('input', function() {
+		// clearInputValidity(this);
 		validateInput(this);
 	});
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current, #entity-name').on('valid', function() {
-		setValidInput($(this));
-	});
+	// $('#source-name, #entity-name').on('input', function() {
+	// 	var validity = $(this).val() == '' ? 'invalid' : 'valid';
+	// 	$(this).trigger('validity');
+	// });
 
-	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current, #entity-name').on('invalid', function() {
-		setInvalidInput($(this));
+	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current, #entity-name').on('valid invalid', function(e) {
+		setInputValidity($(this), e.type);
 	});
 });
