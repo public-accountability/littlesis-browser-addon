@@ -28,7 +28,12 @@
       },
       "desiredCapabilities": {
         "browserName": "chrome",
-	 "javascriptEnabled" : true
+	"javascriptEnabled" : true,
+	"chromeOptions" : {
+          "args" : ["--no-sandbox", "--load-extension=/home/michael/littlesis/code/littlesis-browser-addon" ]
+
+        }
+
       }
     }
     

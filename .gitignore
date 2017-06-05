@@ -5,3 +5,5 @@ test/bin/*.jar
 test/bin/chromedriver
 test/node_modules
 test/reports
+test/*.png
+test/*.log
