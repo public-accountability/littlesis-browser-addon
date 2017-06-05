@@ -1,1 +1,7 @@
 *.DS_Store
+
+test/bin/*.zip
+test/bin/*.jar
+test/bin/chromedriver
+test/node_modules
+test/reports
