@@ -5,7 +5,6 @@
   "custom_assertions_path" : "",
   "page_objects_path" : "",
   "globals_path" : "",
-
   "selenium" : {
     "start_process" : true,
     "server_path" : "./bin/selenium-server-standalone-3.4.0.jar", 
@@ -26,16 +25,16 @@
         "enabled" : false,
         "path" : ""
       },
+      
+      "globals": {},
+      
       "desiredCapabilities": {
         "browserName": "chrome",
 	"javascriptEnabled" : true,
 	"chromeOptions" : {
-          "args" : ["--no-sandbox", "--load-extension=/home/michael/littlesis/code/littlesis-browser-addon" ]
-
+          "args" : ["--no-sandbox"]
         }
-
       }
     }
-    
   }
 }
