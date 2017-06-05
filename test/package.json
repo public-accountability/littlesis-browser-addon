@@ -8,6 +8,7 @@
     "test-verbose": "nightwatch --verbose",
     "download-selenium": "mkdir -p bin && cd bin && wget https://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar",
     "download-chromedriver": "mkdir -p bin && cd bin && wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip && unzip chromedriver_linux64.zip",
+    "download-chromedriver-mac": "mkdir -p bin && cd bin && wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_mac64.zip && unzip chromedriver_mac64.zip",
     "run-selenium": "java -jar bin/selenium-server-standalone-3.4.0.jar"
   },
   "author": "",
