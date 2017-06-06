@@ -1,9 +1,9 @@
 // FORM CONTROL
 
 var initializeForm = function() {
-	setCurrentTab();
-	retrieveProgress();
+	retrieveProgress();	
 	setDropdownText();
+	// disableInvalidRelationships();
 };
 
 var clearForm = function() {
@@ -13,8 +13,9 @@ var clearForm = function() {
 	$('select').val('');
 	$('.valid').removeClass('valid');
 	$('.invalid').removeClass('invalid');
-	$('#current').prop('checked', true).trigger('change');
-	setCurrentTab();
+	$('#current').prop('checked', true);
+	chrome.storage.sync.remove('relationshipData');
+	// setCurrentTab();
 };
 
 var clearEntityForm = function() {
@@ -49,11 +50,9 @@ var swapEntities = function() {
 	$('#entity-2').data(entity2Data);
 
 	$('#entity-1, #entity-2').each(function() {
-		var validity = $(this).data('entityId') ? 'valid' : 'invalid';
-		setInputValidity($(this), validity);
+		// var validity = $(this).data('entityId') ? 'valid' : 'invalid';
+		// setInputValidity($(this), validity);
 	});
-
-	$(window).trigger('form:input');
 };
 
 var setDropdownText = function() {
@@ -73,7 +72,6 @@ var saveProgress = function() {
 		{
 			entity1Name: $('#entity-1').val(),
 			entity2Name: $('#entity-2').val(),
-			isCurrent: $('#current').is(':checked')
 		}, 
 		getShortRelationshipParams(), 
 		getShortNewEntityParams(), 
@@ -81,34 +79,44 @@ var saveProgress = function() {
 		getEntityExtensions()
 	);
 
-	chrome.storage.sync.set({'relationshipData': relationshipData});
+	chrome.storage.sync.set({relationshipData: relationshipData});
 };
 
-var populateForm = function(data) {
-	console.log(data);
+// var saveTab = function() {
+// 	var tab = getReference();
+// 	chrome.storage.sync.get('relationshipData', function(data) {
+// 		var relationshipData = data.relationshipData;
+// 		relationshipData.source_name = tab.source_name;
+// 		relationshipData.source_url = tab.source_url;
+// 		chrome.storage.sync.set({relationshipData: relationshipData});
+// 	});
+// };
 
+var populateForm = function(data) {
 	$('#entity-1').typeahead('val', data.entity1Name);
 	$('#entity-2').typeahead('val', data.entity2Name);
-	$('#relationship').val(data.category_id).trigger('change');
-	$('#current').prop('checked', data.isCurrent).trigger('change');
-	
+	$('#relationship').val(data.category_id);
+
+	$('#current').prop('checked', data.is_current);
+	setDropdownText();
+
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
+
 	$('#entity-1, #entity-2').each(function() {
-		var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
-		$(this).trigger(validity);
+		// var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
+		// $(this).trigger(validity);
 	});
 
-	$('#source-url').val(data.source).trigger('input');
-	$('#source-name').val(data.name).trigger('input');
-
-	// if (data.source != '') { $('#source-url').trigger('input'); }
-	// if (data.name != '') { $('#source-name').trigger('input'); }
+	$('#source-url').val(data.source_url);
+	$('#source-name').val(data.source_name);
 };
 
 var retrieveProgress = function() {
 	chrome.storage.sync.get('relationshipData', function(data) {
-		populateForm(data.relationshipData);
+		if (data.relationshipData) {
+			populateForm(data.relationshipData);
+		} 
 	});
 };
 
@@ -163,8 +171,8 @@ var getRelationshipParams = function() {
 
 var getReference = function() {
 	return {
-		name: $('#source-name').val(),
-		source: $('#source-url').val()
+		source_name: $('#source-name').val(),
+		source_url: $('#source-url').val()
 	};
 };
 
@@ -179,8 +187,8 @@ var getShortRelationshipParams = function() {
 
 var getEntityExtensions = function() {
 	return {
-		extity1_ext: $('#entity-1').data('entityExt'),
-		extity2_ext: $('#entity-2').data('entityExt'),
+		entity1_ext: $('#entity-1').data('entityExt'),
+		entity2_ext: $('#entity-2').data('entityExt')
 	};
 };
 
@@ -261,7 +269,7 @@ var fillEntityInput = function(target, data) {
 	$(entityInput).val(entityName);
 	$(entityInput).data({'entityId': entityId, 'entityExt': entityExt});
 	$(entityInput).trigger('valid');
-	$(window).trigger('form:input');
+	// $(window).trigger('form:input');
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
@@ -318,11 +326,22 @@ $(function () {
 	$('.typeahead').on('typeahead:select', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		setEntityData(entityInput, obj.id, obj.primary_ext);
+		saveProgress();
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		clearEntityData(entityInput);
+		saveProgress();
+	});
+
+	$('#relationship, #current').on('change', function() {
+		saveProgress();
+	});
+
+	$('#source-url, #source-name').on('change', function() {
+		// saveTab();
+		saveProgress();
 	});
 
 	$('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
@@ -337,12 +356,6 @@ $(function () {
 
 	$('select').on('blur', function() {
 		$('.select-style').css('border', '1px solid #ddd');
-	});
-
-
-
-	$(window).on('form:input', function() {
-		saveProgress();
 	});
 
 	$(window).on('relationship:success', function() {

@@ -52,18 +52,14 @@ var disableInvalidRelationships = function() {
 };	
 
 $(function () {
-	$(window).on('input change typeahead:select', function() {
-		$(this).trigger('form:input');
-	});
-
 	$('.typeahead').on('typeahead:select', function() {
 		$(this).closest('input').trigger('valid');
-		disableInvalidRelationships();
+		// disableInvalidRelationships();
 	});
 
 	$('.typeahead').on('input', function() {
 		$(this).closest('input').trigger('invalid');
-		disableInvalidRelationships();
+		// disableInvalidRelationships();
 	});
 
 	$('#relationship, #current').on('change', function() {
