@@ -3,7 +3,6 @@
 var initializeForm = function() {
 	retrieveProgress();	
 	setDropdownText();
-	// disableInvalidRelationships();
 };
 
 var clearForm = function() {
@@ -116,6 +115,7 @@ var retrieveProgress = function() {
 	chrome.storage.sync.get('relationshipData', function(data) {
 		if (data.relationshipData) {
 			populateForm(data.relationshipData);
+			disableInvalidRelationships();
 		} 
 	});
 };
@@ -210,6 +210,31 @@ var checkSimilarRelationships = function(params) {
    	  	}
 	});
 };
+
+var disableInvalidRelationships = function() {
+	var catId = $('#relationship').val();
+	var currentCategoryId = parseInt(catId);
+
+	if (catId == null || catId == '') { return; }
+
+	var validCategories = relationshipCategories($('#entity-1').data('entityExt'), $('#entity-2').data('entityExt'));
+	var all = relationshipCategories(undefined, undefined);
+
+	all.forEach(function(category_id) {
+		if (validCategories.includes(category_id)) {
+			$('#relationship option[value=' + category_id + ']').prop('disabled', false);
+		} else {
+			$('#relationship option[value=' + category_id + ']').prop('disabled', true);
+		}
+	});
+
+	if (!validCategories.includes(currentCategoryId)) {
+		$('#relationship').val('').trigger('change');
+
+		var msgTarget = $('#relationship').closest('.input').find('.status-message');
+		$(msgTarget).flashMessage({html: "Invalid relationship type", className: 'warn', time: 2000 });
+	};
+};	
 
 var submitRelationshipData = function(target) {
 	var newRelationshipHtml = 'Relationship added! <button class="new-tab-btn success">Edit in a new tab?</button>';
@@ -327,12 +352,14 @@ $(function () {
 		var entityInput = $(e.target).closest('input');
 		setEntityData(entityInput, obj.id, obj.primary_ext);
 		saveProgress();
+		disableInvalidRelationships();
 	});
 
 	$('.typeahead').on('input', function(e, obj) {
 		var entityInput = $(e.target).closest('input');
 		clearEntityData(entityInput);
 		saveProgress();
+		disableInvalidRelationships();
 	});
 
 	$('#relationship, #current').on('change', function() {
@@ -357,6 +384,7 @@ $(function () {
 	$('select').on('blur', function() {
 		$('.select-style').css('border', '1px solid #ddd');
 	});
+
 
 	$(window).on('relationship:success', function() {
     	$('.new-tab-btn').click(function() { openNewTab(BASEURL + $(this).data('slug')) });

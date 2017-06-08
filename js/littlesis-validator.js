@@ -32,34 +32,13 @@ var setInputValidity = function(input, validity) {
 // 	icon.removeClass('valid invalid');
 // };
 
-var disableInvalidRelationships = function() {
-	var entity1Ext = $('#entity-1').data('entityExt');
-	var entity2Ext = $('#entity-2').data('entityExt');
-	var validCategories = relationshipCategories(entity1Ext, entity2Ext);
-	var all = relationshipCategories('', '');
-
-	all.forEach(function(category_id) {
-		if (validCategories.includes(category_id)) {
-			$('#relationship option[value=' + category_id + ']').attr('enabled', 'enabled');
-		} else {
-			$('#relationship option[value=' + category_id + ']').attr('disabled', 'disabled');
-		}
-	});
-
-	if (!validCategories.includes($('#relationship').val())) {
-		$('#relationship').val('');
-	};
-};	
-
 $(function () {
 	$('.typeahead').on('typeahead:select', function() {
 		$(this).closest('input').trigger('valid');
-		// disableInvalidRelationships();
 	});
 
 	$('.typeahead').on('input', function() {
 		$(this).closest('input').trigger('invalid');
-		// disableInvalidRelationships();
 	});
 
 	$('#relationship, #current').on('change', function() {
