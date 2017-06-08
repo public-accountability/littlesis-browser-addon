@@ -92,8 +92,8 @@ var populateForm = function(data) {
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
 
-	$('#source-url').val(data.source);
-	$('#source-name').val(data.name);
+	$('#source-url').val(data.source).trigger('change');
+	$('#source-name').val(data.name).trigger('change');
 
 	checkEntityValidity();
 	saveProgress();
