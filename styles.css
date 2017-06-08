@@ -265,3 +265,8 @@ button:disabled:hover {
 	padding: 10px 0;
 	margin-top: 10px;
 }
+
+#new-tab-link {
+	text-decoration: underline;
+	cursor: pointer;
+}

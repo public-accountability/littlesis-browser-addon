@@ -225,14 +225,14 @@ var disableInvalidRelationships = function() {
 };	
 
 var submitRelationshipData = function(target) {
-	var newRelationshipHtml = 'Relationship added! <button class="new-tab-btn success">Edit in a new tab?</button>';
+	var newRelationshipHtml = 'Relationship added! <span id="new-tab-link">Edit in a new tab?</span>';
 	submitData(target, '/relationships', getRelationshipParams(), newRelationshipHtml, addLinkAndClearForm);
 };
 
 var addLinkAndClearForm = function(target, data) {
 	var newRelationshipId = JSON.parse(data.responseText).relationship_id;
 	var newTabSlug = '/relationship/view/id/' + newRelationshipId;
-	$(target).closest('.button').find('.status-message').find('.new-tab-btn').data('slug', newTabSlug);
+	$(target).closest('.button').find('.status-message').find('#new-tab-link').data('slug', newTabSlug);
 	$(window).trigger('relationship:success');
 	clearForm();
 };
@@ -374,7 +374,7 @@ $(function () {
 
 
 	$(window).on('relationship:success', function() {
-    	$('.new-tab-btn').click(function() { openNewTab(BASEURL + $(this).data('slug')) });
+    	$('#new-tab-link').click(function() { openNewTab(BASEURL + $(this).data('slug')) });
 	});
 
 	$('.container').ready(function() {
