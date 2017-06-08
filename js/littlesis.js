@@ -75,8 +75,8 @@ var saveProgress = function() {
 // 	var tab = getReference();
 // 	chrome.storage.sync.get('relationshipData', function(data) {
 // 		var relationshipData = data.relationshipData;
-// 		relationshipData.source_name = tab.source_name;
-// 		relationshipData.source_url = tab.source_url;
+// 		relationshipData.name = tab.name;
+// 		relationshipData.source = tab.source;
 // 		chrome.storage.sync.set({relationshipData: relationshipData});
 // 	});
 // };
@@ -92,8 +92,8 @@ var populateForm = function(data) {
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
 
-	$('#source-url').val(data.source_url);
-	$('#source-name').val(data.source_name);
+	$('#source-url').val(data.source);
+	$('#source-name').val(data.name);
 
 	checkEntityValidity();
 	saveProgress();
@@ -159,8 +159,8 @@ var getRelationshipParams = function() {
 
 var getReference = function() {
 	return {
-		source_name: $('#source-name').val(),
-		source_url: $('#source-url').val()
+		name: $('#source-name').val(),
+		source: $('#source-url').val()
 	};
 };
 
