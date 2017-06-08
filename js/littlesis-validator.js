@@ -58,16 +58,11 @@ $(function () {
 		}
 	});
 
-	$('#source-url, #source-name').on('input', function() {
+	$('#source-url, #source-name').on('input change', function() {
 		// clearInputValidity(this);
 		var validity = this.checkValidity() ? 'valid' : ($(this).val() == '' ? '' : 'invalid');   // check validity of inputs using HTML validation
 		$(this).trigger(validity);
 	});
-
-	// $('#source-name, #entity-name').on('input', function() {
-	// 	var validity = $(this).val() == '' ? 'invalid' : 'valid';
-	// 	$(this).trigger('validity');
-	// });
 
 	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current').on('valid invalid', function(e) {
 		setInputValidity($(this), e.type);
