@@ -14,7 +14,7 @@ var clearForm = function() {
 	$('.invalid').removeClass('invalid');
 	$('#current').prop('checked', true);
 	chrome.storage.sync.remove('relationshipData');
-	// setCurrentTab();
+	setCurrentTab();
 };
 
 var clearEntityForm = function() {
