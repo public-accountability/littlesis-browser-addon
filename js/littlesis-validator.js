@@ -50,7 +50,7 @@ $(function () {
 		$(this).trigger('valid');
 	});
 
-	$('#relationship').on('change', function() {
+	$('#relationship, #source-name').on('input change', function() {
 		if ($(this).val()) {
 			$(this).trigger('valid');
 		} else {
@@ -58,10 +58,8 @@ $(function () {
 		}
 	});
 
-	$('#source-url, #source-name').on('input change', function() {
-		// clearInputValidity(this);
-		var validity = this.checkValidity() ? 'valid' : ($(this).val() == '' ? '' : 'invalid');   // check validity of inputs using HTML validation
-		$(this).trigger(validity);
+	$('#source-url').on('input change', function() {
+		$(this).trigger('valid');
 	});
 
 	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current').on('valid invalid', function(e) {
