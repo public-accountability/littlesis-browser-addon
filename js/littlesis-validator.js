@@ -12,9 +12,12 @@ var checkFormValidity = function() {
 	}
 };
 
-var validateInput = function(target) {						// to check validity of inputs using HTML validation
-	var validity = target.checkValidity() ? 'valid' : ($(target).val() == '' ? '' : 'invalid');
-	$(target).trigger(validity);
+var checkEntityValidity = function() {
+	$('#entity-1, #entity-2').each(function() {
+		var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
+		if (validity == '') { clearInputValidity(this); }
+		$(this).trigger(validity);
+	});
 };
 
 var setInputValidity = function(input, validity) {
@@ -26,28 +29,39 @@ var setInputValidity = function(input, validity) {
 	checkFormValidity();
 };
 
-// var clearInputValidity = function(input) {
-// 	var icon = $(input).closest('.input').find('.message-icon');
-// 	$(input).removeClass('valid invalid');
-// 	icon.removeClass('valid invalid');
-// };
+var clearInputValidity = function(input) {
+	var icon = $(input).closest('.input').find('.message-icon');
+	$(input).removeClass('valid invalid');
+	icon.removeClass('valid invalid');
+};
 
 $(function () {
-	$('.typeahead').on('typeahead:select', function() {
-		$(this).closest('input').trigger('valid');
-	});
+	$('.typeahead').on('typeahead:select input', function(e) {
+		if (e.type == 'typeahead:select') {
+			$(this).closest('input').trigger('valid');
+		} else if ($(this).val()) {
+			$(this).closest('input').trigger('invalid');			
+		} else {
+			clearInputValidity(this);
+		}
+	})
 
-	$('.typeahead').on('input', function() {
-		$(this).closest('input').trigger('invalid');
-	});
-
-	$('#relationship, #current').on('change', function() {
+	$('#current').on('change', function() {
 		$(this).trigger('valid');
+	});
+
+	$('#relationship').on('change', function() {
+		if ($(this).val()) {
+			$(this).trigger('valid');
+		} else {
+			clearInputValidity(this);	
+		}
 	});
 
 	$('#source-url, #source-name, #entity-name').on('input', function() {
 		// clearInputValidity(this);
-		validateInput(this);
+		var validity = this.checkValidity() ? 'valid' : ($(this).val() == '' ? '' : 'invalid');   // check validity of inputs using HTML validation
+		$(this).trigger(validity);
 	});
 
 	// $('#source-name, #entity-name').on('input', function() {

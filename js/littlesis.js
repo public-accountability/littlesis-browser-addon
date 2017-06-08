@@ -21,15 +21,6 @@ var clearEntityForm = function() {
 
 };
 
-var setEntityData = function(input, entityId, entityExt) {
-	input.data('entityId', entityId);
-	input.data('entityExt', entityExt);
-};
-
-var clearEntityData = function(input) {
-	input.removeData('entityId entityExt');
-};
-
 var swapEntities = function() {
 	var entity1 = $('#entity-1').typeahead('val');
 	var entity1Data = $('#entity-1').data();
@@ -48,10 +39,8 @@ var swapEntities = function() {
 	$('#entity-2').removeData();
 	$('#entity-2').data(entity2Data);
 
-	$('#entity-1, #entity-2').each(function() {
-		// var validity = $(this).data('entityId') ? 'valid' : 'invalid';
-		// setInputValidity($(this), validity);
-	});
+	disableInvalidRelationships();
+	checkEntityValidity(); 
 };
 
 var setDropdownText = function() {
@@ -94,7 +83,7 @@ var saveProgress = function() {
 var populateForm = function(data) {
 	$('#entity-1').typeahead('val', data.entity1Name);
 	$('#entity-2').typeahead('val', data.entity2Name);
-	$('#relationship').val(data.category_id);
+	$('#relationship').val(data.category_id).trigger('change');
 
 	$('#current').prop('checked', data.is_current);
 	setDropdownText();
@@ -102,10 +91,7 @@ var populateForm = function(data) {
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
 
-	$('#entity-1, #entity-2').each(function() {
-		// var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
-		// $(this).trigger(validity);
-	});
+	checkEntityValidity();
 
 	$('#source-url').val(data.source_url);
 	$('#source-name').val(data.source_name);
@@ -215,8 +201,6 @@ var disableInvalidRelationships = function() {
 	var catId = $('#relationship').val();
 	var currentCategoryId = parseInt(catId);
 
-	if (catId == null || catId == '') { return; }
-
 	var validCategories = relationshipCategories($('#entity-1').data('entityExt'), $('#entity-2').data('entityExt'));
 	var all = relationshipCategories(undefined, undefined);
 
@@ -228,7 +212,9 @@ var disableInvalidRelationships = function() {
 		}
 	});
 
-	if (!validCategories.includes(currentCategoryId)) {
+	if (catId == null || catId == '') { 
+		return; 
+	} else if (!validCategories.includes(currentCategoryId)) {
 		$('#relationship').val('').trigger('change');
 
 		var msgTarget = $('#relationship').closest('.input').find('.status-message');
@@ -253,7 +239,7 @@ var addLinkAndClearForm = function(target, data) {
 
 var getNewEntityParams = function() {
 	return {
-		entity: getShortRelationshipParams(),
+		entity: getShortNewEntityParams(),
 		add_relationship_page: true
 	};
 };
@@ -294,7 +280,6 @@ var fillEntityInput = function(target, data) {
 	$(entityInput).val(entityName);
 	$(entityInput).data({'entityId': entityId, 'entityExt': entityExt});
 	$(entityInput).trigger('valid');
-	// $(window).trigger('form:input');
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
@@ -348,16 +333,16 @@ $(function () {
 		});
 	});
 
-	$('.typeahead').on('typeahead:select', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		setEntityData(entityInput, obj.id, obj.primary_ext);
-		saveProgress();
-		disableInvalidRelationships();
-	});
+	$('.typeahead').on('typeahead:select input', function(e, obj) {
+		var entityInput = $(e.target).closest('input')
 
-	$('.typeahead').on('input', function(e, obj) {
-		var entityInput = $(e.target).closest('input');
-		clearEntityData(entityInput);
+		if (e.type == 'typeahead:select') {
+			entityInput.data('entityId', obj.id);
+			entityInput.data('entityExt', obj.primary_ext);
+		} else {
+			entityInput.removeData('entityId entityExt');
+		}
+
 		saveProgress();
 		disableInvalidRelationships();
 	});
