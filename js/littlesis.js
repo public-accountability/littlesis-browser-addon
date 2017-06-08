@@ -71,16 +71,6 @@ var saveProgress = function() {
 	chrome.storage.sync.set({relationshipData: relationshipData});
 };
 
-// var saveTab = function() {
-// 	var tab = getReference();
-// 	chrome.storage.sync.get('relationshipData', function(data) {
-// 		var relationshipData = data.relationshipData;
-// 		relationshipData.name = tab.name;
-// 		relationshipData.source = tab.source;
-// 		chrome.storage.sync.set({relationshipData: relationshipData});
-// 	});
-// };
-
 var populateForm = function(data) {
 	$('#entity-1').typeahead('val', data.entity1Name);
 	$('#entity-2').typeahead('val', data.entity2Name);
@@ -354,7 +344,6 @@ $(function () {
 	});
 
 	$('#source-url, #source-name').on('change', function() {
-		// saveTab();
 		saveProgress();
 	});
 
