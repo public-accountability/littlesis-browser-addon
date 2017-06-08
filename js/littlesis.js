@@ -40,7 +40,8 @@ var swapEntities = function() {
 	$('#entity-2').data(entity2Data);
 
 	disableInvalidRelationships();
-	checkEntityValidity(); 
+	checkEntityValidity();
+	saveProgress();
 };
 
 var setDropdownText = function() {
@@ -91,10 +92,11 @@ var populateForm = function(data) {
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
 
-	checkEntityValidity();
-
 	$('#source-url').val(data.source_url);
 	$('#source-name').val(data.source_name);
+
+	checkEntityValidity();
+	saveProgress();
 };
 
 var retrieveProgress = function() {
