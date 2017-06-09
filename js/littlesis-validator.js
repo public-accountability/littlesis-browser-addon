@@ -12,6 +12,17 @@ var checkFormValidity = function() {
 	}
 };
 
+var checkEntityFormValidity = function() {
+	console.log('checkEntityFormValidity');
+	$('.add-new-entity-btn').prop('disabled', false);
+
+	$('#entity-name, #entity-blurb, #primary-ext').each(function(i, el) {
+		if (!$(el).hasClass('valid')) {
+			$('.add-new-entity-btn').prop('disabled', true);
+		}
+	});
+};
+
 var checkEntityValidity = function() {
 	$('#entity-1, #entity-2').each(function() {
 		var validity = $(this).data('entityId') ? 'valid' : ($(this).val() == '' ? '' : 'invalid');
@@ -27,12 +38,31 @@ var setInputValidity = function(input, validity) {
 	icon.removeClass('valid invalid').addClass(validity);
 	
 	checkFormValidity();
+	checkEntityFormValidity();
 };
 
 var clearInputValidity = function(input) {
 	var icon = $(input).closest('.input').find('.message-icon');
 	$(input).removeClass('valid invalid');
 	icon.removeClass('valid invalid');
+};
+
+var setNewEntityValidations = function() {
+	$('#entity-name, #entity-blurb').on('input', function() {
+		if ($(this).val()) {
+			$(this).trigger('valid');
+		} else {
+			clearInputValidity(this);	
+		}
+	});
+
+	$('#primary-ext').on('change', function() {
+		$(this).trigger('valid');
+	});
+
+	$('#entity-name, #entity-blurb, #primary-ext').on('valid invalid', function(e) {
+		setInputValidity($(this), e.type);
+	});
 };
 
 $(function () {

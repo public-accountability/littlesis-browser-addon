@@ -253,6 +253,7 @@ var showNewEntityDialogue = function(target) {
 	var drawer = $(target).closest('.entity').find('.add-entity');
 	var messageHtml = 'Entity added! <a href="http://www.google.com">Edit in a new tab?</a>';
 	drawer.load('add-entity.html', function() {
+		setNewEntityValidations();
 		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getNewEntityParams(), messageHtml, fillEntityInput); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
 	});
@@ -314,6 +315,7 @@ $(function () {
 	$('#new-relationship-btn').click(function() { submitRelationshipData(this); });
 	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
+    $('#new-entity-btn').click(function() { showNewEntityDialogue(this); })
     $('#clear-btn').click(function() { clearForm(); });
     $('#current').change(function() { setDropdownText(); });
 
