@@ -254,6 +254,11 @@ var showNewEntityDialogue = function(target) {
 	var messageHtml = 'Entity added! <a href="http://www.google.com">Edit in a new tab?</a>';
 	drawer.load('add-entity.html', function() {
 		setNewEntityValidations();
+
+		var entityInput = $(target).closest('.input').find('.typeahead.invalid').val();
+		$('#entity-name').val(entityInput).trigger('input');
+
+
 		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getNewEntityParams(), messageHtml, fillEntityInput); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
 	});
