@@ -30,6 +30,11 @@ var checkEntityValidity = function() {
 	});
 };
 
+var validateInput = function(target) {						// to check validity of inputs using HTML validation
+	var validity = target.checkValidity() ? 'valid' : 'invalid';
+	$(target).trigger(validity);
+};
+
 var setInputValidity = function(input, validity) {
 	var icon = $(input).closest('.input').find('.message-icon');
 
@@ -88,7 +93,7 @@ $(function () {
 	});
 
 	$('#source-url').on('input change', function() {
-		$(this).trigger('valid');
+		validateInput(this);
 	});
 
 	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current').on('valid invalid', function(e) {
