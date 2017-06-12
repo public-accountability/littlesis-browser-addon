@@ -13,7 +13,6 @@ var checkFormValidity = function() {
 };
 
 var checkEntityFormValidity = function() {
-	console.log('checkEntityFormValidity');
 	$('.add-new-entity-btn').prop('disabled', false);
 
 	$('#entity-name, #entity-blurb, #primary-ext').each(function(i, el) {

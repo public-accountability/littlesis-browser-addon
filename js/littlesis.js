@@ -275,13 +275,17 @@ var fillEntityInput = function(target, data) {
 	var entityExt = res.entity.primary_type;  // whhhhyyyyyyy does the ajax response call it this
 	
 	var entityInput = $(target).closest('.entity').find('.typeahead');
-	$(entityInput).val(entityName);
-	$(entityInput).data({'entityId': entityId, 'entityExt': entityExt});
-	$(entityInput).trigger('valid');
+	var entityInputContainer = $(target).closest('.entity');
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
 	buildTypeahead(entityInput);
+
+	entityInputContainer.find('input').trigger('typeahead:select', {id: entityId, primary_ext: entityExt})
+	entityInputContainer.find('input').val(entityName);
+
+	saveProgress();
+	disableInvalidRelationships();
 };
 
 
