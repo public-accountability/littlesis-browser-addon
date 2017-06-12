@@ -221,7 +221,7 @@ var submitRelationshipData = function(target) {
 
 var addLinkAndClearForm = function(target, data) {
 	var newRelationshipId = JSON.parse(data.responseText).relationship_id;
-	var newTabSlug = '/relationship/view/id/' + newRelationshipId;
+	var newTabSlug = '/relationships/' + newRelationshipId + '/edit';
 	$(target).closest('.button').find('.status-message').find('#new-tab-link').data('slug', newTabSlug);
 	$(window).trigger('relationship:success');
 	clearForm();
