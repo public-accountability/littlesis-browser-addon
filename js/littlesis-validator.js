@@ -31,8 +31,12 @@ var checkEntityValidity = function() {
 };
 
 var validateInput = function(target) {						// to check validity of inputs using HTML validation
-	var validity = target.checkValidity() ? 'valid' : 'invalid';
-	$(target).trigger(validity);
+	if ($(target).val()) {
+		var validity = target.checkValidity() ? 'valid' : 'invalid';	
+		$(target).trigger(validity);
+	} else {
+		clearInputValidity(target);
+	}
 };
 
 var setInputValidity = function(input, validity) {
@@ -49,6 +53,9 @@ var clearInputValidity = function(input) {
 	var icon = $(input).closest('.input').find('.message-icon');
 	$(input).removeClass('valid invalid');
 	icon.removeClass('valid invalid');
+
+	checkFormValidity();
+	checkEntityFormValidity();
 };
 
 var setNewEntityValidations = function() {
