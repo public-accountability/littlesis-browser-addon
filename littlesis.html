@@ -49,7 +49,7 @@
 	<div>
 		<div class="source input">
 			<label for="source-url">Source URL</label> 
-			<span><input id="source-url" type="url" name="sourceUrl" placeholder="example: https://www.nytimes.com" required></span><span class="message-icon fa fa-fw fa-2x"></span>
+			<span><input id="source-url" type="url" pattern="^(https?:\/\/)(.+)[\.]{1}.+$" name="sourceUrl" placeholder="example: https://www.nytimes.com" required></span><span id="source-url-message-icon" class="message-icon fa fa-fw fa-2x"></span>
 		</div>
 
 		<div class="source input">
