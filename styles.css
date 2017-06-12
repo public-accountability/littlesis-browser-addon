@@ -193,6 +193,12 @@ button:hover {
 	cursor: pointer;
 }
 
+.new-entity-footer {
+	margin-top: 10px;
+	border-top: 1px dashed #999;
+	padding: 10px 0;
+}
+
 /* ADD ENTITY */
 
 .drawer {

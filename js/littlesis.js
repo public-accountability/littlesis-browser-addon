@@ -261,6 +261,8 @@ var showNewEntityDialogue = function(target) {
 
 		$('.add-new-entity-btn').click(function() { submitData(this, '/entities', getNewEntityParams(), messageHtml, fillEntityInput); });
 		$('.close-new-entity-btn').click(function() { closeNewEntityDrawer(this); });
+
+		$('.typeahead').typeahead('close');
 	});
 };
 
@@ -312,8 +314,9 @@ var buildTypeahead = function(target) {
 					// See https://github.com/twitter/typeahead.js/issues/1201
 	  	source: entities,
 	  	templates: {
-	  		notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? Or <a class="show-new-person-dialogue">add a new person or organization to the database</a>.</div>',
-	  		suggestion: Handlebars.templates.suggestion
+	  		notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button id="new-entity-btn" class="primary">CREATE NEW ENTITY</button></div></div>',
+	  		suggestion: Handlebars.templates.suggestion,
+	  		footer: '<div class="new-entity-footer"><button id="new-entity-btn" class="primary">CREATE NEW ENTITY</button></div>'
 	  	}
 	});
 };
@@ -324,7 +327,6 @@ $(function () {
 	$('#new-relationship-btn').click(function() { submitRelationshipData(this); });
 	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
     $('#swap-entities-btn').click(function() { swapEntities(); });
-    $('#new-entity-btn').click(function() { showNewEntityDialogue(this); })
     $('#clear-btn').click(function() { clearForm(); });
     $('#current').change(function() { setDropdownText(); });
 
@@ -334,6 +336,8 @@ $(function () {
 		$('.show-new-person-dialogue').click(function() {
 			showNewEntityDialogue(this);
 		});
+
+		$('#new-entity-btn').click(function() { showNewEntityDialogue(this); })
 	});
 
 	$('.typeahead').on('typeahead:select input', function(e, obj) {
