@@ -59,7 +59,7 @@ var clearInputValidity = function(input) {
 };
 
 var setNewEntityValidations = function() {
-	$('#entity-name, #entity-blurb').on('input', function() {
+	$('#entity-name').on('input', function() {
 		if ($(this).val()) {
 			$(this).trigger('valid');
 		} else {
@@ -71,7 +71,7 @@ var setNewEntityValidations = function() {
 		$(this).trigger('valid');
 	});
 
-	$('#entity-name, #entity-blurb, #primary-ext').on('valid invalid', function(e) {
+	$('#entity-name, #primary-ext').on('valid invalid', function(e) {
 		setInputValidity($(this), e.type);
 	});
 };
