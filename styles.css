@@ -78,12 +78,24 @@ input:focus {
 	border: 1px solid #999;
 }
 
-.radio-inputs input {
-	margin-right: 10px;
+/* Is Current Radio buttons */
+
+#is-current-title {
+    font-weight: bold;
 }
 
-.radio-inputs label {
-	display: inline-block;
+#is-current-radio-buttons {
+    display: inline;
+}
+
+#is-current-radio-buttons label {
+    font-weight: normal;
+    display: inline;
+    margin: 2px 0 2px 0;
+}
+
+#is-current-radio-buttons input {
+    display: inline;
 }
 
 button {

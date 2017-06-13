@@ -34,13 +34,22 @@
     </div>
 
     <div class="entity button">
-		<div class="status-message"></div>
-	  	<button id="swap-entities-btn" class="primary">SWAP ENTITIES</button>
-		<span class="radio-inputs">
-			<label for="current">Current?</label> 
-			<input id="current" type="checkbox" name="isCurrent" checked>
-		</span>
-	</div>
+      <div class="status-message"></div>
+      <button id="swap-entities-btn" class="primary">SWAP ENTITIES</button>
+      <span class="radio-inputs">  </span>
+      <div id="is-current-radio-buttons">
+	  <span id="is-current-title">Current?</span>
+
+	  <input type="radio" name="is_current" value="yes" id="is_current_yes">
+	  <label for="is_current_yes">Yes</label>
+
+	  <input type="radio" name="is_current" value="no" id="is_current_no">
+	  <label for="is_current_no">No</label>
+
+	  <input type="radio" name="is_current" value="NULL" id="is_current_null" checked="checked">
+	  <label for="is_current_null">Unknown</label>
+      </div>
+    </div>
 </div>
 
 <div class="section">
