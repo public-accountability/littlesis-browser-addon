@@ -14,9 +14,10 @@
       
       options = $.extend({
         html: 'Done',
-        time: 200000,
+        time: 2000,
         how: 'append',
-        className: ''
+        className: '',
+        callback: function() {}
       }, options);
       
       return $(this).each(function() {
@@ -26,7 +27,7 @@
         var message = $('<span />', {
           'class': 'flash-message ' + options.className,
           html: options.html
-        }).hide().fadeIn('fast');
+        }).hide().fadeIn('fast', options.callback());
         
         $(this).addClass('visible');
         $(this)[options.how](message);

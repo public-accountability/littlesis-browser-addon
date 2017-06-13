@@ -170,7 +170,7 @@ var getEntityExtensions = function() {
 	};
 };
 
-var checkSimilarRelationships = function(params) {
+var checkSimilarRelationships = function() {
 	return $.ajax({
 		type: 'GET',
 		url: BASEURL + '/relationships/find_similar',
@@ -182,7 +182,9 @@ var checkSimilarRelationships = function(params) {
    	  		200: function(data) {
    	  			if (data.length > 0) {
 					var msgTarget = $('#new-relationship-btn').closest('.button').find('.status-message');
-		  			$(msgTarget).flashMessage({html: "A similar relationship already exists. Continue?", time: 10000, className: 'warn' });
+		  			$(msgTarget).flashMessage({html: "A similar relationship already exists.", className: 'warn', callback: function() {
+
+		  			} });
    	  			}
    	  		}
    	  	}
@@ -350,15 +352,23 @@ $(function () {
 			entityInput.removeData('entityId entityExt');
 		}
 
+		validateTypeahead(e, this);
 		saveProgress();
 		disableInvalidRelationships();
 	});
 
-	$('#relationship, #current').on('change', function() {
+	$('#current').on('change', function() {
+		validateAlwaysValid(this);
 		saveProgress();
 	});
 
-	$('#source-url, #source-name').on('change', function() {
+	$('#relationship, #source-name').on('input change', function() {
+		validateValidOrBlank(this);
+		saveProgress();
+	});
+
+	$('#source-url').on('input change', function() {
+		validateInput(this);
 		saveProgress();
 	});
 

@@ -5,9 +5,11 @@ var checkFormValidity = function() {
 		if (!$(el).hasClass('valid')) {
 			$('#new-relationship-btn').prop('disabled', true);
 		}
+		console.log('checking each input');
 	})
 
 	if($('#new-relationship-btn').prop('disabled') == false) {
+		console.log('enabling button')
 		$('#new-relationship-btn').trigger('new-relationship-btn:enabled');
 	}
 };
@@ -45,6 +47,7 @@ var setInputValidity = function(input, validity) {
 	input.removeClass('valid invalid').addClass(validity);
 	icon.removeClass('valid invalid').addClass(validity);
 	
+	console.log('setInputValidity');
 	checkFormValidity();
 	checkEntityFormValidity();
 };
@@ -76,33 +79,28 @@ var setNewEntityValidations = function() {
 	});
 };
 
+var validateTypeahead = function(e, target) {
+	if (e.type == 'typeahead:select') {
+		$(target).closest('input').trigger('valid');
+	} else if ($(target).val()) {
+		$(target).closest('input').trigger('invalid');			
+	} else {
+		clearInputValidity(target);
+	}
+};
+
+var validateAlwaysValid = function(target) {
+	$(target).trigger('valid');
+};
+
+var validateValidOrBlank = function(target) {
+	if ($(target).val()) {
+		$(target).trigger('valid');
+	} else {
+		clearInputValidity(target);	
+	}};
+
 $(function () {
-	$('.typeahead').on('typeahead:select input', function(e) {
-		if (e.type == 'typeahead:select') {
-			$(this).closest('input').trigger('valid');
-		} else if ($(this).val()) {
-			$(this).closest('input').trigger('invalid');			
-		} else {
-			clearInputValidity(this);
-		}
-	})
-
-	$('#current').on('change', function() {
-		$(this).trigger('valid');
-	});
-
-	$('#relationship, #source-name').on('input change', function() {
-		if ($(this).val()) {
-			$(this).trigger('valid');
-		} else {
-			clearInputValidity(this);	
-		}
-	});
-
-	$('#source-url').on('input change', function() {
-		validateInput(this);
-	});
-
 	$('#source-url, #source-name, #entity-1, #entity-2, #relationship, #current').on('valid invalid', function(e) {
 		setInputValidity($(this), e.type);
 	});
