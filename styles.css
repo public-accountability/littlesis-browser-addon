@@ -297,3 +297,8 @@ button:disabled:hover {
 	top: -5px;
 	right: -5px;
 }
+
+#similar-relationship-btn {
+	font-weight: bold;
+	cursor: pointer;
+}

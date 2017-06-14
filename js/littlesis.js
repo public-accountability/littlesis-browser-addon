@@ -197,7 +197,11 @@ var checkSimilarRelationships = function() {
 	   	  		200: function(data) {
 					var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
 	   	  			if (data.length > 0) {
-			  			$(msgTarget).flashMessage({html: "Caution: a similar relationship already exists.", withCloseButton: true, time: 100000000, className: 'warn'});
+			  			$(msgTarget).flashMessage({html: "Caution: <span id='similar-relationship-btn'>a similar relationship <span class='fa fa-external-link'></span></span> already exists.", withCloseButton: true, time: 100000000, className: 'warn', callback: function() {
+			  				$('#similar-relationship-btn').click(function() {
+			  					openNewTab(data[0].url);
+			  				})
+			  			}});
 	   	  			} else {
 	   	  				$(msgTarget).find('.flash-message').remove();
 	   	  				$(msgTarget).removeClass('visible');
