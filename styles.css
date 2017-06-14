@@ -105,6 +105,7 @@ button {
 	padding: 5px 10px;
 	letter-spacing: 0.05em;
 	margin-right: 10px;
+	margin-top: 15px;
 	vertical-align: bottom;
 }
 
@@ -150,7 +151,7 @@ button:hover {
 }
 
 .button {
-	margin-top: 15px;
+	/*margin-top: 15px;*/
 }
 
 #new-relationship-btn {
@@ -269,6 +270,7 @@ button:disabled:hover {
 
 .flash-message {
 	padding: 10px;
+	margin-bottom: 10px;
 }
 
 .flash-message.warn {
@@ -287,4 +289,11 @@ button:disabled:hover {
 #new-tab-link {
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+.close-message-btn {
+	color: rgba(50, 0, 0, 0.3);
+	position: relative;
+	top: -5px;
+	right: -5px;
 }

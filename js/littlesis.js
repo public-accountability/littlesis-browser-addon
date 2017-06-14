@@ -51,10 +51,10 @@ var swapEntities = function() {
 	$('#entity-2').removeData();
 	$('#entity-2').data(entity2Data);
 
+	checkSimilarRelationships();
 	disableInvalidRelationships();
 	checkEntityValidity();
 	saveProgress();
-	checkSimilarRelationships();
 };
 
 var setDropdownText = function() {
@@ -195,11 +195,12 @@ var checkSimilarRelationships = function() {
 	   	  	data: params,
 	   	  	statusCode: {
 	   	  		200: function(data) {
+					var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
 	   	  			if (data.length > 0) {
-						var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
-			  			$(msgTarget).flashMessage({html: "Caution: a similar relationship already exists.", className: 'warn', callback: function() {
-
-			  			} });
+			  			$(msgTarget).flashMessage({html: "Caution: a similar relationship already exists.", withCloseButton: true, time: 100000000, className: 'warn'});
+	   	  			} else {
+	   	  				$(msgTarget).find('.flash-message').remove();
+	   	  				$(msgTarget).removeClass('visible');
 	   	  			}
 	   	  		}
 	   	  	}
@@ -374,8 +375,8 @@ $(function () {
 
 		validateTypeahead(e, this);
 		saveProgress();
-		disableInvalidRelationships();
 		checkSimilarRelationships();
+		disableInvalidRelationships();
 	});
 
 	$('#current').on('change', function() {

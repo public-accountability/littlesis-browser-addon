@@ -17,6 +17,7 @@
         time: 2000,
         how: 'append',
         className: '',
+        withCloseButton: false,
         callback: function() {}
       }, options);
       
@@ -24,14 +25,23 @@
         if( $(this).parent().find('.flash-message').get(0) )
           return;
         
+        var closeButton = options.withCloseButton ? "<span class='close-message-btn fa fa-times-circle fa-lg'></span>" : "";
+        var that = this;
+
         var message = $('<span />', {
           'class': 'flash-message ' + options.className,
-          html: options.html
-        }).hide().fadeIn('fast', options.callback());
+          html: options.html + closeButton
+        }).hide().fadeIn('fast', function() {
+          $('.close-message-btn').on('click', function() {
+            message.remove();
+            $(that).removeClass('visible');            
+          });
+
+          options.callback();
+        });
         
         $(this).addClass('visible');
         $(this)[options.how](message);
-        var that = this;
         
         message.delay(options.time).fadeOut('normal', function() {
           $(this).remove();
