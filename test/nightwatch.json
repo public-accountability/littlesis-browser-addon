@@ -35,6 +35,15 @@
           "args" : ["--no-sandbox"]
         }
       }
+    },
+
+    "unittests" : {
+      "selenium" : {
+        "start_process" : false,
+        "start_session" : false
+      },
+      "filter" : "./tests/unit/*",
+      "exclude" : ""
     }
   }
 }
