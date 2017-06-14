@@ -5,16 +5,28 @@ var initializeForm = function() {
 	setDropdownText();
 };
 
+/**
+   Gets information about the is current buttons
+   Use:
+      isCurrentSelection.value() => retrieves current value
+      isCurrentSelection.reset() => sets it back to unknown
+*/
+var isCurrentSelection = {
+  "value": () => $('input[name="is_current"]:checked').val(),
+  "reset": () => $('#is_current_null').prop('checked', true)
+};
+
+
 var clearForm = function() {
-	$('.typeahead').typeahead('val', '');
-    $('input').val('');
-	$('input').removeData('entityId entityExt');
-	$('select').val('');
-	$('.valid').removeClass('valid');
-	$('.invalid').removeClass('invalid');
-	$('#current').prop('checked', true);
-	chrome.storage.sync.remove('relationshipData');
-	setCurrentTab();
+  $('.typeahead').typeahead('val', '');
+  $('input').val('');
+  $('input').removeData('entityId entityExt');
+  $('select').val('');
+  $('.valid').removeClass('valid');
+  $('.invalid').removeClass('invalid');
+  isCurrentSelection.reset();
+  chrome.storage.sync.remove('relationshipData');
+  setCurrentTab();
 };
 
 var clearEntityForm = function() {
@@ -45,13 +57,11 @@ var swapEntities = function() {
 };
 
 var setDropdownText = function() {
-	var isCurrent = $('#current').is(':checked');
-	var textList = isCurrent ? DROPDOWN_TEXT_PRESENT : DROPDOWN_TEXT_PAST;
-
-	$('#relationship').children().each(function(i, el) {
-		var categoryId = $(el).val();      // in case some options are not being used
-		$(el).text(textList[categoryId]);
-	});
+  var textList = (isCurrentSelection.value() == 'yes') ? DROPDOWN_TEXT_PRESENT : DROPDOWN_TEXT_PAST;
+  $('#relationship').children().each(function(i, el) {
+    var categoryId = $(el).val();      // in case some options are not being used
+    $(el).text(textList[categoryId]);
+  });
 };
 
 // SAVE AND RETRIEVE WORK
@@ -155,12 +165,12 @@ var getReference = function() {
 };
 
 var getShortRelationshipParams = function() {
-	return {
-		entity1_id: $('#entity-1').data('entityId'),
-		entity2_id: $('#entity-2').data('entityId'),
-		category_id: $('#relationship option:checked').attr('value'),
-		is_current: $('#current').is(':checked')
-	};
+  return {
+    entity1_id: $('#entity-1').data('entityId'),
+    entity2_id: $('#entity-2').data('entityId'),
+    category_id: $('#relationship option:checked').attr('value'),
+    is_current: isCurrentSelection.value()
+  };
 };
 
 var getEntityExtensions = function() {
@@ -326,11 +336,15 @@ var buildTypeahead = function(target) {
 // UI
 
 $(function () {
-	$('#new-relationship-btn').click(function() { submitRelationshipData(this); });
-	$('#set-current-tab-btn').click(function() { setCurrentTab(); });
-    $('#swap-entities-btn').click(function() { swapEntities(); });
-    $('#clear-btn').click(function() { clearForm(); });
-    $('#current').change(function() { setDropdownText(); });
+  $('#new-relationship-btn').click(function() { submitRelationshipData(this); });
+  $('#set-current-tab-btn').click(function() { setCurrentTab(); });
+  $('#swap-entities-btn').click(function() { swapEntities(); });
+  $('#clear-btn').click(function() { clearForm(); });
+
+  // call setDropdownText when radio button is changed
+  $('input[name="is_current"]').on('change', function(e) {
+    setDropdownText();
+  });
 
     buildTypeahead('.typeahead');
 
