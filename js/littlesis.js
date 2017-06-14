@@ -54,6 +54,7 @@ var swapEntities = function() {
 	disableInvalidRelationships();
 	checkEntityValidity();
 	saveProgress();
+	checkSimilarRelationships();
 };
 
 var setDropdownText = function() {
@@ -97,6 +98,7 @@ var populateForm = function(data) {
 
 	checkEntityValidity();
 	saveProgress();
+	checkSimilarRelationships();
 };
 
 var retrieveProgress = function() {
@@ -181,24 +183,28 @@ var getEntityExtensions = function() {
 };
 
 var checkSimilarRelationships = function() {
-	return $.ajax({
-		type: 'GET',
-		url: BASEURL + '/relationships/find_similar',
-	  	xhrFields: {
-      		withCredentials: true
-   	  	},
-   	  	data: getShortRelationshipParams(),
-   	  	statusCode: {
-   	  		200: function(data) {
-   	  			if (data.length > 0) {
-					var msgTarget = $('#new-relationship-btn').closest('.button').find('.status-message');
-		  			$(msgTarget).flashMessage({html: "A similar relationship already exists.", className: 'warn', callback: function() {
+	var params = getShortRelationshipParams();
 
-		  			} });
-   	  			}
-   	  		}
-   	  	}
-	});
+	if (params.entity1_id && params.entity2_id && params.category_id) {
+		return $.ajax({
+			type: 'GET',
+			url: BASEURL + '/relationships/find_similar',
+		  	xhrFields: {
+	      		withCredentials: true
+	   	  	},
+	   	  	data: params,
+	   	  	statusCode: {
+	   	  		200: function(data) {
+	   	  			if (data.length > 0) {
+						var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
+			  			$(msgTarget).flashMessage({html: "Caution: a similar relationship already exists.", className: 'warn', callback: function() {
+
+			  			} });
+	   	  			}
+	   	  		}
+	   	  	}
+		});
+	}
 };
 
 var disableInvalidRelationships = function() {
@@ -369,6 +375,7 @@ $(function () {
 		validateTypeahead(e, this);
 		saveProgress();
 		disableInvalidRelationships();
+		checkSimilarRelationships();
 	});
 
 	$('#current').on('change', function() {
@@ -376,7 +383,13 @@ $(function () {
 		saveProgress();
 	});
 
-	$('#relationship, #source-name').on('input change', function() {
+	$('#relationship').on('change', function() {
+		validateValidOrBlank(this);
+		saveProgress();
+		checkSimilarRelationships();
+	});
+
+	$('#source-name').on('input change', function() {
 		validateValidOrBlank(this);
 		saveProgress();
 	});
@@ -387,7 +400,7 @@ $(function () {
 	});
 
 	$('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
-		checkSimilarRelationships();
+		// checkSimilarRelationships();
 	});
 
 	// for <select> styling hack:
