@@ -286,11 +286,6 @@ button:disabled:hover {
 	margin-top: 10px;
 }
 
-#new-tab-link {
-	text-decoration: underline;
-	cursor: pointer;
-}
-
 .close-message-btn {
 	color: rgba(50, 0, 0, 0.3);
 	position: relative;
@@ -298,7 +293,13 @@ button:disabled:hover {
 	right: -5px;
 }
 
-#similar-relationship-btn {
+.external-link {
+	font-family: inherit;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+.external-link::after {
+	font-family: 'FontAwesome';
+	content: "\f08e";
 }

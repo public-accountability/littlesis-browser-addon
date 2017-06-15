@@ -113,7 +113,7 @@ var retrieveProgress = function() {
 // DATA SUBMISSION
 
 var submitData = function(target, route, data, successMessage, successCallback) {
-	var msgTarget = $(target).closest('.button').find('.status-message');
+	var msgTarget = $(target).closest('.input').find('.status-message');
 
 	$.ajax({
 	  	type: "POST",
@@ -197,8 +197,8 @@ var checkSimilarRelationships = function() {
 	   	  		200: function(data) {
 					var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
 	   	  			if (data.length > 0) {
-			  			$(msgTarget).flashMessage({html: "Caution: <span id='similar-relationship-btn'>a similar relationship <span class='fa fa-external-link'></span></span> already exists.", withCloseButton: true, time: 100000000, className: 'warn', callback: function() {
-			  				$('#similar-relationship-btn').click(function() {
+			  			$(msgTarget).flashMessage({html: "Caution: <span id='similar-relationship-link' class='external-link fa'>a similar relationship </span> already exists." + CLOSEBUTTON, className: 'warn', callback: function() {
+			  				$('#similar-relationship-link').click(function() {
 			  					openNewTab(data[0].url);
 			  				})
 			  			}});
@@ -238,7 +238,7 @@ var disableInvalidRelationships = function() {
 };	
 
 var submitRelationshipData = function(target) {
-	var newRelationshipHtml = 'Relationship added! <span id="new-tab-link">Edit in a new tab?</span>';
+	var newRelationshipHtml = 'Relationship added! <span id="new-tab-link" class="external-link fa">Edit in a new tab? </span>' + CLOSEBUTTON;
 	submitData(target, '/relationships', getRelationshipParams(), newRelationshipHtml, addLinkAndClearForm);
 };
 
@@ -274,7 +274,7 @@ var showNewEntityDialogue = function(target) {
 	}
 
 	var drawer = $(target).closest('.entity').find('.add-entity');
-	var messageHtml = 'Entity added! <a href="http://www.google.com">Edit in a new tab?</a>';
+	var messageHtml = 'Entity added! <span id="new-entity-link" class="external-link fa">Edit in a new tab? </span>' + CLOSEBUTTON;
 	drawer.load('add-entity.html', function() {
 		setNewEntityValidations();
 
@@ -294,13 +294,20 @@ var closeNewEntityDrawer = function(target) {
 };
 
 var fillEntityInput = function(target, data) {
+
 	var res = JSON.parse(data.responseText);
 	var entityName = res.entity.name;
 	var entityId = res.entity.id;
 	var entityExt = res.entity.primary_type;  // whhhhyyyyyyy does the ajax response call it this
 	
+	console.log(res);
+
 	var entityInput = $(target).closest('.entity').find('.typeahead');
 	var entityInputContainer = $(target).closest('.entity');
+
+	$('#new-entity-link').click(function() {
+		openNewTab(BASEURL + res.entity.url);
+	})
 
 	closeNewEntityDrawer(target);
 	$(entityInput).typeahead('destroy');
