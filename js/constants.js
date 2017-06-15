@@ -1,5 +1,7 @@
 var BASEURL = 'http://localhost:8080';
 
+var CLOSEBUTTON = '<span class="close-message-btn fa fa-times-circle fa-lg"></span>'
+
 var DROPDOWN_TEXT_PRESENT = {
 	1: 'is an employee of',
 	2: 'attends',

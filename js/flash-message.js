@@ -17,7 +17,6 @@
         time: 2000,
         how: 'append',
         className: '',
-        withCloseButton: false,
         callback: function() {}
       }, options);
       
@@ -25,12 +24,11 @@
         if( $(this).parent().find('.flash-message').get(0) )
           return;
         
-        var closeButton = options.withCloseButton ? "<span class='close-message-btn fa fa-times-circle fa-lg'></span>" : "";
         var that = this;
 
         var message = $('<span />', {
           'class': 'flash-message ' + options.className,
-          html: options.html + closeButton
+          html: options.html
         }).hide().fadeIn('fast', function() {
           $('.close-message-btn').on('click', function() {
             message.remove();
@@ -43,7 +41,9 @@
         $(this).addClass('visible');
         $(this)[options.how](message);
         
-        message.delay(options.time).fadeOut('normal', function() {
+        var delayTime = $('.close-message-btn').length ? 10000000 : options.time;  // I realize this is a little hacky...
+
+        message.delay(delayTime).fadeOut('normal', function() {
           $(this).remove();
           $(that).removeClass('visible');
         });
