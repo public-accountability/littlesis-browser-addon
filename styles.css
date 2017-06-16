@@ -191,6 +191,16 @@ button:hover {
 
 .entity-name {
 	font-weight: bold;
+	display: inline-block;
+}
+
+.entity-name a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.entity-name:hover {
+	text-decoration: underline;
 }
 
 .entity-blurb {
@@ -199,11 +209,6 @@ button:hover {
 
 .entity-not-found {
 	padding: 5px;
-}
-
-.show-new-person-dialogue {
-	font-weight: bold;
-	cursor: pointer;
 }
 
 .new-entity-footer {

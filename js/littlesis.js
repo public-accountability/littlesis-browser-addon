@@ -345,9 +345,17 @@ var buildTypeahead = function(target) {
 	  	source: entities,
 	  	templates: {
 	  		notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button id="new-entity-btn" class="primary">CREATE NEW ENTITY</button></div></div>',
-	  		suggestion: Handlebars.templates.suggestion,
+	  		suggestion: function(data) {
+	  			return `<div class="entity-suggestion">
+	  						<div class="entity-name external-link"><a href="${BASEURL}${data.url}">${data.name} </a></div>
+							<div class="entity-blurb">${data.blurb || ""}</div>
+						</div>`;
+	  		},
 	  		footer: '<div class="new-entity-footer"><button id="new-entity-btn" class="primary">CREATE NEW ENTITY</button></div>'
 	  	}
+	}).on('typeahead:render', function() {
+		$('#new-entity-btn').click(function() { showNewEntityDialogue(this); })
+		$('.entity-name').click(function() { openNewTab( $(this).find('a').attr('href') ) });
 	});
 };
 
@@ -365,14 +373,6 @@ $(function () {
   });
 
     buildTypeahead('.typeahead');
-
-	$('.typeahead').on('typeahead:render', function() {
-		$('.show-new-person-dialogue').click(function() {
-			showNewEntityDialogue(this);
-		});
-
-		$('#new-entity-btn').click(function() { showNewEntityDialogue(this); })
-	});
 
 	$('.typeahead').on('typeahead:select input', function(e, obj) {
 		var entityInput = $(e.target).closest('input')
