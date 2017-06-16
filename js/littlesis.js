@@ -20,6 +20,7 @@ var isCurrentSelection = {
 var clearForm = function() {
   $('.typeahead').typeahead('val', '');
   $('input').val('');
+  $('textarea').val('');
   $('input').removeData('entityId entityExt');
   $('select').val('');
   $('.valid').removeClass('valid');
@@ -40,8 +41,12 @@ var swapEntities = function() {
 	var entity2 = $('#entity-2').typeahead('val');
 	var entity2Data = $('#entity-2').data();
 
+	var description1 = $('#description-1').val();
+	var description2 = $('#description-2').val();
+
 	[entity1, entity2] = [entity2, entity1];
 	[entity1Data, entity2Data] = [entity2Data, entity1Data];
+	[description1, description2] = [description2, description1];
 
 	$('#entity-1').typeahead('val', entity1);
 	$('#entity-1').removeData();
@@ -50,6 +55,9 @@ var swapEntities = function() {
 	$('#entity-2').typeahead('val', entity2);
 	$('#entity-2').removeData();
 	$('#entity-2').data(entity2Data);
+
+	$('#description-1').val(description1).trigger('change');
+	$('#description-2').val(description2).trigger('change');
 
 	checkSimilarRelationships();
 	disableInvalidRelationships();
@@ -92,6 +100,9 @@ var populateForm = function(data) {
 
 	$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 	$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
+
+	$('#description-1').val(data.description1).trigger('change');
+	$('#description-2').val(data.description2).trigger('change');
 
 	$('#source-url').val(data.source).trigger('change');
 	$('#source-name').val(data.name).trigger('change');
@@ -170,6 +181,8 @@ var getShortRelationshipParams = function() {
   return {
     entity1_id: $('#entity-1').data('entityId'),
     entity2_id: $('#entity-2').data('entityId'),
+    description1: $('#description-1').val(),
+    description2: $('#description-2').val(),
     category_id: $('#relationship option:checked').attr('value'),
     is_current: isCurrentSelection.value()
   };
@@ -347,7 +360,7 @@ var buildTypeahead = function(target) {
 	  		notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button id="new-entity-btn" class="primary">CREATE NEW ENTITY</button></div></div>',
 	  		suggestion: function(data) {
 	  			return `<div class="entity-suggestion">
-	  						<div class="entity-name external-link"><a href="${BASEURL}${data.url}">${data.name} </a></div>
+	  						${data.name}  <div class="entity-name external-link"><a href="${BASEURL}${data.url}"></a></div>
 							<div class="entity-blurb">${data.blurb || ""}</div>
 						</div>`;
 	  		},
@@ -401,7 +414,7 @@ $(function () {
 		checkSimilarRelationships();
 	});
 
-	$('#source-name').on('input change', function() {
+	$('#source-name, #description-1, #description-2').on('input change', function() {
 		validateValidOrBlank(this);
 		saveProgress();
 	});
