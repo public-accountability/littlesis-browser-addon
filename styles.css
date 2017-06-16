@@ -1,10 +1,12 @@
 .container {
 	width: 400px;
+	height: 490px;
 	padding: 0 10px 10px 10px;
 }
 
 .container.loading {
 	width: auto;
+	height: auto;
 	padding: 0;
 }
 
