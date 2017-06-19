@@ -7,6 +7,10 @@ package: littlesis-browser-addon-$(VERSION)
 	bin/package littlesis-browser-addon-$(VERSION) $(PEM_PATH)
 	rm -rf littlesis-browser-addon-$(VERSION)
 
+zip: littlesis-browser-addon-$(VERSION)
+	cd littlesis-browser-addon-$(VERSION) && zip -r $(shell pwd)/littlesis-browser-addon-$(VERSION).zip .
+	rm -rf littlesis-browser-addon-$(VERSION)
+
 littlesis-browser-addon-$(VERSION):
 	@echo "Packaging $(VERSION)"
 	mkdir -v -p $@
@@ -16,6 +20,7 @@ littlesis-browser-addon-$(VERSION):
 clean:
 	rm -rf littlesis-browser-addon-$(VERSION)
 	rm -rf *.crx
+	rm -rf *.zip
 
 
-.PHONY: package clean
+.PHONY: package clean zip
