@@ -290,6 +290,18 @@ button:disabled:hover {
 	border-color: #bbb;
 }
 
+input:disabled {
+	border-color: #eee;
+}
+
+input:disabled::placeholder {
+	color: #ccc;
+}
+
+label.disabled {
+	color: #999;
+}
+
 /* FLASH MESSAGES */
 
 .flash-message {

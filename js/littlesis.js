@@ -250,6 +250,19 @@ var disableInvalidRelationships = function() {
 	};
 };	
 
+var setDescriptionFields = function() {
+	var currentCategoryId = parseInt($('#relationship').val());
+
+	if ([1, 3, 10].includes(currentCategoryId)) {
+		$('#description-2').val('').trigger('change');
+		$('#description-2').prop('disabled', true);
+		$('#description-2').closest('.input').find('label').addClass('disabled');
+	} else {
+		$('#description-2').prop('disabled', false);
+		$('#description-2').closest('.input').find('label').removeClass('disabled');
+	}
+};
+
 var submitRelationshipData = function(target) {
 	var newRelationshipHtml = 'Relationship added! <span id="new-tab-link" class="external-link fa">Edit in a new tab? </span>' + CLOSEBUTTON;
 	submitData(target, '/relationships', getRelationshipParams(), newRelationshipHtml, addLinkAndClearForm);
@@ -313,8 +326,6 @@ var fillEntityInput = function(target, data) {
 	var entityId = res.entity.id;
 	var entityExt = res.entity.primary_type;  // whhhhyyyyyyy does the ajax response call it this
 	
-	console.log(res);
-
 	var entityInput = $(target).closest('.entity').find('.typeahead');
 	var entityInputContainer = $(target).closest('.entity');
 
@@ -409,6 +420,7 @@ $(function () {
 	});
 
 	$('#relationship').on('change', function() {
+		setDescriptionFields();
 		validateValidOrBlank(this);
 		saveProgress();
 		checkSimilarRelationships();

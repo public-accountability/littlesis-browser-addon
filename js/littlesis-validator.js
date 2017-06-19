@@ -5,11 +5,9 @@ var checkFormValidity = function() {
 		if (!$(el).hasClass('valid')) {
 			$('#new-relationship-btn').prop('disabled', true);
 		}
-		console.log('checking each input');
 	})
 
 	if($('#new-relationship-btn').prop('disabled') == false) {
-		console.log('enabling button')
 		$('#new-relationship-btn').trigger('new-relationship-btn:enabled');
 	}
 };
@@ -47,7 +45,6 @@ var setInputValidity = function(input, validity) {
 	input.removeClass('valid invalid').addClass(validity);
 	icon.removeClass('valid invalid').addClass(validity);
 	
-	console.log('setInputValidity');
 	checkFormValidity();
 	checkEntityFormValidity();
 };
@@ -98,7 +95,8 @@ var validateValidOrBlank = function(target) {
 		$(target).trigger('valid');
 	} else {
 		clearInputValidity(target);	
-	}};
+	}
+};
 
 $(function () {
 	$('#source-url, #source-name, #entity-1, #entity-2, #description-1, #description-2, #relationship, #current').on('valid invalid', function(e) {
