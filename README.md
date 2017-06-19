@@ -2,6 +2,7 @@
 
 ## developer install
 
+- make sure you are using an up-to-date version of Chrome
 - `git clone https://github.com/public-accountability/littlesis-browser-addon.git`
 - in Chrome, navigate to "chrome://extensions/"
 - click "Load unpacked extension..." and select the extension folder
