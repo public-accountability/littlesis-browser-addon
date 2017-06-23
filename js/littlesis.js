@@ -17,7 +17,7 @@ var littlesis = (function() {
 
 	var initializeForm = function() {
 		retrieveProgress();	
-		setDropdownText();
+		// setDropdownText();
 	};
 
 	/**
@@ -111,7 +111,7 @@ var littlesis = (function() {
 		$('#relationship').val(data.category_id).trigger('change');
 
 		$('#current').prop('checked', data.is_current);
-		setDropdownText();
+		// setDropdownText();
 
 		$('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
 		$('#entity-2').data( {'entityId': data.entity2_id, 'entityExt': data.entity2_ext} );
@@ -410,7 +410,7 @@ var littlesis = (function() {
 
 		  // call setDropdownText when radio button is changed
 		  $('input[name="is_current"]').on('change', function(e) {
-		    setDropdownText();
+		    // setDropdownText();
 		  });
 
 		    buildTypeahead('.typeahead');
