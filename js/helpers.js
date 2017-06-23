@@ -25,3 +25,17 @@ var setCurrentTab = function() {
 var union = function(a, b) {
 	return Array.from(new Set([...a, ...b]));
 };
+
+// TESTING
+
+// $(function() {
+// 	$('#get-entity1-data').click(function() {
+// 		$(this).val($('#entity-1').data().entityId);
+// 		// $(this).attr('data-ext', $('#entity-1').data().entityExt);
+// 	});
+
+// 	$('#get-entity2-data').click(function() {
+// 		$(this).val($('#entity-2').data().entityId);
+// 		// $(this).attr('data-ext', $('#entity-1').data().entityExt);
+// 	});
+// })
