@@ -103,13 +103,7 @@ module.exports = {
     },
 
     'clicking create new entity button opens new entity form': function(browser) {
-      browser
-        .setValue('#entity-1', 'B')
-        .waitForElementVisible('#new-entity-btn', 3000)
-        .click('#new-entity-btn');
-
-      browser.expect.element('#new-entity-drawer').to.be.present;
-      browser.expect.element('.add-new-entity-btn').to.be.present;
+      
     },
 
     'clicking add to Littlesis button creates new relationship': function(browser) {
