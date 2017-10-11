@@ -485,7 +485,8 @@ var littlesis = (function() {
 
 	return {
 		// clearForm: clearForm,
-		setDomListeners: setDomListeners
+	  setDomListeners: setDomListeners,
+	  isCurrentSelection: isCurrentSelection
 	};
 
 })();
