@@ -30,7 +30,7 @@
     var name = '';
 
     if (baseUrl) {
-       base = baseUrl;
+      base = baseUrl;
     }
 
     if (attributes.primary_ext && ['Org', 'org', 'Person', 'person'].includes(attributes.primary_ext)) {
