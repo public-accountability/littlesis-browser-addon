@@ -1,89 +1,88 @@
 <div class="section">
-	<h2>Add a relationship to LittleSis:</h2>
-    <div class="entity input">
-		<label for="entity-1">Entity 1</label> 
-        <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw"></span>
-		<input type="hidden" id="entity1-data" class="hidden-data">
-    	<div class="status-message"></div>
-        <div class="add-entity entity1"></div>
+  <h2>Add a relationship to LittleSis:</h2>
+  <div class="entity input">
+    <label for="entity-1">Entity 1</label> 
+    <input id="entity-1" class="typeahead" type="text" name="entity1" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw"></span>
+    <input type="hidden" id="entity1-data" class="hidden-data">
+    <div class="status-message"></div>
+    <div class="add-entity entity1"></div>
+  </div>
+  <div class="description input">
+    <label for="description-1">Description 1</label> 
+    <input id="description-1" type="text" maxlength="100" name="description1" placeholder="Description (optional)"><span class="message-icon fa fa-fw"></span>
+  </div>
+  <label for="relationship">Relationship type</label> 
+  <div class="select input">
+    <div class="select-style">
+      <select id="relationship" name="relationship" required>
+	<option value="" disabled selected>Relationship type</option>
+	<option value="1">position</option>
+	<option value="2">education</option>
+	<option value="3">membership</option>
+	<option value="4">family</option>
+	<option value="5">donation/grant</option>
+	<option value="6">service/transaction</option>
+	<!-- <option value="7">lobbying</option> --> 
+	<option value="8">social</option>
+	<option value="9">professional</option>
+	<option value="10">ownership</option>
+	<option value="11">hierarchy</option>
+	<option value="12">generic</option>
+      </select>
     </div>
-    <div class="description input">
-		<label for="description-1">Description 1</label> 
-        <input id="description-1" type="text" maxlength="100" name="description1" placeholder="Description (optional)"><span class="message-icon fa fa-fw"></span>
-    </div>
-   	<label for="relationship">Relationship type</label> 
-    <div class="select input">
-    	<div class="select-style">
-			<select id="relationship" name="relationship" required>
-	    		<option value="" disabled selected>Relationship type</option>
-			  	<option value="1">position</option>
-			  	<option value="2">education</option>
-			  	<option value="3">membership</option>
-			  	<option value="4">family</option>
-			  	<option value="5">donation/grant</option>
-			  	<option value="6">service/transaction</option>
-			  	<!-- <option value="7">lobbying</option> --> 
-			  	<option value="8">social</option>
-			  	<option value="9">professional</option>
-			  	<option value="10">ownership</option>
-			  	<option value="11">hierarchy</option>
-			  	<option value="12">generic</option>
-			</select>
-		</div>
-    	<span class="message-icon fa fa-fw"></span>
-    	<div class="status-message"></div>
-    </div>
-    <div class="entity input">
-		<label for="entity-2">Entity 2</label> 
-        <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw"></span>
-		<input type="hidden" id="entity2-data" class="hidden-data">
-    	<div class="status-message"></div>
-        <div class="add-entity entity2"></div>
-    </div>
-    <div class="description input">
-		<label for="description-2">Description 2</label> 
-        <input id="description-2" type="text" maxlength="100" name="description2" placeholder="Description (optional)"><span class="message-icon fa fa-fw"></span>
-    </div>
-    <div class="entity button input">
-      <div class="status-message"></div>
-      <button id="swap-entities-btn" class="primary">SWAP ENTITIES</button>
-      <span class="radio-inputs">  </span>
-      <div id="is-current-radio-buttons">
-	  <span id="is-current-title">Current?</span>
+    <span class="message-icon fa fa-fw"></span>
+    <div class="status-message"></div>
+  </div>
+  <div class="entity input">
+    <label for="entity-2">Entity 2</label> 
+    <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw"></span>
+    <input type="hidden" id="entity2-data" class="hidden-data">
+    <div class="status-message"></div>
+    <div class="add-entity entity2"></div>
+  </div>
+  <div class="description input">
+    <label for="description-2">Description 2</label> 
+    <input id="description-2" type="text" maxlength="100" name="description2" placeholder="Description (optional)"><span class="message-icon fa fa-fw"></span>
+  </div>
+  <div class="entity button input">
+    <div class="status-message"></div>
+    <button id="swap-entities-btn" class="primary">SWAP ENTITIES</button>
+    <span class="radio-inputs">  </span>
+    <div id="is-current-radio-buttons">
+      <span id="is-current-title">Current?</span>
 
-	  <input type="radio" name="is_current" value="yes" id="is_current_yes">
-	  <label for="is_current_yes">Yes</label>
+      <input type="radio" name="is_current" value="yes" id="is_current_yes">
+      <label for="is_current_yes">Yes</label>
 
-	  <input type="radio" name="is_current" value="no" id="is_current_no">
-	  <label for="is_current_no">No</label>
+      <input type="radio" name="is_current" value="no" id="is_current_no">
+      <label for="is_current_no">No</label>
 
-	  <input type="radio" name="is_current" value="NULL" id="is_current_null" checked="checked">
-	  <label for="is_current_null">Unknown</label>
-      </div>
+      <input type="radio" name="is_current" value="NULL" id="is_current_null" checked="checked">
+      <label for="is_current_null">Unknown</label>
     </div>
+  </div>
 </div>
 
 <div class="section">
-	<div>
-		<div class="source input">
-			<label for="source-url">Source URL</label> 
-			<span><input id="source-url" type="url" pattern="^(https?:\/\/)(.+)[\.]{1}.+$" maxlength="1000" name="sourceUrl" placeholder="example: https://www.nytimes.com (optional)" required></span><span id="source-url-message-icon" class="message-icon fa fa-fw"></span>
-		</div>
+  <div>
+    <div class="source input">
+      <label for="source-url">Source URL</label> 
+      <span><input id="source-url" type="url" pattern="^(https?:\/\/)(.+)[\.]{1}.+$" maxlength="1000" name="sourceUrl" placeholder="example: https://www.nytimes.com (optional)" required></span><span id="source-url-message-icon" class="message-icon fa fa-fw"></span>
+    </div>
 
-		<div class="source input">
-			<label for="source-name">Source Name</label> 
-			<span><input id="source-name" type="text" maxlength="100" name="sourceName" placeholder="example: The New York Times (optional)" required></span><span class="message-icon fa fa-fw"></span>
-		</div>
+    <div class="source input">
+      <label for="source-name">Source Name</label> 
+      <span><input id="source-name" type="text" maxlength="100" name="sourceName" placeholder="example: The New York Times (optional)" required></span><span class="message-icon fa fa-fw"></span>
+    </div>
 
-		<div class="button">
-			<button id="set-current-tab-btn" class="primary">SET CURRENT TAB</button>
-		</div>
-	</div>
+    <div class="button">
+      <button id="set-current-tab-btn" class="primary">SET CURRENT TAB</button>
+    </div>
+  </div>
 </div>
 
 <div class="button section input">
-  	<button id="new-relationship-btn" class="success" disabled>ADD TO LITTLESIS!</button>
-  	<button id="clear-btn" class="cancel">RESET</button>
-	<div class="status-message"></div>
+  <button id="new-relationship-btn" class="success" disabled>ADD TO LITTLESIS!</button>
+  <button id="clear-btn" class="cancel">RESET</button>
+  <div class="status-message"></div>
 </div>
-
