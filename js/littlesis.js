@@ -264,6 +264,22 @@ var littlesis = (function() {
     }
   };
 
+  /**
+   * When a hierarchical relationship is selected,
+   * set the label to display 'Child and 'Parent'.
+   * Otherwise, use the defaults: 'Entity 1' and 'Entity 2'
+   * @param {Integer|String} selectedCategory
+   */
+  var setEntityLabelValues = function(selectedCategory) {
+    if (Number(selectedCategory) === 11) {
+      $('#entity-1-label').text('Child');
+      $('#entity-2-label').text('Parent');
+    } else {
+      $('#entity-1-label').text('Entity 1');
+      $('#entity-2-label').text('Entity 2');
+    }
+  };
+
   var submitRelationshipData = function(target) {
     var newRelationshipHtml = 'Relationship added! <span id="new-tab-link" class="external-link fa">Edit in a new tab? </span>' + CLOSEBUTTON;
     submitData(target, '/relationships', getRelationshipParams(), newRelationshipHtml, addLinkAndClearForm);
@@ -428,6 +444,7 @@ var littlesis = (function() {
 
       $('#relationship').on('change', function() {
 	setDescriptionFields();
+	setEntityLabelValues($(this).val());
 	validator.validateValidOrBlank(this);
 	saveProgress();
 	checkSimilarRelationships();
