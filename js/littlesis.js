@@ -174,7 +174,7 @@ var littlesis = (function() {
   var getReference = function() {
     return {
       name: $('#source-name').val(),
-      source: $('#source-url').val()
+      url: $('#source-url').val()
     };
   };
 
