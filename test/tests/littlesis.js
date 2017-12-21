@@ -93,14 +93,14 @@ module.exports = {
         .click('#clear-btn');      
     },
 
-    'set current tab button populates source name and url fields with info from open browser tab': function(browser) {
-      browser
-        .setValue('#source-name', 'Source Name')
-        .setValue('#source-url', 'http://www.google.com')
-        .click('#set-current-tab-btn')
-        .assert.value('#source-name', `chrome-extension://${browser.globals.extensionId}/index.html`)
-        .assert.value('#source-url', `chrome-extension://${browser.globals.extensionId}/index.html`);    
-    },
+    // 'set current tab button populates source name and url fields with info from open browser tab': function(browser) {
+    //   browser
+    //     .setValue('#source-name', 'Source Name')
+    //     .setValue('#source-url', 'http://www.google.com')
+    //     .click('#set-current-tab-btn')
+    //     .assert.value('#source-name', `chrome-extension://${browser.globals.extensionId}/index.html`)
+    //     .assert.value('#source-url', `chrome-extension://${browser.globals.extensionId}/index.html`);    
+    // },
 
     'clicking create new entity button opens new entity form': function(browser) {
       
