@@ -270,11 +270,11 @@ var littlesis = (function() {
    */
   var setEntityLabelValues = function(selectedCategory) {
     if (Number(selectedCategory) === 11) {
-      $('#entity-1-label').text('Child');
-      $('#entity-2-label').text('Parent');
+      $('#entity-1-label').text('Child (required)');
+      $('#entity-2-label').text('Parent (required)');
     } else {
-      $('#entity-1-label').text('Entity 1');
-      $('#entity-2-label').text('Entity 2');
+      $('#entity-1-label').text('Entity 1 (required)');
+      $('#entity-2-label').text('Entity 2 (required)');
     }
   };
 
@@ -359,7 +359,6 @@ var littlesis = (function() {
     disableInvalidRelationships();
   };
 
-
   // TYPEAHEAD 
 
   var entities = new Bloodhound({
@@ -407,6 +406,7 @@ var littlesis = (function() {
       $('#set-current-tab-btn').click(function() { setCurrentTab(); });
       $('#swap-entities-btn').click(function() { swapEntities(); });
       $('#clear-btn').click(function() { clearForm(); });
+      $('#advanced-options-btn').click(function() { showAdvancedOptions(); });
 
       // call setDropdownText when radio button is changed
       $('input[name="is_current"]').on('change', function(e) {
@@ -453,7 +453,7 @@ var littlesis = (function() {
 	saveProgress();
       });
 
-      $('#source-url').on('input change', function() {
+      $('#source-url, #amount, #start-date, #end-date').on('input change', function() {
 	validator.validateInput(this);
 	saveProgress();
       });

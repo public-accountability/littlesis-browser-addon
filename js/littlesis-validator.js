@@ -43,6 +43,7 @@ var validator = (function() {
   };
 
   var setInputValidity = function(input, validity) {
+    console.log(input);
     var icon = $(input).closest('.input').find('.message-icon');
 
     input.removeClass('valid invalid').addClass(validity);
@@ -103,7 +104,7 @@ var validator = (function() {
 
   var setDomListeners = function() {
     $(function () {
-      $('#source-url, #source-name, #entity-1, #entity-2, #description-1, #description-2, #relationship, #current').on('valid invalid', function(e) {
+      $('#source-url, #source-name, #entity-1, #entity-2, #description-1, #description-2, #relationship, #amount, #start-date, #end-date').on('valid invalid', function(e) {
 	setInputValidity($(this), e.type);
       });
     });
