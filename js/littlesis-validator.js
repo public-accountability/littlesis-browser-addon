@@ -9,6 +9,12 @@ var validator = (function() {
       }
     });
 
+    $('#amount, #start-date, #end-date').each(function(i, el) {
+      if ($(el).hasClass('invalid')) {
+  $('#new-relationship-btn').prop('disabled', true);
+      }
+    });
+
     if($('#new-relationship-btn').prop('disabled') == false) {
       $('#new-relationship-btn').trigger('new-relationship-btn:enabled');
     }
