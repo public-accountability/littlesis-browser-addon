@@ -34,6 +34,18 @@
     <div class="status-message"></div>
   </div>
   <button id="swap-entities-btn" class="primary">SWAP ENTITIES</button>
+  <div id="is-board-radio-buttons" class="radio-buttons input hidden">
+    <span id="is-board-title">Is board?</span>
+
+    <input type="radio" name="is_board" value="yes" id="is_board_yes">
+    <label for="board">Yes</label>
+
+    <input type="radio" name="is_board" value="no" id="is_board_no">
+    <label for="is_board_no">No</label>
+
+    <input type="radio" name="is_board" value="NULL" id="is_board_null" checked="checked">
+    <label for="is_board_null">Unknown</label>
+  </div>
   <div class="entity input">
     <label for="entity-2" id="entity-2-label">Entity 2 (required)</label> 
     <input id="entity-2" class="typeahead" type="text" name="entity2" placeholder="Name of a person or organization"><span class="message-icon fa fa-fw"></span>
@@ -98,19 +110,6 @@
       <label for="end-date">End date</label> 
       <span><input id="end-date" type="text" maxlength="10" name="endDate" placeholder="example: 2000-01-01" pattern="\d{4}-\d{2}-\d{2}"></span><span id="end-date-message-icon" class="message-icon fa fa-fw"></span>
     </span>
-  </div>
-
-  <div id="is-board-radio-buttons" class="radio-buttons input">
-    <span id="is-board-title">Is board?</span>
-
-    <input type="radio" name="is_board" value="yes" id="is_board_yes">
-    <label for="board">Yes</label>
-
-    <input type="radio" name="is_board" value="no" id="is_board_no">
-    <label for="is_board_no">No</label>
-
-    <input type="radio" name="is_board" value="NULL" id="is_board_null" checked="checked">
-    <label for="is_board_null">Unknown</label>
   </div>
 </div>
 

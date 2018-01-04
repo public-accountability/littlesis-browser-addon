@@ -363,3 +363,9 @@ label.disabled {
 	font-family: 'FontAwesome';
 	content: "\f08e";
 }
+
+/*HIDDEN*/
+
+.hidden {
+	display: none;
+}

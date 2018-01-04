@@ -25,6 +25,7 @@ var littlesis = (function() {
     $('textarea').val('');
     $('input').removeData('entityId entityExt');
     $('select').val('');
+    showHideIsBoard();
     $('.valid').removeClass('valid');
     $('.invalid').removeClass('invalid');
     isCurrentSelection.reset();
@@ -221,6 +222,16 @@ var littlesis = (function() {
 	  }
 	}
       });
+    }
+  };
+
+  var showHideIsBoard = function() {
+    var catId = parseInt($('#relationship').val());
+
+    if (catId == 1) {
+      $('#is-board-radio-buttons').removeClass('hidden');
+    } else {
+      $('#is-board-radio-buttons').addClass('hidden');
     }
   };
 
@@ -446,6 +457,7 @@ var littlesis = (function() {
 	validator.validateValidOrBlank(this);
 	saveProgress();
 	checkSimilarRelationships();
+  showHideIsBoard();
       });
 
       $('#source-name, #description-1, #description-2').on('input change', function() {
