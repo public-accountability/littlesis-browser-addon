@@ -13,6 +13,7 @@ var littlesis = (function() {
      isCurrentSelection.value() => retrieves current value
      isCurrentSelection.reset() => sets it back to unknown
   */
+
   var isCurrentSelection = {
     "value": () => $('input[name="is_current"]:checked').val(),
     "reset": () => $('#is_current_null').prop('checked', true)
@@ -107,7 +108,6 @@ var littlesis = (function() {
     $('#entity-2').typeahead('val', data.entity2Name);
     $('#relationship').val(data.category_id).trigger('change');
 
-    $('#current').prop('checked', data.is_current);
     // setDropdownText();
 
     $('#entity-1').data( {'entityId': data.entity1_id, 'entityExt': data.entity1_ext} );
@@ -119,6 +119,9 @@ var littlesis = (function() {
     $('#amount').val(data.amount).trigger('change');
     $('#start-date').val(data.startDate).trigger('change');
     $('#end-date').val(data.endDate).trigger('change');
+
+    $('#is_board_' + data.isBoard).prop('checked', true);
+    $('#is_current_' + data.is_current).prop('checked', true);
 
     validator.checkEntityValidity();
     saveProgress();
@@ -439,9 +442,8 @@ var littlesis = (function() {
       $('#clear-btn').click(function() { clearForm(); });
       $('#advanced-options-btn').click(function() { showAdvancedOptions(); });
 
-      // call setDropdownText when radio button is changed
-      $('input[name="is_current"]').on('change', function(e) {
-	// setDropdownText();
+      $('input[name="is_current"], input[name="is_board"]').on('change', function(e) {
+        saveProgress();
       });
 
       buildTypeahead('.typeahead');
