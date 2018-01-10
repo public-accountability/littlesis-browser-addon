@@ -18,6 +18,10 @@ var littlesis = (function() {
     "reset": () => $('#is_current_null').prop('checked', true)
   };
 
+  var isBoardSelection = {
+    "value": () => $('input[name="is_board"]:checked').val(),
+    "reset": () => $('#is_board_null').prop('checked', true)
+  };
 
   var clearForm = function() {
     $('.typeahead').typeahead('val', '');
@@ -29,6 +33,7 @@ var littlesis = (function() {
     $('.valid').removeClass('valid');
     $('.invalid').removeClass('invalid');
     isCurrentSelection.reset();
+    isBoardSelection.reset();
     chrome.storage.sync.remove('relationshipData');
     setCurrentTab();
   };
@@ -82,7 +87,11 @@ var littlesis = (function() {
     var relationshipData = $.extend(
       {
 	entity1Name: $('#entity-1').val(),
-	entity2Name: $('#entity-2').val()
+	entity2Name: $('#entity-2').val(),
+  amount: $('#amount').val(),
+  isBoard: isBoardSelection.value(),
+  startDate: $('#start-date').val(),
+  endDate: $('#end-date').val()
       }, 
       getShortRelationshipParams(), 
       getShortNewEntityParams(), 
@@ -106,6 +115,10 @@ var littlesis = (function() {
 
     $('#description-1').val(data.description1).trigger('change');
     $('#description-2').val(data.description2).trigger('change');
+
+    $('#amount').val(data.amount).trigger('change');
+    $('#start-date').val(data.startDate).trigger('change');
+    $('#end-date').val(data.endDate).trigger('change');
 
     validator.checkEntityValidity();
     saveProgress();
@@ -506,7 +519,8 @@ var littlesis = (function() {
   return {
     // clearForm: clearForm,
     setDomListeners: setDomListeners,
-    isCurrentSelection: isCurrentSelection
+    isCurrentSelection: isCurrentSelection,
+    isBoardSelection: isBoardSelection
   };
 
 })();
