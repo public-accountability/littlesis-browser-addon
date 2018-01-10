@@ -51,13 +51,8 @@ var AMOUNT_LABELS = {
 	1: 'Compensation',
 	2: 'Amount',
 	3: 'Dues',
-	4: 'Amount',
 	5: 'Amount',
 	6: 'Amount',
-	7: 'Amount',
-	8: 'Amount',
-	9: 'Amount',
-	10: 'Amount',
-	11: 'Amount',
-	12: 'Amount'
+	7: 'Amount'
 };
+

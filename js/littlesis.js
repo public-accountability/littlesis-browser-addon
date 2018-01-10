@@ -25,7 +25,7 @@ var littlesis = (function() {
     $('textarea').val('');
     $('input').removeData('entityId entityExt');
     $('select').val('');
-    showHideIsBoard();
+    showHideFields();
     $('.valid').removeClass('valid');
     $('.invalid').removeClass('invalid');
     isCurrentSelection.reset();
@@ -225,7 +225,7 @@ var littlesis = (function() {
     }
   };
 
-  var showHideIsBoard = function() {
+  var showHideFields = function() {
     var catId = parseInt($('#relationship').val());
 
     if (catId == 1) {
@@ -233,6 +233,13 @@ var littlesis = (function() {
     } else {
       $('#is-board-radio-buttons').addClass('hidden');
     }
+
+    if (Object.keys(AMOUNT_LABELS).includes(catId.toString())) {
+      $('#amount-input').removeClass('hidden');
+      $('#amount-label').text(AMOUNT_LABELS[catId]);
+    } else {
+      $('#amount-input').addClass('hidden');    
+    } 
   };
 
   var disableInvalidRelationships = function() {
@@ -457,7 +464,7 @@ var littlesis = (function() {
 	validator.validateValidOrBlank(this);
 	saveProgress();
 	checkSimilarRelationships();
-  showHideIsBoard();
+  showHideFields();
       });
 
       $('#source-name, #description-1, #description-2').on('input change', function() {
