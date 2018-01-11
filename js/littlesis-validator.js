@@ -38,6 +38,23 @@ var validator = (function() {
     });
   };
 
+  var checkDateValidity = function(target) {
+    if ($(target).val() == '') {
+      clearInputValidity(target);
+      return;
+    }
+
+    if (target.checkValidity() == true) {
+      var year, month, day;
+      [year, month, day] = $(target).val().split('-').map(x => parseInt(x));
+      validity = (year >= 1000 && year <= 3000 && 
+                  ((month >= 00 && month <= 12) || !month) && 
+                  ((day >= 00 && day <= 31) || !day) )
+      ? 'valid' : 'invalid';
+      $(target).trigger(validity);
+    }
+  };
+
   // to check validity of inputs using HTML validation
   var validateInput = function(target) {
     if ($(target).val()) {
@@ -118,6 +135,7 @@ var validator = (function() {
 
   return {
     checkEntityValidity: checkEntityValidity,
+    checkDateValidity: checkDateValidity,
     validateInput: validateInput,
     setNewEntityValidations: setNewEntityValidations,
     validateTypeahead: validateTypeahead,

@@ -488,9 +488,14 @@ var littlesis = (function() {
 	saveProgress();
       });
 
-      $('#source-url, #amount, #start-date, #end-date').on('input change', function() {
+      $('#source-url, #amount').on('input change', function() {
 	validator.validateInput(this);
 	saveProgress();
+      });
+
+      $('#start-date, #end-date').on('input change', function() {
+  validator.checkDateValidity(this);
+  saveProgress();
       });
 
       $('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
