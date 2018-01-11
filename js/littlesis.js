@@ -89,10 +89,7 @@ var littlesis = (function() {
       {
 	entity1Name: $('#entity-1').val(),
 	entity2Name: $('#entity-2').val(),
-  amount: $('#amount').val(),
-  isBoard: isBoardSelection.value(),
-  startDate: $('#start-date').val(),
-  endDate: $('#end-date').val()
+  isBoard: isBoardSelection.value()
       }, 
       getShortRelationshipParams(), 
       getShortNewEntityParams(), 
@@ -117,8 +114,8 @@ var littlesis = (function() {
     $('#description-2').val(data.description2).trigger('change');
 
     $('#amount').val(data.amount).trigger('change');
-    $('#start-date').val(data.startDate).trigger('change');
-    $('#end-date').val(data.endDate).trigger('change');
+    $('#start-date').val(data.start_date).trigger('change');
+    $('#end-date').val(data.end_date).trigger('change');
 
     $('#is_board_' + data.isBoard).prop('checked', true);
     $('#is_current_' + data.is_current).prop('checked', true);
@@ -182,8 +179,9 @@ var littlesis = (function() {
   var getRelationshipParams = function() {
     return {
       relationship: getShortRelationshipParams(),
-      reference: getReference()
-    };
+      reference: getReference(),
+      position: {is_board: isBoardSelection.value()}
+    }
   };
 
   var getReference = function() {
@@ -200,7 +198,10 @@ var littlesis = (function() {
       description1: $('#description-1').val(),
       description2: $('#description-2').val(),
       category_id: $('#relationship option:checked').attr('value'),
-      is_current: isCurrentSelection.value()
+      is_current: isCurrentSelection.value(),
+      amount: $('#amount').val(),
+      start_date: $('#start-date').val(),
+      end_date: $('#end-date').val()
     };
   };
 
