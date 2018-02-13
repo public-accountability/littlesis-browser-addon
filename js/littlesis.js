@@ -3,6 +3,7 @@ var littlesis = (function() {
   // FORM CONTROL
   var initializeForm = function() {
     retrieveProgress();	
+    setCurrentTab();
     // setDropdownText();
   };
 
@@ -104,9 +105,6 @@ var littlesis = (function() {
 
     $('#description-1').val(data.description1).trigger('change');
     $('#description-2').val(data.description2).trigger('change');
-
-    $('#source-url').val(data.source).trigger('change');
-    $('#source-name').val(data.name).trigger('change');
 
     validator.checkEntityValidity();
     saveProgress();
