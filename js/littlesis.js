@@ -387,8 +387,10 @@ var littlesis = (function() {
 		  	  templates: {
 		  	    notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button class="new-entity-btn primary">CREATE NEW ENTITY</button></div></div>',
 		  	    suggestion: function(data) {
+              var urlSlug = '/entities/' + data.id + '-' + data.name.replace(/\s/g, '_');
+
 		  	      return `<div class="entity-suggestion">
-		  						${data.name}  <div class="entity-name external-link"><a href="${BASEURL}${data.url}"></a></div>
+		  						${data.name}  <div class="entity-name external-link"><a href="${BASEURL}${urlSlug}"></a></div>
 								<div class="entity-blurb">${data.blurb || ""}</div>
 							</div>`;
 		  	    },
