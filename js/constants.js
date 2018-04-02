@@ -46,3 +46,13 @@ var RELATIONSHIP_TYPES = {
 	11:{id: 11, name: "Hierarchy", display_name: "Hierarchy", default_description: "Hierarchy", entity1_requirements: "Org", entity2_requirements: "Org", has_fields: true},
 	12:{id: 12, name: "Generic", display_name: "Generic", default_description: "Affiliation", entity1_requirements: null, entity2_requirements: null, has_fields: true}
 };
+
+var AMOUNT_LABELS = {
+	1: 'Compensation',
+	2: 'Amount',
+	3: 'Dues',
+	5: 'Amount',
+	6: 'Amount',
+	7: 'Amount'
+};
+

@@ -9,6 +9,12 @@ var validator = (function() {
       }
     });
 
+    $('#amount, #start-date, #end-date').each(function(i, el) {
+      if ($(el).hasClass('invalid')) {
+  $('#new-relationship-btn').prop('disabled', true);
+      }
+    });
+
     if($('#new-relationship-btn').prop('disabled') == false) {
       $('#new-relationship-btn').trigger('new-relationship-btn:enabled');
     }
@@ -32,6 +38,23 @@ var validator = (function() {
     });
   };
 
+  var checkDateValidity = function(target) {
+    if ($(target).val() == '') {
+      clearInputValidity(target);
+      return;
+    }
+
+    if (target.checkValidity() == true) {
+      var year, month, day;
+      [year, month, day] = $(target).val().split('-').map(x => parseInt(x));
+      validity = (year >= 1000 && year <= 3000 && 
+                  ((month >= 00 && month <= 12) || !month) && 
+                  ((day >= 00 && day <= 31) || !day) )
+      ? 'valid' : 'invalid';
+      $(target).trigger(validity);
+    }
+  };
+
   // to check validity of inputs using HTML validation
   var validateInput = function(target) {
     if ($(target).val()) {
@@ -43,6 +66,7 @@ var validator = (function() {
   };
 
   var setInputValidity = function(input, validity) {
+    console.log(input);
     var icon = $(input).closest('.input').find('.message-icon');
 
     input.removeClass('valid invalid').addClass(validity);
@@ -103,7 +127,7 @@ var validator = (function() {
 
   var setDomListeners = function() {
     $(function () {
-      $('#source-url, #source-name, #entity-1, #entity-2, #description-1, #description-2, #relationship, #current').on('valid invalid', function(e) {
+      $('#source-url, #source-name, #entity-1, #entity-2, #description-1, #description-2, #relationship, #amount, #start-date, #end-date').on('valid invalid', function(e) {
 	setInputValidity($(this), e.type);
       });
     });
@@ -111,6 +135,7 @@ var validator = (function() {
 
   return {
     checkEntityValidity: checkEntityValidity,
+    checkDateValidity: checkDateValidity,
     validateInput: validateInput,
     setNewEntityValidations: setNewEntityValidations,
     validateTypeahead: validateTypeahead,
