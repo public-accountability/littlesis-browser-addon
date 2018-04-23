@@ -9,11 +9,11 @@ var littlesis = (function() {
 
   /**
      Gets information about the is current buttons
+     
      Use:
      isCurrentSelection.value() => retrieves current value
      isCurrentSelection.reset() => sets it back to unknown
   */
-
   var isCurrentSelection = {
     "value": () => $('input[name="is_current"]:checked').val(),
     "reset": () => $('#is_current_null').prop('checked', true)
@@ -37,10 +37,6 @@ var littlesis = (function() {
     isBoardSelection.reset();
     chrome.storage.sync.remove('relationshipData');
     setCurrentTab();
-  };
-
-  var clearEntityForm = function() {
-
   };
 
   var swapEntities = function() {
@@ -89,11 +85,11 @@ var littlesis = (function() {
       {
 	entity1Name: $('#entity-1').val(),
 	entity2Name: $('#entity-2').val(),
-  isBoard: isBoardSelection.value()
+	isBoard: isBoardSelection.value()
       }, 
-      getShortRelationshipParams(), 
-      getShortNewEntityParams(), 
-      getReference(), 
+      getShortRelationshipParams(),
+      getShortNewEntityParams(),
+      getReference(),
       getEntityExtensions()
     );
 
@@ -181,7 +177,7 @@ var littlesis = (function() {
       relationship: getShortRelationshipParams(),
       reference: getReference(),
       position: {is_board: isBoardSelection.value()}
-    }
+    };
   };
 
   var getReference = function() {
@@ -212,6 +208,27 @@ var littlesis = (function() {
     };
   };
 
+
+  var handleSimilarRelationship = function(data) {
+    var msgTarget = $('#relationship-status-message');
+    
+    if (data.length > 0) {
+      $(msgTarget).flashMessage({
+	"html": "Caution: <span id='similar-relationship-link' class='external-link fa'>a similar relationship </span> already exists." + CLOSEBUTTON,
+	"className": 'warn',
+	"callback": function() {
+	  $('#similar-relationship-link').click(function() {
+	    openNewTab(data[0].url);
+	  });
+	}
+      });
+    } else {
+      $(msgTarget).find('.flash-message').remove();
+      $(msgTarget).removeClass('visible');
+    }
+
+  };
+
   var checkSimilarRelationships = function() {
     var params = getShortRelationshipParams();
 
@@ -225,17 +242,8 @@ var littlesis = (function() {
 	data: params,
 	statusCode: {
 	  200: function(data) {
-	    var msgTarget = $('#swap-entities-btn').closest('.button').find('.status-message');
-	    if (data.length > 0) {
-	      $(msgTarget).flashMessage({html: "Caution: <span id='similar-relationship-link' class='external-link fa'>a similar relationship </span> already exists." + CLOSEBUTTON, className: 'warn', callback: function() {
-		$('#similar-relationship-link').click(function() {
-		  openNewTab(data[0].url);
-		})
-	      }});
-	    } else {
-	      $(msgTarget).find('.flash-message').remove();
-	      $(msgTarget).removeClass('visible');
-	    }
+	    console.log('statusCode 200');
+	    handleSimilarRelationship(data);
 	  }
 	}
       });
@@ -381,13 +389,13 @@ var littlesis = (function() {
 
     $('#new-entity-link').click(function() {
       openNewTab(BASEURL + res.entity.url);
-    })
+    });
 
     closeNewEntityDrawer(target);
     $(entityInput).typeahead('destroy');
     buildTypeahead(entityInput);
 
-    entityInputContainer.find('input').trigger('typeahead:select', {id: entityId, primary_ext: entityExt})
+    entityInputContainer.find('input').trigger('typeahead:select', {id: entityId, primary_ext: entityExt});
     entityInputContainer.find('input').val(entityName);
 
     saveProgress();
@@ -407,31 +415,33 @@ var littlesis = (function() {
     }
   });
 
-  var buildTypeahead = function(target) {
-    $(target).typeahead({
-      highlight: true
+
+  var typeaheadTemplates = {
+    notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button class="new-entity-btn primary">CREATE NEW ENTITY</button></div></div>',
+    suggestion: function(data) {
+      var urlSlug = '/entities/' + data.id + '-' + data.name.replace(/\s/g, '_');
+
+      return `<div class="entity-suggestion">
+		  		      ${data.name}  <div class="entity-name external-link"><a href="${BASEURL}${urlSlug}"></a></div>
+				     <div class="entity-blurb">${data.blurb || ""}</div>
+							</div>`;
     },
+    footer: '<div class="new-entity-footer"><button class="new-entity-btn primary">CREATE NEW ENTITY</button></div>'
+  };
+
+  var buildTypeahead = function(target) {
+    $(target).typeahead({ highlight: true},
 			{
 			  display: 'name',
 			  limit: 20, 	// Caution: 'limit' seems to have buggy behavior. For some reason 'limit: 20' produces a list of 10 results, but 'limit: 10' doesn't work. 
 			  // See https://github.com/twitter/typeahead.js/issues/1201
 		  	  source: entities,
-		  	  templates: {
-		  	    notFound: '<div class="entity-not-found">No results found. Try searching again; maybe you misspelled something? <div class="new-entity-footer"><button class="new-entity-btn primary">CREATE NEW ENTITY</button></div></div>',
-		  	    suggestion: function(data) {
-              var urlSlug = '/entities/' + data.id + '-' + data.name.replace(/\s/g, '_');
-
-		  	      return `<div class="entity-suggestion">
-		  						${data.name}  <div class="entity-name external-link"><a href="${BASEURL}${urlSlug}"></a></div>
-								<div class="entity-blurb">${data.blurb || ""}</div>
-							</div>`;
-		  	    },
-		  	    footer: '<div class="new-entity-footer"><button class="new-entity-btn primary">CREATE NEW ENTITY</button></div>'
-		  	  }
-			}).on('typeahead:render', function() {
-			  $('.new-entity-btn').click(function() { showNewEntityDialogue(this); });
-			  $('.entity-name').click(function() { openNewTab( $(this).find('a').attr('href') ) });
-			});
+		  	  templates: typeaheadTemplates
+			})
+      .on('typeahead:render', function() {
+	$('.new-entity-btn').click(function() { showNewEntityDialogue(this); });
+	$('.entity-name').click(function() { openNewTab( $(this).find('a').attr('href')); });
+      });
   };
 
   // UI
@@ -482,7 +492,7 @@ var littlesis = (function() {
 	validator.validateValidOrBlank(this);
 	saveProgress();
 	checkSimilarRelationships();
-  showHideFields();
+	showHideFields();
       });
 
       $('#source-name, #description-1, #description-2').on('input change', function() {
@@ -496,8 +506,8 @@ var littlesis = (function() {
       });
 
       $('#start-date, #end-date').on('input change', function() {
-  validator.checkDateValidity(this);
-  saveProgress();
+	validator.checkDateValidity(this);
+	saveProgress();
       });
 
       $('#new-relationship-btn').on('new-relationship-btn:enabled', function() {
@@ -516,7 +526,7 @@ var littlesis = (function() {
 
 
       $(window).on('relationship:success', function() {
-	$('#new-tab-link').click(function() { openNewTab(BASEURL + $(this).data('slug')) });
+	$('#new-tab-link').click(function() { openNewTab(BASEURL + $(this).data('slug')); });
       });
 
       $('.container').ready(function() {
@@ -535,4 +545,3 @@ var littlesis = (function() {
 
 })();
 
-// }));
