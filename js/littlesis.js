@@ -7,6 +7,28 @@ var littlesis = (function() {
     // setDropdownText();
   };
 
+
+  /**
+   * Returns the selected relationship category
+   * It will return an empty string if none is selected.
+   * @returns {String} 
+   */
+  var categoryIdSelection = function() {
+    return $('#relationship option:checked').attr('value');
+  };
+  
+
+  var isPositionRelationship = function() {
+    return categoryIdSelection() === '1';
+  };
+
+  var getEntityExtensions = function() {
+    return {
+      entity1_ext: $('#entity-1').data('entityExt'),
+      entity2_ext: $('#entity-2').data('entityExt')
+    };
+  };
+
   /**
      Gets information about the is current buttons
      
@@ -172,21 +194,6 @@ var littlesis = (function() {
 
   // NEW RELATIONSHIP
 
-  var getRelationshipParams = function() {
-    return {
-      relationship: getShortRelationshipParams(),
-      reference: getReference(),
-      position: {is_board: isBoardSelection.value()}
-    };
-  };
-
-  var getReference = function() {
-    return {
-      name: $('#source-name').val(),
-      url: $('#source-url').val()
-    };
-  };
-
   var getShortRelationshipParams = function() {
     return {
       entity1_id: $('#entity-1').data('entityId'),
@@ -201,11 +208,37 @@ var littlesis = (function() {
     };
   };
 
-  var getEntityExtensions = function() {
+  var getReference = function() {
     return {
-      entity1_ext: $('#entity-1').data('entityExt'),
-      entity2_ext: $('#entity-2').data('entityExt')
+      name: $('#source-name').val(),
+      url: $('#source-url').val()
     };
+  };
+
+
+  var getBaseRelationshipParams = function() {
+    return {
+      relationship: getShortRelationshipParams(),
+      reference: getReference()
+    };
+  };
+  
+  var getPositionParams = function() {
+    return {
+      "position_attributes": {
+	"is_board": isBoardSelection.value(),
+	"compensation": $('#amount').val() }
+    };
+  };
+
+  var getRelationshipParams = function() {
+    if (isPositionRelationship()) {
+      var params = deepMerge(getBaseRelationshipParams(), { "relationship": getPositionParams() });
+      delete params['relationship']['amount']; // position relationships don't use the amount field
+      return params;
+    } else {
+      return getBaseRelationshipParams();
+    }
   };
 
 

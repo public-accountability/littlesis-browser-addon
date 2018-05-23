@@ -20,6 +20,10 @@ var setCurrentTab = function() {
   });
 };
 
+var deepMerge = function(a, b) {
+  return $.extend(true, {}, a, b);
+}
+
 // SETS
 
 var union = function(a, b) {
