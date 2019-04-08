@@ -415,7 +415,7 @@ var littlesis = (function() {
     var res = JSON.parse(data.responseText);
     var entityName = res.entity.name;
     var entityId = res.entity.id;
-    var entityExt = res.entity.primary_type;  // whhhhyyyyyyy does the ajax response call it this
+    var entityExt = res.entity.primary_ext;
     
     var entityInput = $(target).closest('.entity').find('.typeahead');
     var entityInputContainer = $(target).closest('.entity');
@@ -444,7 +444,7 @@ var littlesis = (function() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
       wildcard: '%QUERY',
-      url: BASEURL + '/entities/search_by_name?q=%QUERY'
+      url: BASEURL + '/search/entity?q=%QUERY'
     }
   });
 
