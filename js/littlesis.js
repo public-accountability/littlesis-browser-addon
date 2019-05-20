@@ -421,7 +421,7 @@ var littlesis = (function() {
     var entityInputContainer = $(target).closest('.entity');
 
     $('#new-entity-link').click(function() {
-      openNewTab(BASEURL + res.entity.url);
+      openNewTab(res.entity.url);
     });
 
     closeNewEntityDrawer(target);
