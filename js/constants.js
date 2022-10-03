@@ -1,4 +1,4 @@
-var BASEURL = 'http://localhost:8080';
+const BASEURL = 'https://littlesis.org';
 
 var CLOSEBUTTON = '<span class="close-message-btn fa fa-times-circle fa-lg"></span>'
 
@@ -55,4 +55,3 @@ var AMOUNT_LABELS = {
 	6: 'Amount',
 	7: 'Amount'
 };
-
