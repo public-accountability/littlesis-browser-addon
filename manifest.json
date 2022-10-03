@@ -16,5 +16,5 @@
         "browser_style": true
     },
     "permissions": ["storage", "tabs"],
-    "host_permissions": ["*://*/*"]
+    "host_permissions": ["https://littlesis.org/*"]
 }
